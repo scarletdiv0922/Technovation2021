@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Technovation2021</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="welcome">Welcome!</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="login_email">Email</string>
+    <string name="email_for_signing_in">email for signing in</string>
+    <string name="login_password">password</string>
 </resources>
