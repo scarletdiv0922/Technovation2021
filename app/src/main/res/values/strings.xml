@@ -15,4 +15,13 @@
     <string name="configChangedone">Done</string>
     <string name="Configdone">Save</string>
     <string name="configcanceltext">Cancel</string>
+    <string name="sat">SAT</string>
+    <string name="fri">FRI</string>
+    <string name="thu">THU</string>
+    <string name="wed">WED</string>
+    <string name="tue">TUE</string>
+    <string name="mon">MON</string>
+    <string name="sun">SUN</string>
+    <string name="current_date">current date</string>
+    <string name="todo">TODO</string>
 </resources>

@@ -1,21 +1,37 @@
 package com.example.technovation2021;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import java.util.Date;
+import java.util.HashSet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CalendarActivity extends AppCompatActivity {
 
+    private EventList evList;
+    private SQLiteDatabase sqlDb;
+    private static final String dbName = "PASchedulerDB";
+    private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
+        HashSet<Date> events = new HashSet<>();
+        events.add(new Date());
+
+        Log.d("CalendarXX", "call custom calendar");
+        CustomCalendar cv = findViewById(R.id.custom_calendar);
+        cv.updateCalendar(events);
     }
 
     @Override
