@@ -1,4 +1,4 @@
-//BOO
+//First Screen: Welcome and Login/Sign Up
 package com.example.technovation2021;
 
 import android.content.Intent;
@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 pbar.setVisibility(View.VISIBLE);
+                // TODO: disable login button if a login is already in progress? first login is taking quite a bit of time.
+                // TODO: check on firebase authentication private key configuring in app.
                 mAuth.signInWithEmailAndPassword(tv.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
                             pbar.setVisibility(View.GONE);
                         }
+                        //TODO: Figure out if pw is wrong or no account is made
                     }
                 });
             }

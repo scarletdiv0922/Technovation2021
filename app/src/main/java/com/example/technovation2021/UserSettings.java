@@ -1,3 +1,4 @@
+//School loop Login and PW
 package com.example.technovation2021;
 
 import android.os.Bundle;
@@ -96,6 +97,9 @@ public class UserSettings extends AppCompatActivity {
             slPswd.setError("Password is too short");
             return true;
         }
+
+        // TODO: need to ask user for schoolloop login website. this URL has student's exact school
+        //       domain. schoolloop login will fail of wrong URL is used.
         return false;
     }
 
