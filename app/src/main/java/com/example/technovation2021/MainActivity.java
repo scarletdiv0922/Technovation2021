@@ -1,4 +1,4 @@
-//BOO
+//First Screen: Welcome and Login/Sign Up
 package com.example.technovation2021;
 
 import android.content.Intent;
