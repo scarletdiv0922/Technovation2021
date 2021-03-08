@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
                             pbar.setVisibility(View.GONE);
                         }
+                        //TODO: Figure out if pw is wrong or no account is made
                     }
                 });
             }
