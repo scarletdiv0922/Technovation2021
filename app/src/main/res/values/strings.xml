@@ -24,4 +24,30 @@
     <string name="sun">SUN</string>
     <string name="current_date">current date</string>
     <string name="todo">TODO</string>
+    <string name="event_title">Event Title</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="event_start_time">event start time</string>
+    <string name="duration">Duration</string>
+    <string name="repeats">Repeats</string>
+
+
+    <string-array name="event_duration_times">
+            <item>15m</item>
+            <item>30m</item>
+            <item>45m</item>
+            <item>1h</item>
+            <item>1h30m</item>
+            <item>2h</item>
+            <item>3h</item>
+            <item>4h</item>
+        </string-array>
+
+    <string-array name="event_frequency">
+        <item>Once</item>
+        <item>Every Week</item>
+        <item>Every 2 Weeks</item>
+        <item>Every Month</item>
+    </string-array>
+
 </resources>

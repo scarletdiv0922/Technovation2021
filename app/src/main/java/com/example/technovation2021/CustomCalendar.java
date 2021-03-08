@@ -3,7 +3,6 @@ package com.example.technovation2021;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-
-import static android.graphics.Color.BLUE;
 
 class EventDetail {
     public int day, month, year;
@@ -224,6 +221,12 @@ public class CustomCalendar extends LinearLayout
         header.setBackgroundColor(Color.WHITE);
     }
 
+    private static class ViewHolder {
+        public TextView day;
+        public int evCount;
+        public TextView[] events;
+    }
+
     private class CalendarAdapter extends ArrayAdapter<EventDetail>
     {
         // days with events
@@ -251,10 +254,18 @@ public class CustomCalendar extends LinearLayout
             Log.d("getView", "day " + day + " mon: " + month + " year:" + year);
             // today
             Calendar today = Calendar.getInstance();
+            ViewHolder holder;
+
 
             // inflate item if it does not exist yet
-            if (view == null)
+            if (view == null) {
+                holder = new ViewHolder();
+                Log.d("cal render", "create new view");
+                /// prasad: view = inflater.inflate(R.layout.control_calendar_day, parent, false);
+                LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
+                view.setTag(holder);
+            }
 
             // if this day has an event, specify event image
             view.setBackgroundResource(0);
@@ -275,14 +286,14 @@ public class CustomCalendar extends LinearLayout
                      */
                 }
             }
-
+/*
             // clear styling
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
             ((TextView)view).setTextColor(Color.BLACK);
 
+            // TODO: grey out all days except the days of month displayed
             if (month != today.get(Calendar.MONTH) || year != today.get(Calendar.YEAR))
             {
-                // if this day is outside current month, grey it out
                 ((TextView)view).setTextColor(Color.GRAY);
             }
             else if (day == today.get(Calendar.DAY_OF_MONTH))
@@ -295,7 +306,11 @@ public class CustomCalendar extends LinearLayout
             // set text
             ((TextView)view).setText(String.valueOf(ed.getDay()));
             Log.d(" calendarXX", String.valueOf(ed.getDay()));
-
+*/
+            TextView tvDate = view.findViewById(R.id.calDate);
+            TextView ev1 = view.findViewById(R.id.calEvent1);
+            tvDate.setText(String.valueOf(ed.getDay()));
+            ev1.setText("Event1");
             return view;
         }
     }
