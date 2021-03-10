@@ -44,11 +44,12 @@
         </string-array>
 
     <string-array name="event_frequency">
-        <item>Once</item>
+        <item>None</item>
         <item>Every Week</item>
         <item>Every 2 Weeks</item>
         <item>Every Month</item>
     </string-array>
 
     <string name="confirm_password">Confirm Password</string>
+    <string name="task_hours">Task Hours</string>
 </resources>
