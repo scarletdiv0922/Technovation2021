@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -69,14 +70,17 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText tv = findViewById(R.id.userEmail);
+                EditText email = findViewById(R.id.userEmail);
                 EditText pswd = findViewById(R.id.userPassword);
-                if (TextUtils.isEmpty(tv.getText().toString()) ) {
-                    Toast.makeText(MainActivity.this, "Email cannot be empty.",
-                            Toast.LENGTH_SHORT).show();
+
+                // Do sanity checks to make sure data is good!
+                if (TextUtils.isEmpty(email.getText().toString()) ) {
+                    //Toast.makeText(MainActivity.this, "Email cannot be empty.",
+                            //Toast.LENGTH_SHORT).show();
+                    email.setError("Email cannot be empty.");
                     return;
                 }
-                if ( !Patterns.EMAIL_ADDRESS.matcher(tv.getText().toString()).matches()) {
+                if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
                     // TODO: Change these toast message to field.setError()
                     Toast.makeText(MainActivity.this, "Email address is not valid.",
                             Toast.LENGTH_SHORT).show();
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 pbar.setVisibility(View.VISIBLE);
                 // TODO: disable login button if a login is already in progress? first login is taking quite a bit of time.
                 // TODO: check on firebase authentication private key configuring in app.
-                mAuth.signInWithEmailAndPassword(tv.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if ( task.isSuccessful() ) {
@@ -108,7 +112,17 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            switch (errorCode) {
+                                case "ERROR_USER_NOT_FOUND":
+                                    //email.setError("User not registered!");
+                                    Toast.makeText(MainActivity.this, "User is not registered.", Toast.LENGTH_LONG).show();
+                                    break;
+                                case "ERROR_WRONG_PASSWORD":
+                                    Toast.makeText(MainActivity.this, "Incorrect password.", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                             pbar.setVisibility(View.GONE);
                         }
                         //TODO: Figure out if pw is wrong or no account is made
@@ -120,17 +134,18 @@ public class MainActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                //startActivity(intent);
-                EditText tv = findViewById(R.id.userEmail);
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+                /*
+                EditText email = findViewById(R.id.userEmail);
                 EditText pswd = findViewById(R.id.userPassword);
 
-                if (TextUtils.isEmpty(tv.getText().toString()) ) {
+                if (TextUtils.isEmpty(email.getText().toString()) ) {
                     Toast.makeText(MainActivity.this, "Email cannot be empty.",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if ( !Patterns.EMAIL_ADDRESS.matcher(tv.getText().toString()).matches()) {
+                if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
                     Toast.makeText(MainActivity.this, "Email address is not valid.",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -148,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.d( LOG_TAG, "go ahead authenticate the user");
                 pbar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(tv.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if ( task.isSuccessful()) {
@@ -163,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+                 */
             }
         });
     }
