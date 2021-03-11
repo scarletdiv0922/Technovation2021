@@ -7,5 +7,5 @@
         android:title="Settings" />
     <item
         android:id="@+id/addEvent"
-        android:title="Add Event" />
+        android:title="Add Activity" />
 </menu>

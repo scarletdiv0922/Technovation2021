@@ -53,7 +53,7 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.addEvent:
-                Intent intent2 = new Intent( CalendarActivity.this, AddEvent.class);
+                Intent intent2 = new Intent( CalendarActivity.this, AddActivity.class);
                 startActivity(intent2);
                 return true;
             }

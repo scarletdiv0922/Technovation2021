@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -24,12 +25,22 @@ public class TimePickerFragment extends DialogFragment
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
-        //return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(),
-        // hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        Log.d("Time picker", "time picked");
+        Log.d("Time picker", "time picked " + hourOfDay + " " + minute);
+        TextView tv = (TextView) getActivity().findViewById(R.id.idStartTime);
+        String time = "";
+        if ( hourOfDay > 12 )
+            time = String.valueOf(hourOfDay - 12);
+        else time = String.valueOf(hourOfDay);
+        time += ":";
+        if ( minute <= 9 ) time += "0";
+        time += String.valueOf(minute);
+        if ( hourOfDay > 12 )
+            time += " PM";
+        else time += " AM";
+        tv.setText(time);
     }
 }

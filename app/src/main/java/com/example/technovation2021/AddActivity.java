@@ -1,31 +1,29 @@
 package com.example.technovation2021;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+public class AddActivity extends AppCompatActivity {
 
-public class AddEvent extends AppCompatActivity {
-
-    private static final String LOG_TAG = AddEvent.class.getSimpleName();
+    private static final String LOG_TAG = AddActivity.class.getSimpleName();
     private Spinner evDuration;
     private Spinner evFrequency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+        setContentView(R.layout.activity_add_activity);
 
         evDuration = findViewById(R.id.event_duration_times);
         evFrequency = findViewById(R.id.event_frequency);
@@ -50,5 +48,10 @@ public class AddEvent extends AppCompatActivity {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "start time clicked");
+    }
+
+    public void startDateClicked(View view) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

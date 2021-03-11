@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddEvent">
+    tools:context=".AddActivity">
 
     <EditText
         android:id="@+id/idEvDesc"
@@ -15,6 +15,7 @@
         android:layout_marginTop="17dp"
         android:autofillHints=""
         android:ems="10"
+        android:gravity="bottom"
         android:hint="@string/event_title"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +65,11 @@
         android:id="@+id/idEventStartDate"
         android:layout_width="226dp"
         android:layout_height="31dp"
+        android:gravity="bottom"
+        android:onClick="startDateClicked"
         android:text="@string/start_date"
-        android:textSize="18sp"
+        android:textColor="#090101"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/idEvDesc" />
 
@@ -103,8 +107,10 @@
         android:id="@+id/idStartTime"
         android:layout_width="121dp"
         android:layout_height="35dp"
+        android:gravity="bottom"
         android:onClick="startTimeClicked"
         android:text="@string/start_time"
+        android:textColor="#0E0000"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/idTvStartTime"
         app:layout_constraintStart_toStartOf="@+id/idEventStartDate" />
