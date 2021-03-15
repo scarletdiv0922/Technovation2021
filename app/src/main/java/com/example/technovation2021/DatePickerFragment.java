@@ -13,6 +13,12 @@ import androidx.fragment.app.DialogFragment;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
+    public int idTextView;
+
+    public DatePickerFragment(int idEventStartDate) {
+        idTextView = idEventStartDate;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -27,7 +33,8 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        TextView tv = (TextView) getActivity().findViewById(R.id.idEventStartDate);
+        //TextView tv = (TextView) getActivity().findViewById(R.id.idEventStartDate);
+        TextView tv = (TextView) getActivity().findViewById(idTextView);
         tv.setText(String.valueOf(month + 1) + "/" + String.valueOf(day)+"/"+String.valueOf(year));
     }
 }

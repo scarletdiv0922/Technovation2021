@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 class SchoolLoopDetails implements Serializable {
     public String loginName;
     public String password;
+    public String schoolloopUrl;
 
     public SchoolLoopDetails() {
     }
@@ -36,9 +38,10 @@ class SchoolLoopDetails implements Serializable {
         return password;
     }
 
-    public SchoolLoopDetails(String login, String pswd) {
+    public SchoolLoopDetails(String login, String pswd, String url) {
         this.loginName = login;
         this.password = pswd;
+        this.schoolloopUrl = url;
     }
 };
 
@@ -68,12 +71,16 @@ public class UserSettings extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
+                    Log.e("firebaseTech", "Error getting data", task.getException());
                 }
                 else {
                     SchoolLoopDetails s = task.getResult().getValue(SchoolLoopDetails.class);
+                    if (s == null) {
+                        Log.d("firebaseTech", "s is NULL");
+                        return;
+                    }
                     //Log.d("firebaseXX", String.valueOf(task.getResult().getValue()));
-                    Log.d("firebaseYY", s.loginName + " " + s.password );
+                    Log.d("firebaseTech", s.loginName + " " + s.password);
                     EditText slId = findViewById(R.id.schoolloopId);
                     EditText slPswd = findViewById(R.id.schoolloopPswd);
                     slId.setText(s.loginName);
@@ -113,7 +120,7 @@ public class UserSettings extends AppCompatActivity {
         EditText slId = findViewById(R.id.schoolloopId);
         EditText slPswd = findViewById(R.id.schoolloopPswd);
 
-        sld = new SchoolLoopDetails(slId.getText().toString(), slPswd.getText().toString());
+        sld = new SchoolLoopDetails(slId.getText().toString(), slPswd.getText().toString(), "technovation.org");
         //mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // https://missiontech2021-default-rtdb.firebaseio.com/

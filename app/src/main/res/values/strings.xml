@@ -44,12 +44,30 @@
         </string-array>
 
     <string-array name="event_frequency">
-        <item>None</item>
+        <item>Never</item>
         <item>Every Week</item>
         <item>Every 2 Weeks</item>
         <item>Every Month</item>
     </string-array>
 
+    <string-array name="hw_hours">
+        <item>30m</item>
+        <item>1hr</item>
+        <item>2h</item>
+        <item>4h</item>
+        <item>6h</item>
+        <item>10h</item>
+        <item>20h</item>
+    </string-array>
+
+
     <string name="confirm_password">Confirm Password</string>
     <string name="task_hours">Task Hours</string>
+    <string name="homework_hours">Time to finish</string>
+    <string name="submission_date">Submission date</string>
+    <string name="submit_by">Submit by</string>
+    <string name="school_task">School Task?</string>
+    <string name="add_to_calendar">Add To Calendar</string>
+    <string name="cancel">Cancel</string>
+    <string name="notes">Notes</string>
 </resources>
