@@ -20,7 +20,7 @@ public class FirebaseRealtimeDatabase {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public int saveCalendarEvent(String key, Event e) {
+    public int saveCalendarEvent(String key, Object e) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child(key);
@@ -31,6 +31,7 @@ public class FirebaseRealtimeDatabase {
     }
 
     public void getAllActivities(String key) {
+        //String key = ""
         /*
         Firebase ref = new Firebase(FIREBASE_URL);
 
