@@ -89,7 +89,10 @@ public class Event implements Serializable {
     }
 
     public String print() {
-        return getEventDesc() + " " + getStartDateTime() + " " + getNotes();
+
+        return getEventDesc() + " Start:" + getStartDateTime() + " " + getNotes() + " End:" + getEndDateTime() +
+                " Duration:" + getActivityDuration() + " Recurs:" + getRecurs() + " HoursToFinish:" + getTimeToFinish() +
+                " SchoolTask:" + getSchoolTask();
     }
 
     public Event() {
@@ -102,7 +105,7 @@ public class Event implements Serializable {
             String endDateTime,
             Integer activityDuration,
             Integer recurs,
-            String schoolTask,
+            Boolean schoolTask,
             Integer timeToFinish,
             String notes) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
@@ -113,6 +116,6 @@ public class Event implements Serializable {
         this.recurs = recurs;
         this.timeToFinish = timeToFinish;
         this.notes = notes;
-        this.schoolTask = Boolean.parseBoolean(schoolTask);
+        this.schoolTask = schoolTask;
     }
 }

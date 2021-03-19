@@ -136,51 +136,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SignUp.class);
                 startActivity(intent);
-                /*
-                EditText email = findViewById(R.id.userEmail);
-                EditText pswd = findViewById(R.id.userPassword);
-
-                if (TextUtils.isEmpty(email.getText().toString()) ) {
-                    Toast.makeText(MainActivity.this, "Email cannot be empty.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-                    Toast.makeText(MainActivity.this, "Email address is not valid.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if ( TextUtils.isEmpty(pswd.getText().toString()) ) {
-                    Toast.makeText(MainActivity.this, "Password is empty.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if ( pswd.length() < 5 ) {
-                    Toast.makeText(MainActivity.this, "Password is too short.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Log.d( LOG_TAG, "go ahead authenticate the user");
-                pbar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if ( task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "User registered!", Toast.LENGTH_SHORT).show();
-                            pbar.setVisibility(View.GONE);
-                            Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(MainActivity.this, "User already exists. Logging in.", Toast.LENGTH_SHORT).show();
-                            pbar.setVisibility(View.GONE);
-                        }
-                    }
-                });
-
-                 */
             }
         });
+    }
+
+    public void forgotPasswordClicked(View view) {
+        Intent intent = new Intent(MainActivity.this, ForgotPassword.class);
+        startActivity(intent);
     }
 }

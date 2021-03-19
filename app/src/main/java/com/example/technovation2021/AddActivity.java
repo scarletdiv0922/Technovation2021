@@ -65,7 +65,7 @@ public class AddActivity extends AppCompatActivity implements
         hideHomeworkData();
         hwSwitch.setChecked(false);
     }
-
+    
     public void getHomeworkData() {
         findViewById(R.id.idTxtHomeworkHours).setVisibility(View.VISIBLE);
         findViewById(R.id.idHomeworkHours).setVisibility(View.VISIBLE);
@@ -116,16 +116,19 @@ public class AddActivity extends AppCompatActivity implements
         if ( noDataErrors() ) {
             //fb.saveCalendarEvent();
             // Saving of event to firebase db
-            /*
-            Event e = new Event("Test event", "03-25-2021 11:12",
-                    "04-11-2021 11:23", "45",
-                    "0", false, "45", "test event notes");
+/*
+            Event e = new Event("Test event", "03-05-2021 12:12",
+                    "06-28-2021 11:23", 245,
+                    0, false, 145, "test event notes");
             //mDatabase.child(userId).child(userKey).setValue(sld);
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
             frd.saveCalendarEvent("activityList", e);
-            */
+*/
+
+
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
             frd.getAllActivities("activityList");
+
         }
     }
 
