@@ -1,0 +1,154 @@
+Index: app/src/main/java/com/example/technovation2021/FirebaseRealtimeDatabase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.technovation2021;\n\nimport android.nfc.Tag;\nimport android.util.Log;\n\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\nimport com.google.firebase.database.ValueEventListener;\n\npublic class FirebaseRealtimeDatabase {\n    private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();\n    private FirebaseAuth mAuth;\n    private DatabaseReference mDatabase;\n    private String userId;\n\n    public FirebaseRealtimeDatabase() {\n        mAuth = FirebaseAuth.getInstance();\n    }\n\n    public int saveCalendarEvent(String key, Event e) {\n        mDatabase = FirebaseDatabase.getInstance().getReference();\n        userId = mAuth.getCurrentUser().getUid();\n        DatabaseReference newref = mDatabase.child(userId).child(key);\n        DatabaseReference newPostRef = newref.push();\n        // TODO: check for success/failure.\n        newPostRef.setValue(e);\n        return 0;\n    }\n\n    public void getAllActivities(String key) {\n        /*\n        Firebase ref = new Firebase(FIREBASE_URL);\n\n        ref.addValueEventListener(new ValueEventListener() {\n            @Override\n            public void onDataChange(DataSnapshot snapshot) {\n                Log.e(\"Count \" ,\"\"+snapshot.getChildrenCount());\n                for (DataSnapshot postSnapshot: snapshot.getChildren()) {\n            <YourClass> post = postSnapshot.getValue(<YourClass>.class);\n                    Log.e(\"Get Data\", post.<YourMethod>());\n                }\n            }\n            @Override\n            public void onCancelled(FirebaseError firebaseError) {\n                Log.e(\"The read failed: \" ,firebaseError.getMessage());\n            }\n        });\n\n         */\n        mDatabase = FirebaseDatabase.getInstance().getReference();\n        userId = mAuth.getCurrentUser().getUid();\n        DatabaseReference newref = mDatabase.child(userId).child(key);\n        newref.addValueEventListener(new ValueEventListener() {\n            @Override\n            public void onDataChange(DataSnapshot dataSnapshot) {\n                Log.d(LOG_TAG, \"getAllActivities\");\n                for (DataSnapshot ds : dataSnapshot.getChildren()) {\n                    Event e = ds.getValue(Event.class);\n                    Log.d(LOG_TAG, e.print());\n                }\n            }\n\n            @Override\n            public void onCancelled(DatabaseError databaseError) {\n                // Getting Post failed, log a message\n                Log.w(LOG_TAG, \"loadPost:onCancelled\", databaseError.toException());\n                // ...\n            }\n        });\n    }\n\n    public int deleteEvent() {\n        return 0;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/technovation2021/FirebaseRealtimeDatabase.java	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/java/com/example/technovation2021/FirebaseRealtimeDatabase.java	(date 1615959101000)
+@@ -1,6 +1,5 @@
+ package com.example.technovation2021;
+ 
+-import android.nfc.Tag;
+ import android.util.Log;
+ 
+ import com.google.firebase.auth.FirebaseAuth;
+@@ -20,7 +19,7 @@
+         mAuth = FirebaseAuth.getInstance();
+     }
+ 
+-    public int saveCalendarEvent(String key, Event e) {
++    public int saveCalendarEvent(String key, Activity e) {
+         mDatabase = FirebaseDatabase.getInstance().getReference();
+         userId = mAuth.getCurrentUser().getUid();
+         DatabaseReference newref = mDatabase.child(userId).child(key);
+@@ -30,26 +29,10 @@
+         return 0;
+     }
+ 
++    public int saveToFirebase(Object whatToSave) {
++        return 0;
++    }
+     public void getAllActivities(String key) {
+-        /*
+-        Firebase ref = new Firebase(FIREBASE_URL);
+-
+-        ref.addValueEventListener(new ValueEventListener() {
+-            @Override
+-            public void onDataChange(DataSnapshot snapshot) {
+-                Log.e("Count " ,""+snapshot.getChildrenCount());
+-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+-            <YourClass> post = postSnapshot.getValue(<YourClass>.class);
+-                    Log.e("Get Data", post.<YourMethod>());
+-                }
+-            }
+-            @Override
+-            public void onCancelled(FirebaseError firebaseError) {
+-                Log.e("The read failed: " ,firebaseError.getMessage());
+-            }
+-        });
+-
+-         */
+         mDatabase = FirebaseDatabase.getInstance().getReference();
+         userId = mAuth.getCurrentUser().getUid();
+         DatabaseReference newref = mDatabase.child(userId).child(key);
+@@ -58,7 +41,7 @@
+             public void onDataChange(DataSnapshot dataSnapshot) {
+                 Log.d(LOG_TAG, "getAllActivities");
+                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+-                    Event e = ds.getValue(Event.class);
++                    Activity e = ds.getValue(Activity.class);
+                     Log.d(LOG_TAG, e.print());
+                 }
+             }
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <string name=\"app_name\">Technovation2021</string>\n    <string name=\"sign_up\">Sign Up</string>\n    <string name=\"welcome\">Welcome!</string>\n    <string name=\"login\">Login</string>\n    <string name=\"signup\">Signup</string>\n    <string name=\"login_email\">Email</string>\n    <string name=\"email_for_signing_in\">email for signing in</string>\n    <string name=\"login_password\">Password</string>\n    <string name=\"school_loop_id\">School loop ID</string>\n    <string name=\"schoolloop_password\">Schoolloop Password</string>\n    <string name=\"schoolloop_login\">Schoolloop login</string>\n    <string name=\"school_loop_password\">school loop password</string>\n    <string name=\"password\">password</string>\n    <string name=\"configChangedone\">Done</string>\n    <string name=\"Configdone\">Save</string>\n    <string name=\"configcanceltext\">Cancel</string>\n    <string name=\"sat\">SAT</string>\n    <string name=\"fri\">FRI</string>\n    <string name=\"thu\">THU</string>\n    <string name=\"wed\">WED</string>\n    <string name=\"tue\">TUE</string>\n    <string name=\"mon\">MON</string>\n    <string name=\"sun\">SUN</string>\n    <string name=\"current_date\">current date</string>\n    <string name=\"todo\">TODO</string>\n    <string name=\"event_title\">Event Title</string>\n    <string name=\"start_date\">Start Date</string>\n    <string name=\"start_time\">Start Time</string>\n    <string name=\"event_start_time\">event start time</string>\n    <string name=\"duration\">Duration</string>\n    <string name=\"repeats\">Repeats</string>\n\n\n    <string-array name=\"event_duration_times\">\n            <item>15m</item>\n            <item>30m</item>\n            <item>45m</item>\n            <item>1h</item>\n            <item>1h30m</item>\n            <item>2h</item>\n            <item>3h</item>\n            <item>4h</item>\n        </string-array>\n\n    <string-array name=\"event_frequency\">\n        <item>Never</item>\n        <item>Every Week</item>\n        <item>Every 2 Weeks</item>\n        <item>Every Month</item>\n    </string-array>\n\n    <string-array name=\"hw_hours\">\n        <item>30m</item>\n        <item>1hr</item>\n        <item>2h</item>\n        <item>4h</item>\n        <item>6h</item>\n        <item>10h</item>\n        <item>20h</item>\n    </string-array>\n\n\n    <string name=\"confirm_password\">Confirm Password</string>\n    <string name=\"task_hours\">Task Hours</string>\n    <string name=\"homework_hours\">Time to finish</string>\n    <string name=\"submission_date\">Submission date</string>\n    <string name=\"submit_by\">Submit by</string>\n    <string name=\"school_task\">School Task?</string>\n    <string name=\"add_to_calendar\">Add To Calendar</string>\n    <string name=\"cancel\">Cancel</string>\n    <string name=\"notes\">Notes</string>\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/res/values/strings.xml	(date 1616131876000)
+@@ -33,15 +33,15 @@
+ 
+ 
+     <string-array name="event_duration_times">
+-            <item>15m</item>
+-            <item>30m</item>
+-            <item>45m</item>
+-            <item>1h</item>
+-            <item>1h30m</item>
+-            <item>2h</item>
+-            <item>3h</item>
+-            <item>4h</item>
+-        </string-array>
++        <item>15m</item>
++        <item>30m</item>
++        <item>45m</item>
++        <item>1h</item>
++        <item>1h30m</item>
++        <item>2h</item>
++        <item>3h</item>
++        <item>4h</item>
++    </string-array>
+ 
+     <string-array name="event_frequency">
+         <item>Never</item>
+Index: app/src/main/java/com/example/technovation2021/Activity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.technovation2021;\n\nimport android.os.Build;\n\nimport java.io.Serializable;\nimport java.time.LocalDateTime;\nimport java.time.format.DateTimeFormatter;\n\nimport androidx.annotation.RequiresApi;\n\npublic class Event implements Serializable {\n    // Event start date, start time.\n    public LocalDateTime startDateTime;\n    // Event end date, end time\n    public LocalDateTime endDateTime;\n    public Integer activityDuration;\n    public Integer recurs;\n    public Boolean schoolTask;\n    public Integer timeToFinish;\n    public String notes;\n    public String eventDesc;\n\n    public Boolean getSchoolTask() {\n        return schoolTask;\n    }\n\n    public Integer getRecurs() {\n        return recurs;\n    }\n\n    public Integer getActivityDuration() {\n        return activityDuration;\n    }\n\n    public String getEndDateTime() {\n        DateTimeFormatter format = DateTimeFormatter.ofPattern(\"MM-dd-yyyy HH:mm\");\n        return endDateTime.format(format);\n    }\n\n    public String getStartDateTime() {\n        DateTimeFormatter format = DateTimeFormatter.ofPattern(\"MM-dd-yyyy HH:mm\");\n        return startDateTime.format(format);\n    }\n\n    public Integer getTimeToFinish() {\n        return timeToFinish;\n    }\n\n    public String getNotes() {\n        return notes;\n    }\n\n    public String getEventDesc() {\n        return eventDesc;\n    }\n\n    public void setEndDateTime(String endDateTime) {\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"MM-dd-yyyy HH:mm\");\n        this.endDateTime = LocalDateTime.parse(endDateTime, formatter);\n    }\n\n    public void setEventDesc(String eventDesc) {\n        this.eventDesc = eventDesc;\n    }\n\n    public void setNotes(String notes) {\n        this.notes = notes;\n    }\n\n    public void setRecurs(Integer recurs) {\n        this.recurs = recurs;\n    }\n\n    public void setSchoolTask(Boolean schoolTask) {\n        this.schoolTask = schoolTask;\n    }\n\n    public void setStartDateTime(String startDateTime) {\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"MM-dd-yyyy HH:mm\");\n        this.startDateTime = LocalDateTime.parse(startDateTime, formatter);\n    }\n\n    public void setTimeToFinish(Integer timeToFinish) {\n        this.timeToFinish = timeToFinish;\n    }\n\n    public void setActivityDuration(Integer activityDuration) {\n        this.activityDuration = activityDuration;\n    }\n\n    public String print() {\n        return getEventDesc() + \" \" + getStartDateTime() + \" \" + getNotes();\n    }\n\n    public Event() {\n\n    }\n\n    public Event(\n            String eventDesc,\n            String startDateTime,\n            String endDateTime,\n            Integer activityDuration,\n            Integer recurs,\n            String schoolTask,\n            Integer timeToFinish,\n            String notes) {\n        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(\"MM-dd-yyyy HH:mm\");\n        this.startDateTime = LocalDateTime.parse(startDateTime, formatter);\n        this.endDateTime = LocalDateTime.parse(endDateTime, formatter);\n        this.eventDesc = eventDesc;\n        this.activityDuration = activityDuration;\n        this.recurs = recurs;\n        this.timeToFinish = timeToFinish;\n        this.notes = notes;\n        this.schoolTask = Boolean.parseBoolean(schoolTask);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/technovation2021/Activity.java	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/java/com/example/technovation2021/Activity.java	(date 1615957796000)
+@@ -8,7 +8,7 @@
+ 
+ import androidx.annotation.RequiresApi;
+ 
+-public class Event implements Serializable {
++public class Activity implements Serializable {
+     // Event start date, start time.
+     public LocalDateTime startDateTime;
+     // Event end date, end time
+@@ -92,11 +92,11 @@
+         return getEventDesc() + " " + getStartDateTime() + " " + getNotes();
+     }
+ 
+-    public Event() {
++    public Activity() {
+ 
+     }
+ 
+-    public Event(
++    public Activity(
+             String eventDesc,
+             String startDateTime,
+             String endDateTime,
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    package=\"com.example.technovation2021\">\n\n    <application\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity android:name=\".AddActivity\" />\n        <activity android:name=\".SignUp\" />\n        <activity android:name=\".MyCalendar\" />\n        <activity android:name=\".UserSettings\" />\n        <activity android:name=\".MainActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n        <activity\n            android:name=\".CalendarActivity\"\n            android:screenOrientation=\"portrait\" />\n\n        <meta-data\n            android:name=\"preloaded_fonts\"\n            android:resource=\"@array/preloaded_fonts\" />\n    </application>\n\n</manifest>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/AndroidManifest.xml	(date 1616131876000)
+@@ -9,6 +9,7 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
++        <activity android:name=".UserInfo"></activity>
+         <activity android:name=".AddActivity" />
+         <activity android:name=".SignUp" />
+         <activity android:name=".MyCalendar" />
+@@ -29,4 +30,4 @@
+             android:resource="@array/preloaded_fonts" />
+     </application>
+ 
+-</manifest>
++</manifest>
+\ No newline at end of file
