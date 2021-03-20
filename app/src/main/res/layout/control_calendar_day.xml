@@ -20,26 +20,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="day of month"
-            android:text="DayOfMonth" />
+            android:hint="@string/day_of_month"
+            android:text="@string/dayofmonth" />
 
         <TextView
             android:id="@+id/calEvent1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Event 1" />
+            android:text="@string/event_1" />
 
         <TextView
             android:id="@+id/calEvent2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Event 2" />
+            android:layout_height="3dp"
+            android:text="@string/event_2" />
 
         <TextView
             android:id="@+id/calEvent3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Event 3" />
+            android:text="@string/event_3" />
 
     </LinearLayout>
 
