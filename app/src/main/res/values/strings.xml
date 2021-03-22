@@ -30,7 +30,8 @@
     <string name="event_start_time">event start time</string>
     <string name="duration">Duration</string>
     <string name="repeats">Repeats</string>
-
+    <string name="recurrence">Recurrence</string>
+    <string name="activity_name">Name</string>
 
     <string name="confirm_password">Confirm Password</string>
 
