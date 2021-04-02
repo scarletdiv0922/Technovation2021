@@ -8,12 +8,20 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 import androidx.fragment.app.DialogFragment;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
+
+    public int resourceId;
+
+
+    public TimePickerFragment(int resId) {
+        resourceId = resId;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,7 +38,7 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         Log.d("Time picker", "time picked " + hourOfDay + " " + minute);
-        TextView tv = (TextView) getActivity().findViewById(R.id.idStartTime);
+        TextView tv = (TextView) getActivity().findViewById(resourceId);
         String time = "";
         if ( hourOfDay > 12 )
             time = String.valueOf(hourOfDay - 12);

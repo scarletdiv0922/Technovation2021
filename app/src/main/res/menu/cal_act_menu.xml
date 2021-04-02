@@ -9,6 +9,7 @@
         android:id="@+id/addEvent"
         android:title="Add Activity" />
     <item android:title="Student Activity"
-        android:id="@+id/studentActivity"
-        />
+        android:id="@+id/studentActivity" />
+    <item android:title="Shravya Activity"
+        android:id="@+id/shravyaActivity" />
 </menu>

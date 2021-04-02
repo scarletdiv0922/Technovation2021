@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/NewActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D6D7F4FF"
+    tools:context=".UserInfoAddActivity">
+
+    <Button
+        android:id="@+id/btnCancelActivity"
+        android:layout_width="286dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="212dp"
+        android:background="#6dedd1"
+        android:text="@string/cancel"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <Button
+        android:id="@+id/btnSaturday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/saturday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnFriday" />
+
+    <Button
+        android:id="@+id/btnSunday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/sunday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnWednesday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/wednesday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnTuesday" />
+
+    <Button
+        android:id="@+id/btnMonday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/monday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSunday" />
+
+    <Button
+        android:id="@+id/btnTuesday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/tuesday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMonday" />
+
+    <Button
+        android:id="@+id/btnThursday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/thursday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnWednesday" />
+
+    <Button
+        android:id="@+id/btnFriday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginBottom="450dp"
+        android:text="@string/friday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnThursday" />
+
+    <TextView
+        android:id="@+id/new_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="233dp"
+        android:layout_marginRight="233dp"
+        android:layout_marginBottom="592dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/new_activity"
+        android:textColor="@color/navy"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.703"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/activityDescription"
+        android:layout_width="383dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="132dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/activity_description"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/time"
+        android:textColor="@color/navy"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSunday" />
+
+    <TextView
+        android:id="@+id/txtUserInfoStartTime"
+        android:layout_width="135dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bitter"
+        android:onClick="userInfoStartTimeClicked"
+        android:text="@string/start_time"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/txtUserInfoEndTime"
+        android:layout_width="119dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:fontFamily="@font/bitter"
+        android:onClick="txtUserInfoEndTime"
+        android:text="@string/act_end_time"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/btnFriday"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/to"
+        android:textColor="@color/navy"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtUserInfoStartTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+<!--    <Button-->
+<!--        android:id="@+id/btnAddActivity"-->
+<!--        android:layout_width="289dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="148dp"-->
+<!--        android:background="#6dedd1"-->
+<!--        android:onClick="addActivity"-->
+<!--        android:text="@string/add"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.462"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView8"-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtRecurring"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/bitter"-->
+<!--        android:text="@string/recurring"-->
+<!--        android:textColor="@color/navy"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.055"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.267" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
