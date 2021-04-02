@@ -10,11 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UserInfoAddActivity"></activity>
+        <activity android:name=".StudentActivity"></activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".AddActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".MyCalendar" />
         <activity android:name=".UserSettings" />
+        <activity android:name=".UserInfo" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

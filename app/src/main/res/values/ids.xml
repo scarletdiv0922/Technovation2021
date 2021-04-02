@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="endSchoolTime" type="id"/>
+    <item name="endSleepTime" type="id"/>
+    <item name="skip_button" type="id"/>
+    <item name="continueButton" type="id"/>
+    <item name="startSleepTime" type="id"/>
+    <item name="introductionText1" type="id"/>
+    <item name="emptyRectangle" type="id"/>
+    <item name="schoolTimeQuestion" type="id"/>
+    <item name="startSchoolTime" type="id"/>
+    <item name="schoolTo" type="id"/>
+    <item name="sleepTo" type="id"/>
+    <item name="sleepTimeQuestion" type="id"/>
+    <item name="activityquestion" type="id"/>
+    <item name="button" type="id"/>
+</resources>

@@ -1,0 +1,368 @@
+Index: app/src/main/java/com/example/technovation2021/UserInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.technovation2021;\n\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport android.os.Bundle;\n\npublic class UserInfo extends AppCompatActivity {\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_user_info);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/technovation2021/UserInfo.java	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/java/com/example/technovation2021/UserInfo.java	(date 1616135679000)
+@@ -1,14 +1,25 @@
+ package com.example.technovation2021;
+ 
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.fragment.app.DialogFragment;
+ 
+ import android.os.Bundle;
++import android.util.Log;
++import android.view.View;
+ 
+ public class UserInfo extends AppCompatActivity {
+ 
++//    public spinner startSleepClicked;
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_user_info);
++
++
++//        public void startSleepClicked(View Object view;
++//        view) {
++//            DialogFragment newFragment = new TimePickerFragment();
++//            newFragment.show(getSupportFragmentManager(), "timePicker");
++//            Log.d(LOG_TAG, "start sleep time clicked");
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_user_info.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".UserInfo\">\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_user_info.xml	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/res/layout/activity_user_info.xml	(date 1616177475000)
+@@ -4,6 +4,245 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:background="#d7f4ffff"
+     tools:context=".UserInfo">
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++
++    <TextView
++        android:id="@+id/skip_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="Skip"
++        android:textColor="#283953"
++        android:textSize="25sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.14"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.944" />
++
++    <TextView
++        android:id="@+id/continue_button"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="Continue"
++        android:textColor="#283953"
++        android:textSize="25sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.834"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.944" />
++
++    <TextView
++        android:id="@+id/start_sleep_time"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="@string/start_time"
++        android:textSize="19sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.079"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.481" />
++
++    <TextView
++        android:id="@+id/introduction_text1"
++        android:layout_width="354dp"
++        android:layout_height="120dp"
++        android:layout_alignParentStart="true"
++        android:layout_alignParentLeft="false"
++        android:layout_alignParentTop="true"
++        android:layout_alignParentEnd="true"
++        android:layout_alignParentRight="false"
++        android:layout_alignParentBottom="true"
++        android:layout_marginTop="38dp"
++        android:fontFamily="@font/bitter"
++        android:text="Tell us a bit about yourself, so we can help create your schedule! "
++        android:textColor="#283953"
++        android:textSize="30sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.438"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.0" />
++
++    <TextView
++        android:id="@+id/empty_rectangle"
++        android:layout_width="180dp"
++        android:layout_height="13dp"
++        android:background="#6dedd1"
++        android:text="                        "
++        android:textSize="10sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.102"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.232" />
++
++    <TextView
++        android:id="@+id/school_time_question"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="What time is your school at?"
++        android:textColor="#283953"
++        android:textSize="20sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.183"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.284" />
++
++    <TextView
++        android:id="@+id/start_school_time"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="@string/start_time"
++        android:textSize="19sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.078"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.34" />
++
++    <TextView
++        android:id="@+id/school_to"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:textColor="#283953"
++        android:textSize="19sp"
++        android:text="to"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.471"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.34" />
++
++    <TextView
++        android:id="@+id/sleep_to"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="to"
++        android:textColor="#283953"
++        android:textSize="19sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.471"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.481" />
++
++    <TextView
++        android:id="@+id/end_school_time"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="End Time"
++        android:textSize="19sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.839"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.34" />
++
++    <TextView
++        android:id="@+id/end_sleep_time"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="End Time"
++        android:textSize="19sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.839"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.481" />
++
++    <TextView
++        android:id="@+id/sleep_time_question"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/bitter"
++        android:text="What time do you sleep at?"
++        android:textColor="#283953"
++        android:textSize="20sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.166"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.419" />
++
++    <TextView
++        android:id="@+id/activity_question"
++        android:layout_width="328dp"
++        android:layout_height="66dp"
++        android:fontFamily="@font/bitter"
++        android:text="When do you have extracurricular activities?"
++        android:textColor="#283953"
++        android:textSize="20sp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.289"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.589" />
++
++    <Button
++        android:id="@+id/button"
++        android:layout_width="281dp"
++        android:layout_height="48dp"
++        android:background="#6dedd1"
++        android:text="+ Add Activity"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.384"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.683" />
++
++
++</androidx.constraintlayout.widget.ConstraintLayout>
++
++<!--    android:background="#046B5F"-->
++<!--    android:padding="16dp"-->
++<!--    android:text="My View Background color"-->
++<!--    android:textColor="#fff" />-->
++
++<!--<TextView-->
++<!--android:id="@+id/welcomeSignUpScreen"-->
++<!--android:layout_width="371dp"-->
++<!--android:layout_height="wrap_content"-->
++<!--android:layout_alignParentStart="true"-->
++<!--android:layout_alignParentLeft="true"-->
++<!--android:layout_alignParentTop="true"-->
++<!--android:layout_alignParentEnd="true"-->
++<!--android:layout_alignParentRight="true"-->
++<!--android:layout_alignParentBottom="true"-->
++<!--android:layout_marginBottom="350dp"-->
++<!--android:fontFamily="@font/bitter_bold"-->
++<!--android:text="@string/welcome"-->
++<!--android:textColor="@color/navy"-->
++<!--android:textSize="70sp"-->
++<!--app:layout_constraintBottom_toBottomOf="parent"-->
++<!--app:layout_constraintEnd_toEndOf="parent"-->
++<!--app:layout_constraintStart_toStartOf="parent"-->
++<!--app:layout_constraintTop_toTopOf="parent"-->
++<!--app:layout_constraintVertical_bias="0.362" />-->
+Index: app/src/main/res/layout/activity_add_activity.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".AddActivity\">\n\n    <Button\n        android:id=\"@+id/idBtnAddToCalendar\"\n        android:layout_width=\"238dp\"\n        android:layout_height=\"58dp\"\n        android:layout_marginBottom=\"76dp\"\n        android:onClick=\"addToCalendarClicked\"\n        android:text=\"@string/add_to_calendar\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.497\"\n        app:layout_constraintStart_toStartOf=\"parent\" />\n\n    <Button\n        android:id=\"@+id/idBtnCancel\"\n        android:layout_width=\"83dp\"\n        android:layout_height=\"42dp\"\n        android:layout_marginBottom=\"16dp\"\n        android:layout_marginLeft=\"16dp\"\n        android:layout_marginStart=\"16dp\"\n        android:onClick=\"cancelAddActivityClicked\"\n        android:text=\"@string/cancel\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\" />\n\n    <EditText\n        android:id=\"@+id/idEvDesc\"\n        android:layout_width=\"225dp\"\n        android:layout_height=\"0dp\"\n        android:layout_marginEnd=\"15dp\"\n        android:layout_marginRight=\"15dp\"\n        android:layout_marginTop=\"17dp\"\n        android:autofillHints=\"\"\n        android:ems=\"10\"\n        android:gravity=\"bottom\"\n        android:hint=\"@string/event_title\"\n        android:inputType=\"textPersonName\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <EditText\n        android:id=\"@+id/idActivityNote\"\n        android:layout_width=\"377dp\"\n        android:layout_height=\"60dp\"\n        android:layout_marginBottom=\"28dp\"\n        android:layout_marginEnd=\"16dp\"\n        android:layout_marginRight=\"16dp\"\n        android:autofillHints=\"\"\n        android:ems=\"10\"\n        android:gravity=\"start|top\"\n        android:hint=\"@string/notes\"\n        android:inputType=\"textMultiLine\"\n        app:layout_constraintBottom_toTopOf=\"@+id/idBtnAddToCalendar\"\n        app:layout_constraintEnd_toEndOf=\"parent\" />\n\n    <Spinner\n        android:id=\"@+id/event_duration_times\"\n        android:layout_width=\"133dp\"\n        android:layout_height=\"31dp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idTvDuration\"\n        app:layout_constraintStart_toStartOf=\"@+id/idStartTime\" />\n\n    <Spinner\n        android:id=\"@+id/event_frequency\"\n        android:layout_width=\"183dp\"\n        android:layout_height=\"33dp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/textView7\"\n        app:layout_constraintStart_toStartOf=\"@+id/event_duration_times\" />\n\n    <Spinner\n        android:id=\"@+id/idHomeworkHours\"\n        android:layout_width=\"104dp\"\n        android:layout_height=\"28dp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idTxtHomeworkHours\"\n        app:layout_constraintStart_toStartOf=\"@+id/event_frequency\" />\n\n    <TextView\n        android:id=\"@+id/idEventText\"\n        android:layout_width=\"101dp\"\n        android:layout_height=\"22dp\"\n        android:layout_marginLeft=\"44dp\"\n        android:layout_marginStart=\"44dp\"\n        android:layout_marginTop=\"40dp\"\n        android:text=\"@string/event_title\"\n        android:textSize=\"16sp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idEvDesc\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.0\" />\n\n    <TextView\n        android:id=\"@+id/textView3\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"0dp\"\n\n        android:layout_marginTop=\"76dp\"\n        android:text=\"@string/start_date\"\n        android:textSize=\"16sp\"\n        app:layout_constraintStart_toStartOf=\"@+id/idEventText\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <TextView\n        android:id=\"@+id/idEventStartDate\"\n        android:layout_width=\"226dp\"\n        android:layout_height=\"31dp\"\n        android:gravity=\"bottom\"\n        android:onClick=\"startDateClicked\"\n        android:text=\"@string/start_date\"\n        android:textColor=\"#090101\"\n        android:textSize=\"16sp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/textView3\"\n        app:layout_constraintStart_toStartOf=\"@+id/idEvDesc\" />\n\n    <TextView\n        android:id=\"@+id/idTvStartTime\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginTop=\"128dp\"\n        android:text=\"@string/start_time\"\n        android:textSize=\"16sp\"\n        app:layout_constraintStart_toStartOf=\"@+id/textView3\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <TextView\n        android:id=\"@+id/idTvDuration\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginTop=\"172dp\"\n        android:text=\"@string/duration\"\n        android:textSize=\"16sp\"\n        app:layout_constraintStart_toStartOf=\"@+id/idTvStartTime\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <TextView\n        android:id=\"@+id/textView7\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginTop=\"224dp\"\n        android:text=\"@string/repeats\"\n        android:textSize=\"16sp\"\n        app:layout_constraintStart_toStartOf=\"@+id/idTvDuration\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n    <TextView\n        android:id=\"@+id/idStartTime\"\n        android:layout_width=\"121dp\"\n        android:layout_height=\"35dp\"\n        android:gravity=\"bottom\"\n        android:onClick=\"startTimeClicked\"\n        android:text=\"@string/start_time\"\n        android:textColor=\"#0E0000\"\n        android:textSize=\"16sp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idTvStartTime\"\n        app:layout_constraintStart_toStartOf=\"@+id/idEventStartDate\" />\n\n    <TextView\n        android:id=\"@+id/idTxtHomeworkHours\"\n        android:layout_width=\"119dp\"\n        android:layout_height=\"26dp\"\n        android:layout_marginTop=\"20dp\"\n        android:text=\"@string/homework_hours\"\n        app:layout_constraintStart_toStartOf=\"@+id/idTxtSchoolTask\"\n        app:layout_constraintTop_toBottomOf=\"@+id/idTxtSchoolTask\" />\n\n    <TextView\n        android:id=\"@+id/idTxtSchoolTask\"\n        android:layout_width=\"95dp\"\n        android:layout_height=\"28dp\"\n        android:layout_marginTop=\"16dp\"\n        android:text=\"@string/school_task\"\n        app:layout_constraintStart_toStartOf=\"@+id/textView7\"\n        app:layout_constraintTop_toBottomOf=\"@+id/textView7\" />\n\n    <TextView\n        android:id=\"@+id/idSubmissionDate\"\n        android:layout_width=\"141dp\"\n        android:layout_height=\"29dp\"\n        android:onClick=\"submissionDateClicked\"\n        android:text=\"@string/submission_date\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idTxtSubmitBy\"\n        app:layout_constraintStart_toStartOf=\"@+id/idHomeworkHours\" />\n\n    <TextView\n        android:id=\"@+id/idTxtSubmitBy\"\n        android:layout_width=\"64dp\"\n        android:layout_height=\"26dp\"\n        android:layout_marginLeft=\"44dp\"\n        android:layout_marginStart=\"44dp\"\n        android:layout_marginTop=\"24dp\"\n        android:text=\"@string/submit_by\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/idTxtHomeworkHours\" />\n\n    <androidx.appcompat.widget.SwitchCompat\n        android:id=\"@+id/idSchoolTaskSwitch\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/idTxtSchoolTask\"\n        app:layout_constraintStart_toStartOf=\"@+id/event_frequency\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_add_activity.xml	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/res/layout/activity_add_activity.xml	(date 1616170971000)
+@@ -135,7 +135,7 @@
+         android:layout_marginTop="172dp"
+         android:text="@string/duration"
+         android:textSize="16sp"
+-        app:layout_constraintStart_toStartOf="@+id/idTvStartTime"
++        app:layout_constraintStart_toStartOf="@+id/start_school_time"
+         app:layout_constraintTop_toTopOf="parent" />
+ 
+     <TextView
+@@ -157,7 +157,7 @@
+         android:text="@string/start_time"
+         android:textColor="#0E0000"
+         android:textSize="16sp"
+-        app:layout_constraintBottom_toBottomOf="@+id/idTvStartTime"
++        app:layout_constraintBottom_toBottomOf="@+id/start_school_time"
+         app:layout_constraintStart_toStartOf="@+id/idEventStartDate" />
+ 
+     <TextView
+Index: app/src/main/java/com/example/technovation2021/AddActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.technovation2021;\n\nimport android.os.Bundle;\nimport android.util.Log;\nimport android.view.View;\nimport android.widget.ArrayAdapter;\nimport android.widget.CompoundButton;\nimport android.widget.Spinner;\n\nimport com.google.firebase.FirebaseError;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.ValueEventListener;\n\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.appcompat.widget.SwitchCompat;\nimport androidx.fragment.app.DialogFragment;\n\npublic class AddActivity extends AppCompatActivity implements\n        CompoundButton.OnCheckedChangeListener {\n\n    private static final String LOG_TAG = AddActivity.class.getSimpleName();\n    private Spinner evDuration;\n    private Spinner evFrequency;\n    private Spinner hwPrepTimes;\n    private SwitchCompat hwSwitch;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_add_activity);\n\n        evDuration = findViewById(R.id.event_duration_times);\n        evFrequency = findViewById(R.id.event_frequency);\n        hwPrepTimes = findViewById(R.id.idHomeworkHours);\n        hwSwitch = findViewById(R.id.idSchoolTaskSwitch);\n\n        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,\n                R.array.event_duration_times, android.R.layout.simple_spinner_item);\n        // Specify the layout to use when the list of choices appears\n        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\n        // Apply the adapter to the spinner\n        evDuration.setAdapter(adapter);\n\n\n        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,\n                R.array.event_frequency, android.R.layout.simple_spinner_item);\n        // Specify the layout to use when the list of choices appears\n        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\n        // Apply the adapter to the spinner\n        evFrequency.setAdapter(adapter2);\n\n        ArrayAdapter<CharSequence> hwSpinnerAdapter = ArrayAdapter.createFromResource(this,\n                R.array.hw_hours, android.R.layout.simple_spinner_item);\n        // Specify the layout to use when the list of choices appears\n        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\n        // Apply the adapter to the spinner\n        hwPrepTimes.setAdapter(hwSpinnerAdapter);\n\n        hwSwitch.setOnCheckedChangeListener(this);\n    }\n\n    @Override\n    protected void onStart() {\n        super.onStart();\n        hideHomeworkData();\n        hwSwitch.setChecked(false);\n    }\n\n    public void getHomeworkData() {\n        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.VISIBLE);\n        findViewById(R.id.idHomeworkHours).setVisibility(View.VISIBLE);\n        findViewById(R.id.idTxtSubmitBy).setVisibility(View.VISIBLE);\n        findViewById(R.id.idSubmissionDate).setVisibility(View.VISIBLE);\n    }\n\n    public void hideHomeworkData() {\n        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.GONE);\n        findViewById(R.id.idHomeworkHours).setVisibility(View.GONE);\n        findViewById(R.id.idTxtSubmitBy).setVisibility(View.GONE);\n        findViewById(R.id.idSubmissionDate).setVisibility(View.GONE);\n    }\n\n    @Override\n    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {\n        switch (buttonView.getId()) {\n            case R.id.idSchoolTaskSwitch:\n                Log.d(\"switch_compat\", isChecked + \"\");\n                if ( isChecked ) {\n                    getHomeworkData();\n                }\n                else {\n                    hideHomeworkData();\n                }\n                break;\n        }\n    }\n\n    public void startTimeClicked(View view) {\n        DialogFragment newFragment = new TimePickerFragment();\n        newFragment.show(getSupportFragmentManager(), \"timePicker\");\n        Log.d(LOG_TAG, \"start time clicked\");\n    }\n\n    public void startDateClicked(View view) {\n        DialogFragment newFragment = new DatePickerFragment(R.id.idEventStartDate);\n        newFragment.show(getSupportFragmentManager(), \"datePicker\");\n    }\n\n    public void submissionDateClicked(View view) {\n        DialogFragment newFragment = new DatePickerFragment(R.id.idSubmissionDate);\n        newFragment.show(getSupportFragmentManager(), \"submissionDatePicker\");\n    }\n\n\n    public void addToCalendarClicked(View view) {\n        if ( noDataErrors() ) {\n            //fb.saveCalendarEvent();\n            // Saving of event to firebase db\n            /*\n            Event e = new Event(\"Test event\", \"03-25-2021 11:12\",\n                    \"04-11-2021 11:23\", \"45\",\n                    \"0\", false, \"45\", \"test event notes\");\n            //mDatabase.child(userId).child(userKey).setValue(sld);\n            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();\n            frd.saveCalendarEvent(\"activityList\", e);\n            */\n            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();\n            frd.getAllActivities(\"activityList\");\n        }\n    }\n\n    private boolean noDataErrors() {\n        return true;\n    }\n\n    public void cancelAddActivityClicked(View view) {\n        //super.onBackPressed();\n        finish();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/technovation2021/AddActivity.java	(revision e9f9ac5ec42b72015ab2394de54a7ba0f7e10e8f)
++++ app/src/main/java/com/example/technovation2021/AddActivity.java	(date 1615958829000)
+@@ -23,6 +23,38 @@
+     private Spinner evFrequency;
+     private Spinner hwPrepTimes;
+     private SwitchCompat hwSwitch;
++    private FirebaseRealtimeDatabase db;
++
++    /*
++    class SchoolOffice {
++    private studentTranscripts;
++    private studentAttendance;
++    public  staples;
++    private printersInOffice;
++    public  staffNames[];
++
++    public printMyHomework(Homework hw) {
++        staffName[]==> printersInOffice.print()
++    }
++
++    public changeTranscript(String studentName, String subject, String grade) {
++        int cabinet;
++        file = getStudentFile(studentName);
++        file.subject.grade = grade;
++    }
++
++    private int getStudentFile(String studentName) {
++        // do look it up
++        return file;
++    }
++    }
++
++    SchoolOffice so;
++    Type: Integer
++    object of type: variable
++    attributes:
++    methods();
++     */
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {

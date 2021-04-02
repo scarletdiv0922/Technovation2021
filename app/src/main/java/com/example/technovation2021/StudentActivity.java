@@ -1,0 +1,202 @@
+package com.example.technovation2021;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+import static android.R.layout.simple_spinner_dropdown_item;
+
+public class StudentActivity extends AppCompatActivity implements
+        CompoundButton.OnCheckedChangeListener {
+
+    private static final String LOG_TAG = StudentActivity.class.getSimpleName();
+    //private Spinner evDuration;
+    private Spinner actFrequency; //How frequent the activity is (eg: Never, 1 week, 2 weeks, Month)
+    private EditText actName; //Name of Activity
+    private TextView actSDate; //Start Date of Activity
+    private TextView actSTime; //Time the activity starts
+    private TextView actETime; //Time the activity ends
+    // private Spinner hwPrepTimes; //TODO: Delete
+    // private SwitchCompat hwSwitch; //TODO: Delete
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_student_activity);
+
+        // evDuration = findViewById(R.id.event_duration_times); //TODO: Delete
+        //hwPrepTimes = findViewById(R.id.idHomeworkHours); //TODO: Delete
+        //hwSwitch = findViewById(R.id.idSchoolTaskSwitch); //TODO: Delete
+        actName = findViewById(R.id.idActName);
+        //actSDate = findViewById(R.id.idActStartDate);
+        //actSTime = findViewById(R.id.idActStartTime);
+        //actETime = findViewById(R.id.idActEndTime);
+        actFrequency = findViewById(R.id.idActRecurrence);
+
+/*
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.event_duration_times, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        evDuration.setAdapter(adapter);
+
+*/
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.event_frequency, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter2.setDropDownViewResource(simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        actFrequency.setAdapter(adapter2);
+/*
+        ArrayAdapter<CharSequence> hwSpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.hw_hours, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        hwPrepTimes.setAdapter(hwSpinnerAdapter);
+
+        hwSwitch.setOnCheckedChangeListener(this);
+        */
+    }
+
+    /*
+    @Override
+    protected void onStart() {
+        super.onStart();
+        hideHomeworkData();
+        hwSwitch.setChecked(false);
+    }
+
+    public void getHomeworkData() {
+        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.VISIBLE);
+        findViewById(R.id.idHomeworkHours).setVisibility(View.VISIBLE);
+        findViewById(R.id.idTxtSubmitBy).setVisibility(View.VISIBLE);
+        findViewById(R.id.idSubmissionDate).setVisibility(View.VISIBLE);
+    }
+
+    public void hideHomeworkData() {
+        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.GONE);
+        findViewById(R.id.idHomeworkHours).setVisibility(View.GONE);
+        findViewById(R.id.idTxtSubmitBy).setVisibility(View.GONE);
+        findViewById(R.id.idSubmissionDate).setVisibility(View.GONE);
+    }
+ */
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+       /* switch (buttonView.getId()) {
+            case R.id.idSchoolTaskSwitch:
+                Log.d("switch_compat", isChecked + "");
+                if ( isChecked ) {
+                    getHomeworkData();
+                }
+                else {
+                    hideHomeworkData();
+                }
+                break;
+        }
+        */
+    }
+
+
+    public void startTimeClicked(View view) {
+        DialogFragment newFragmentSTime = new ActivityStartTimePickerFragment();
+        newFragmentSTime.show(getSupportFragmentManager(), "timePicker");
+        Log.d(LOG_TAG, "start time clicked");
+    }
+
+    public void endTimeClicked(View view) {
+        DialogFragment newFragmentETime = new ActivityEndTimePickerFragment();
+        newFragmentETime.show(getSupportFragmentManager(), "timePicker");
+        Log.d(LOG_TAG, "end time clicked");
+    }
+
+    public void startDateClicked(View view) {
+        DialogFragment newFragment = new DatePickerFragment(R.id.idActStartDate);
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+
+    public void addToCalendarClicked(View view) {
+        //Log.d("addToCalendar", "I am here Step1");
+        if ( noDataErrors() ) {
+          //  Log.d("No Data Errors", "I am Here ");
+            Event e = new Event("Test event456", "03-25-2021 11:12",
+                    "04-11-2021 11:23", 45,
+                    0, false, 45, "test event notes");
+          //  Event e = new Event("abcabc", "startdatetime", "enddatetime",1,2,false,3,"notes");
+          //  Event e = new Event("testname", null,
+            //        null, null, null,
+              //      null, null, null);
+            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+            frd.saveCalendarEvent("activityList", e);
+            //fb.saveCalendarEvent();
+            // Saving of event to firebase db
+            /*
+            Event e = new Event("Test event", "03-25-2021 11:12",
+                    "04-11-2021 11:23", "45",
+                    "0", false, "45", "test event notes");
+            //mDatabase.child(userId).child(userKey).setValue(sld);
+            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+            frd.saveCalendarEvent("activityList", e);
+            */
+            //FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+            //frd.getAllActivities("activityList");
+        }
+    }
+
+    private boolean noDataErrors() {
+        actName = findViewById(R.id.idActName);
+        //actSDate = findViewById(R.id.idActStartDate);
+        //Log.d("Startdateabc", "start date picked " + actSDate );
+        //actSTime = findViewById(R.id.idActStartTime);
+        //actETime = findViewById(R.id.idActEndTime);
+        //actFrequency = findViewById(R.id.idActRecurrence);
+        // Do sanity checks to make sure data is good!
+        if (TextUtils.isEmpty(actName.getText().toString()) ) {
+            actName.setError("Please input a name");
+            Toast.makeText(StudentActivity.this, "Input name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+/*
+        if (TextUtils.isEmpty(actSDate.getText().toString()) ) {
+            actName.setError("Please input a date");
+            Toast.makeText(StudentActivity.this, "Input date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(actSTime.getText().toString()) ) {
+            actName.setError("Please input a start time");
+            Toast.makeText(StudentActivity.this, "Input start time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(actETime.getText().toString()) ) {
+            actName.setError("Please input an end time");
+            Toast.makeText(StudentActivity.this, "Input end time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+*/
+        /*
+        if (TextUtils.isEmpty(actFrequency.getText().toString()) ) {
+            actFrequency.setError("Please input the recurrence");
+            Toast.makeText(StudentActivity.this, "Input recurrence", Toast.LENGTH_SHORT).show();
+            return false;
+        }*/ //TODO: delete
+        return true;
+    }
+
+    public void cancelAddActivityClicked(View view) {
+        //super.onBackPressed();
+        finish();
+    }
+}

@@ -1,24 +1,20 @@
 //School loop Login and PW
 package com.example.technovation2021;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 @IgnoreExtraProperties
@@ -67,6 +63,16 @@ public class UserSettings extends AppCompatActivity {
         pbar.setVisibility(View.GONE);
         userId = mAuth.getCurrentUser().getUid();
 
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String sluser = sharedPref.getString("sluser", "invalid");
+        String slpswd = sharedPref.getString("slpswd", "invalid");
+        EditText slId = findViewById(R.id.schoolloopId);
+        EditText slPswd = findViewById(R.id.schoolloopPswd);
+        slId.setText(sluser);
+        slPswd.setText(slpswd);
+
+        /* DO NOT SAVE USER LOGIN,PASSWORD in Firebase
         mDatabase.child(userId).child(userKey).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -88,6 +94,8 @@ public class UserSettings extends AppCompatActivity {
                 }
             }
         });
+
+         */
     }
 
     private boolean errorsInActivity() {
@@ -127,9 +135,21 @@ public class UserSettings extends AppCompatActivity {
         //Toast.makeText(this, mAuth.getCurrentUser().toString(), Toast.LENGTH_SHORT).show();
         //Log.d("user settings", currUser);
 
+        /* DO NOT SAVE USER LOGIN,PASSWORD in Firebase
         // TODO: Save only if login name or password changed.
         mDatabase.child(userId).child(userKey).setValue(sld);
-        //mDatabase.child(currUser).setValue("test");
+
+         */
+
+        //Context context = UserSettings.this;
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("sluser", slId.getText().toString());
+        editor.putString("slpswd", slPswd.getText().toString());
+        // TODO: add field for entering sub-domain
+        editor.putString("slsubdomain", "hjh-fusd-ca");
+        editor.commit();
 
         pbar.setVisibility(View.GONE);
         this.finish();
