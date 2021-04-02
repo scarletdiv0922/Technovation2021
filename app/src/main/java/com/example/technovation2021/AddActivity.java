@@ -95,8 +95,8 @@ public class AddActivity extends AppCompatActivity implements
         }
     }
 
-    public void startTimeClicked(View view) {
-        DialogFragment newFragment = new TimePickerFragment();
+    public void startTimeClicked (View view) {
+        DialogFragment newFragment = new TimePickerFragment(R.id.idStartTime);
         newFragment.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "start time clicked");
     }

@@ -15,6 +15,12 @@ import androidx.fragment.app.DialogFragment;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
+    int resId;
+
+    public TimePickerFragment(int _resId) {
+        super();
+        resId = _resId;
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -30,7 +36,8 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         Log.d("Time picker", "time picked " + hourOfDay + " " + minute);
-        TextView tv = (TextView) getActivity().findViewById(R.id.idStartTime);
+        //TextView tv = (TextView) getActivity().findViewById(R.id.idStartTime);
+        TextView tv = (TextView) getActivity().findViewById(resId);
         String time = "";
         if ( hourOfDay > 12 )
             time = String.valueOf(hourOfDay - 12);
