@@ -8,38 +8,14 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.sql.Time;
 import java.util.Calendar;
 
 import androidx.fragment.app.DialogFragment;
 
-public class TimePickerFragment extends DialogFragment
+public class ActivityEndTimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
-    public TimePickerFragment(int endDinnerTime) {
 
-    }
-
-
-    int resId;
-
-//    public TimePickerFragment(int _resId) {
-//        super();
-//        resId = _resId;
-//    }
-
-    int resourceId;
-
-//    public TimePickerFragment(int resId) {
-//        resourceId = resId;
-//    }
-//
-//    public TimePickerFragment(int idStartTime)
-//    }
-//
-////    public TimePickerFragment(int idStartTime) {
-////    }
-
-
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
@@ -54,9 +30,7 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         Log.d("Time picker", "time picked " + hourOfDay + " " + minute);
-        //TextView tv = (TextView) getActivity().findViewById(R.id.idStartTime);
-        TextView tv = (TextView) getActivity().findViewById(resId);
-//        TextView tv = (TextView) getActivity().findViewById(resourceId);
+        TextView tv = (TextView) getActivity().findViewById(R.id.idActEndTime);
         String time = "";
         if ( hourOfDay > 12 )
             time = String.valueOf(hourOfDay - 12);

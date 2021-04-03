@@ -3,6 +3,7 @@ package com.example.technovation2021;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -36,5 +37,6 @@ public class DatePickerFragment extends DialogFragment
         //TextView tv = (TextView) getActivity().findViewById(R.id.idEventStartDate);
         TextView tv = (TextView) getActivity().findViewById(idTextView);
         tv.setText(String.valueOf(month + 1) + "/" + String.valueOf(day)+"/"+String.valueOf(year));
+        Log.d("DatePicker", "date picked " + tv.getText());
     }
 }
