@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/idSALine"
-        android:layout_width="180dp"
-        android:layout_height="13dp"
+        android:layout_width="173dp"
+        android:layout_height="8dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="15dp"
@@ -21,17 +21,94 @@
         app:layout_constraintTop_toBottomOf="@+id/idTxtAddActivity" />
 
     <Button
+        android:id="@+id/btnWednesday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/wednesday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnTuesday" />
+
+    <Button
+        android:id="@+id/btnMonday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/monday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSunday" />
+
+    <Button
+        android:id="@+id/btnSaturday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/saturday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnFriday" />
+
+    <Button
+        android:id="@+id/btnTuesday"
+        android:layout_width="44dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/tuesday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMonday" />
+
+    <Button
+        android:id="@+id/btnSunday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/sunday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnThursday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/thursday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnWednesday" />
+
+    <Button
+        android:id="@+id/btnFriday"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="252dp"
+        android:text="@string/friday"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnThursday" />
+
+    <Button
         android:id="@+id/idBtnAddToCalendar"
         android:layout_width="238dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="56dp"
         android:background="#6DEDD1"
         android:fontFamily="@font/bitter"
         android:onClick="addToCalendarClicked"
         android:text="@string/add_to_calendar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -40,7 +117,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="16dp"
         android:background="#00000000"
         android:fontFamily="@font/bitter"
         android:onClick="cancelAddActivityClicked"
@@ -52,9 +129,9 @@
         android:id="@+id/idActivityNote"
         android:layout_width="377dp"
         android:layout_height="60dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/bitter"
@@ -63,6 +140,46 @@
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idActRecurrence" />
+
+    <Spinner
+        android:id="@+id/idActRecurrence"
+        android:layout_width="196sp"
+        android:layout_height="30sp"
+        android:layout_marginStart="164dp"
+        android:layout_marginLeft="164dp"
+        android:layout_marginTop="156dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idActEndTime" />
+
+    <TextView
+        android:id="@+id/idActTxtRecurrence"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="160dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/recurrence"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtActEndTime" />
+
+    <TextView
+        android:id="@+id/txtday"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/bitter"
+        android:text="Day"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtActEndTime"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/idTxtActEndTime"
@@ -123,16 +240,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idSALine" />
 
-    <Spinner
-        android:id="@+id/idActRecurrence"
-        android:layout_width="196sp"
-        android:layout_height="30sp"
-        android:layout_marginStart="176dp"
-        android:layout_marginLeft="176dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idActEndTime" />
-
     <TextView
         android:id="@+id/idActStartDate"
         android:layout_width="wrap_content"
@@ -169,7 +276,7 @@
         android:layout_height="30sp"
         android:layout_marginStart="176dp"
         android:layout_marginLeft="176dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/bitter"
         android:gravity="bottom"
         android:onClick="startTimeClicked"
@@ -177,20 +284,6 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idActStartDate" />
-
-    <TextView
-        android:id="@+id/idActTxtRecurrence"
-        android:layout_width="wrap_content"
-        android:layout_height="30sp"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/bitter"
-        android:text="@string/recurrence"
-        android:textColor="#283953"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTxtActEndTime" />
 
     <TextView
         android:id="@+id/idTxtActStartDate"

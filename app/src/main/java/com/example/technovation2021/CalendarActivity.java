@@ -50,15 +50,7 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent = new Intent(CalendarActivity.this, UserSettings.class);
                 startActivity(intent);
                 return true;
-            case R.id.addActivity:
-                Intent intent2 = new Intent( CalendarActivity.this, AddActivity.class);
-                startActivity(intent2);
-                return true;
 
-            case R.id.shravyaActivity:
-                Intent intent3 = new Intent( CalendarActivity.this, UserInfoAddActivity.class);
-                startActivity(intent3);
-                return true;
 
             case R.id.studentActivity:
                 Intent intent4 = new Intent( CalendarActivity.this, StudentActivity.class);

@@ -1,23 +1,28 @@
 package com.example.technovation2021;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import static android.R.layout.simple_spinner_dropdown_item;
 
-public class StudentActivity extends AppCompatActivity implements
-        CompoundButton.OnCheckedChangeListener {
+public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends AppCompatActivity  {
 
     private static final String LOG_TAG = StudentActivity.class.getSimpleName();
     //private Spinner evDuration;
@@ -28,6 +33,15 @@ public class StudentActivity extends AppCompatActivity implements
     private TextView actETime; //Time the activity ends
     // private Spinner hwPrepTimes; //TODO: Delete
     // private SwitchCompat hwSwitch; //TODO: Delete
+    public EditText activityDes;
+    public Button sunday;
+    public Button monday;
+    public Button tuesday;
+    public Button wednesday;
+    public Button thursday;
+    public Button friday, saturday;
+    //private Spinner evFrequency;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,122 @@ public class StudentActivity extends AppCompatActivity implements
         //actSTime = findViewById(R.id.idActStartTime);
         //actETime = findViewById(R.id.idActEndTime);
         actFrequency = findViewById(R.id.idActRecurrence);
+        //evFrequency = findViewById(R.id.event_frequency);
+
+
+        activityDes = findViewById(R.id.activityDescription);
+        sunday = findViewById(R.id.btnSunday);
+        monday = findViewById((R.id.btnMonday));
+        tuesday = findViewById((R.id.btnTuesday));
+        wednesday = findViewById(R.id.btnWednesday);
+        thursday = findViewById(R.id.btnThursday);
+        friday = findViewById(R.id.btnFriday);
+        saturday = findViewById(R.id.btnSaturday);
+
+        sunday.setBackgroundColor(Color.WHITE);
+        monday.setBackgroundColor(Color.WHITE);
+        tuesday.setBackgroundColor(Color.WHITE);
+        wednesday.setBackgroundColor(Color.WHITE);
+        thursday.setBackgroundColor(Color.WHITE);
+        friday.setBackgroundColor(Color.WHITE);
+        saturday.setBackgroundColor(Color.WHITE);
+
+
+        sunday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x1 = (ColorDrawable) sunday.getBackground();
+                if ( x1.getColor() == Color.WHITE ) {
+                    sunday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    sunday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        monday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x2 = (ColorDrawable) monday.getBackground();
+                if ( x2.getColor() == Color.WHITE ) {
+                    monday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    monday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        tuesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x3 = (ColorDrawable) tuesday.getBackground();
+                if ( x3.getColor() == Color.WHITE ) {
+                    tuesday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    tuesday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        wednesday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x4 = (ColorDrawable) wednesday.getBackground();
+                if ( x4.getColor() == Color.WHITE ) {
+                    wednesday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    wednesday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        thursday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x5 = (ColorDrawable) thursday.getBackground();
+                if ( x5.getColor() == Color.WHITE ) {
+                    thursday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    thursday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        friday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x6 = (ColorDrawable) friday.getBackground();
+                if ( x6.getColor() == Color.WHITE ) {
+                    friday.setBackgroundColor( Color.BLUE);
+                }
+                else {
+                    friday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+        saturday.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                ColorDrawable x7 = (ColorDrawable) saturday.getBackground();
+                if ( x7.getColor() == Color.WHITE ) {
+                    //int c1 = 0x6dedd1;
+                    saturday.setBackgroundColor(Color.BLUE);
+                }
+                else {
+                    saturday.setBackgroundColor( Color.WHITE);
+                }
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.event_frequency, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        actFrequency.setAdapter(adapter);
+
+    }
 
 /*
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -52,12 +182,12 @@ public class StudentActivity extends AppCompatActivity implements
         evDuration.setAdapter(adapter);
 
 */
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.event_frequency, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter2.setDropDownViewResource(simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        actFrequency.setAdapter(adapter2);
+//        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+//                R.array.event_frequency, android.R.layout.simple_spinner_item);
+//        // Specify the layout to use when the list of choices appears
+//        adapter2.setDropDownViewResource(simple_spinner_dropdown_item);
+//        // Apply the adapter to the spinner
+//        actFrequency.setAdapter(adapter2);
 /*
         ArrayAdapter<CharSequence> hwSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.hw_hours, android.R.layout.simple_spinner_item);
@@ -68,7 +198,9 @@ public class StudentActivity extends AppCompatActivity implements
 
         hwSwitch.setOnCheckedChangeListener(this);
         */
-    }
+
+
+
 
     /*
     @Override
@@ -92,8 +224,8 @@ public class StudentActivity extends AppCompatActivity implements
         findViewById(R.id.idSubmissionDate).setVisibility(View.GONE);
     }
  */
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//    @Override
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
        /* switch (buttonView.getId()) {
             case R.id.idSchoolTaskSwitch:
                 Log.d("switch_compat", isChecked + "");
@@ -106,7 +238,7 @@ public class StudentActivity extends AppCompatActivity implements
                 break;
         }
         */
-    }
+//    }
 
 
     public void startTimeClicked(View view) {

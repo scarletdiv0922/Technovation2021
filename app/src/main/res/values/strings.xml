@@ -66,7 +66,6 @@
     <string name="what_time_is_your_school_at">What time is your school at?</string>
     <string name="when_do_you_have_extracurricular_activities">When do you have extracurricular activities?</string>
     <string name="add_activity">Add Activity</string>
-    <string name="end_time">End Time</string>
     <string name="what_time_do_you_sleep_at">What time do you sleep at?</string>
     <string name="to">to</string>
     <string name="textSpace" />
@@ -77,6 +76,24 @@
     <string name="event_1">Event 1</string>
     <string name="event_3">Event 3</string>
     <string name="event_2">Event 2</string>
+    <string name="what_time_do_you_eat_breakfast">What time do you eat breakfast?</string>
+    <string name="dinner">Dinner?</string>
+    <string name="lunch">Lunch?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="what_time_do_you_eat_dinner">What time do you eat dinner?</string>
+    <string name="start_school_time">Start Time</string>
+    <string name="end_school_time">End</string>
+    <string name="start_sleep_time">Start Time</string>
+    <string name="end_sleep_time">End Time</string>
+    <string name="start_dinner_time">Start Time</string>
+    <string name="end_dinner_time">End Time</string>
+    <string name="end_time">End Time</string>
+    <string name="_10_00_pm">10:00 PM</string>
+    <string name="_6_30_am">6:30 AM</string>
+    <string name="_7_30_pm">7:30 PM</string>
+    <string name="_6_30_pm">6:30 PM</string>
+    <string name="_8_00_am">8:00 AM</string>
+    <string name="_3_00_pm">3:00 PM</string>
     <string name="preference_file_key">MissionTech</string>
     <string-array name="event_duration_times">
         <item>15m</item>
