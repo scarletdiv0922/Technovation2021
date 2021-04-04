@@ -3,22 +3,39 @@ package com.example.technovation2021;
 import android.os.Build;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import androidx.annotation.RequiresApi;
 
-public class Event implements Serializable {
+public class Event implements Serializable, Comparable {
     // Event start date, start time.
-    public LocalDateTime startDateTime;
+    LocalDate date;
+    LocalTime startTime;
     // Event end date, end time
-    public LocalDateTime endDateTime;
-    public Integer activityDuration;
-    public Integer recurs;
-    public Boolean schoolTask;
-    public Integer timeToFinish;
-    public String notes;
-    public String eventDesc;
+    //LocalDateTime endDateTime;
+    Integer duration;
+    // break = 1, homework = 2, activity = 3, do-not-disturb = 4
+    Integer type;
+
+    //public Integer activityDuration;
+    //public Integer recurs;
+    //public Boolean schoolTask;
+    //public Integer timeToFinish;
+
+    // link to "master" activity or task
+    String taskId;
+    String notes;
+    String eventDesc;
+
+    /*
+
+            Integer activityDuration,
+            Integer recurs,
+            Boolean schoolTask,
+            Integer timeToFinish,
 
     public Boolean getSchoolTask() {
         return schoolTask;
@@ -32,39 +49,8 @@ public class Event implements Serializable {
         return activityDuration;
     }
 
-    public String getEndDateTime() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        return endDateTime.format(format);
-    }
-
-    public String getStartDateTime() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        return startDateTime.format(format);
-    }
-
     public Integer getTimeToFinish() {
         return timeToFinish;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public String getEventDesc() {
-        return eventDesc;
-    }
-
-    public void setEndDateTime(String endDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        this.endDateTime = LocalDateTime.parse(endDateTime, formatter);
-    }
-
-    public void setEventDesc(String eventDesc) {
-        this.eventDesc = eventDesc;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public void setRecurs(Integer recurs) {
@@ -73,11 +59,6 @@ public class Event implements Serializable {
 
     public void setSchoolTask(Boolean schoolTask) {
         this.schoolTask = schoolTask;
-    }
-
-    public void setStartDateTime(String startDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        this.startDateTime = LocalDateTime.parse(startDateTime, formatter);
     }
 
     public void setTimeToFinish(Integer timeToFinish) {
@@ -89,33 +70,151 @@ public class Event implements Serializable {
     }
 
     public String print() {
-
         return getEventDesc() + " Start:" + getStartDateTime() + " " + getNotes() + " End:" + getEndDateTime() +
                 " Duration:" + getActivityDuration() + " Recurs:" + getRecurs() + " HoursToFinish:" + getTimeToFinish() +
                 " SchoolTask:" + getSchoolTask();
+    }
+
+     */
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String task) {
+        taskId = task;
+    }
+
+/*
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String getStartDateTime() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return startDateTime.format(format);
+    }
+
+ */
+
+    public Integer getType() {
+        return type;
+    }
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getEventDesc() {
+        return eventDesc;
+    }
+
+    public void setType(Integer _type) {
+        this.type = _type;
+    }
+
+    public void setDuration(Integer _duration) {
+        duration = _duration;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setEventDesc(String eventDesc) {
+        this.eventDesc = eventDesc;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setDate(String date) {
+        this.date = LocalDate.parse(date);
+    }
+
+    public String getDate() {
+        return date.toString();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalTime strToTime(String tmStr) {
+        // tmStr may contain AM or PM
+        // expected tmStr format "12:28 AM"
+        int hr = Integer.parseInt(tmStr.split(":")[0]);
+        int mn = Integer.parseInt(tmStr.split(" ")[0].split(":")[1]);
+        if ( tmStr.contains("AM") && hr == 12 )
+            hr -= 12;
+        if ( tmStr.contains("PM") && (hr >= 1 && hr <= 11) )
+            hr += 12;
+        return LocalTime.of(hr,mn, 0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setStartTime(String startTime) {
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        //this.startDateTime = LocalDateTime.parse(startDateTime, formatter);
+        this.startTime = strToTime(startTime);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String print() {
+        return "EventObj: Date:" + date.toString() + " Start:" + getStartTime() + " " + getEventDesc() + " " + getNotes() + " Duration: " + getDuration();
+    }
+
+    public String getStartTime() {
+        return this.startTime.toString();
     }
 
     public Event() {
 
     }
 
+    /*
+        LocalDate date;
+    LocalTime startTime;
+    // Event end date, end time
+    //LocalDateTime endDateTime;
+    Integer duration;
+    // break = 1, homework = 2, activity = 3
+    Integer type;
+
+    String taskId;
+    String notes;
+    String eventDesc;
+
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Event(
             String eventDesc,
-            String startDateTime,
-            String endDateTime,
-            Integer activityDuration,
-            Integer recurs,
-            Boolean schoolTask,
-            Integer timeToFinish,
+            String date,
+            String startTime,
+            //String dueDate,
+            Integer duration,
+            Integer type,
+            String taskId,
             String notes) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        this.startDateTime = LocalDateTime.parse(startDateTime, formatter);
-        this.endDateTime = LocalDateTime.parse(endDateTime, formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         this.eventDesc = eventDesc;
+        this.date = LocalDate.parse(date);
+        //LocalDateTime.parse(startDateTime, formatter);
+        this.startTime = LocalTime.parse(startTime);
+        this.notes = notes;
+        this.taskId = taskId;
+        this.duration = duration;
+        this.type = type;
+        /*
         this.activityDuration = activityDuration;
         this.recurs = recurs;
         this.timeToFinish = timeToFinish;
-        this.notes = notes;
         this.schoolTask = schoolTask;
+         */
+    }
+
+    //public String print() {
+        //return "EventObj: " + eventDesc + " " + date.toString() + " Time: " + startTime.toString() + " duration: " + duration;
+    //}
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public int compareTo(Object o) {
+        return startTime.compareTo(((Event)o).startTime);
     }
 }

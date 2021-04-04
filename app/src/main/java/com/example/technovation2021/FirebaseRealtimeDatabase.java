@@ -1,6 +1,7 @@
 package com.example.technovation2021;
 
-import android.nfc.Tag;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -8,17 +9,501 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.sql.Statement;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 public class FirebaseRealtimeDatabase {
     private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private String userId;
+    ArrayList<GenericActivity> arrList;
+    ArrayList<Event> evtList;
+    ArrayList<CalInterval> intList;
+
 
     public FirebaseRealtimeDatabase() {
         mAuth = FirebaseAuth.getInstance();
+        arrList = new ArrayList<GenericActivity>();
+        evtList = new ArrayList<Event>();
     }
+
+    public void getEvents(LocalDate fromDate, LocalDate toDate, Object caller) {
+        Log.d(LOG_TAG, "FRD::getEvents:");
+        new GetEventsForRange(fromDate, toDate, caller).execute();
+    }
+
+    public void printIntList() {
+        Iterator localIter = intList.iterator();
+        while( localIter.hasNext() ) {
+            CalInterval e = (CalInterval) localIter.next();
+            Log.d(LOG_TAG, "Interval: " + e.t1.toString() + " duration: " + e.duration);
+        }
+    }
+
+    public int saveActivity(GenericActivity e) {
+        Log.d(LOG_TAG, "saveActivity " + e.getDesc());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("activityList");
+        DatabaseReference newPostRef = newref.push();
+        // TODO: check for success/failure.
+        newPostRef.setValue(e);
+        return 0;
+    }
+
+    public int saveTask(GenericTask t) {
+        Log.d(LOG_TAG, "saveTask called");
+
+        //ArrayList<GenericActivity> activities = new ArrayList<GenericActivity>();
+        //getAllActivities();
+        //Log.d(LOG_TAG, "iter size " + activities.size());
+
+        //t.timeToFinishTheTask();
+        new AddTaskAndSchedule(t).execute();
+        return 0;
+    }
+
+    public boolean is2Weeks(LocalDate d1, LocalDate d2) {
+        LocalDateTime b = d1.atStartOfDay();
+        LocalDateTime e = d2.atStartOfDay();
+        Duration dn = Duration.between(b, e);
+        // days between from and to
+        Log.d(LOG_TAG, "is2Weeks " + dn.toDays() + " days");
+        if ( (dn.toDays() % 14) == 0 ) {
+            return true;
+        }
+        return false;
+    }
+
+    class CalInterval implements Comparable<CalInterval> {
+        LocalTime t1;
+        int duration;
+
+        public CalInterval() {
+            this.t1 = LocalTime.MIDNIGHT;
+            this.duration = 30;
+        }
+
+        @Override
+        public int compareTo(CalInterval calInterval) {
+            return this.t1.compareTo(calInterval.t1);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void markTimeAsBusy(Object obj, int type) {
+        // type 1: GenericActivity, 2: Event
+        CalInterval i = new CalInterval();
+        //if( GenericActivity.class.isInstance(obj) ) {
+        if ( type == 1 ) {
+            GenericActivity a = (GenericActivity)obj;
+            i.t1 = a.startTime;
+            i.duration = a.duration;
+            Log.d(LOG_TAG, a.desc + " busy from " + a.getStartTime());
+        }
+        //if( Event.class.isInstance(obj) ) {
+        if ( type == 2 ) {
+            Event e = (Event)obj;
+            i.t1 = e.startTime;
+            i.duration = e.duration;
+            Log.d(LOG_TAG, e.eventDesc + " event busy from " + e.getStartTime());
+        }
+        intList.add(i);
+        Log.d(LOG_TAG, "added to intList " + intList.size());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int findFreeSlot(int timeNeeded ) {
+        //for(CalInterval timeSlot: intList){
+            //if ( timeSlot.t1)
+        //}
+        Log.d(LOG_TAG, "findFreeSlot of: " + timeNeeded + " busySlots: " + intList.size());
+        for ( int i = 0;i < (intList.size() - 1); i++ ) {
+            CalInterval i1 = intList.get(i);
+            CalInterval i2 = intList.get(i+1);
+            Log.d(LOG_TAG, "i1.time " + i1.t1.toString() + " duration: " + i1.duration + " next slot: " + i2.t1.toString());
+            if ( i1.t1.plusMinutes( i1.duration + timeNeeded ).compareTo(i2.t1) < 0 ) {
+                Log.d(LOG_TAG, "free slot after: " + i1.t1.toString());
+                return i;
+            }
+        }
+        Log.d(LOG_TAG, "findFreeSlot: could not find free slot");
+        return -1;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int addBreakEvent(LocalTime tm, LocalDate d) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("eventList");
+        DatabaseReference newPostRef = newref.push();
+        /*
+            String eventDesc,
+            String date,
+            String startTime,
+            Integer duration,
+            Integer type,
+            String taskId,
+            String notes
+         */
+        Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
+        Event breakEvent = new Event("Break time", d.toString(), tm.toString(), GenericTask.MIN_BREAK_TIME, 1,
+                        "BREAKTASK", "Chill!");
+        // TODO: check for success/failure.
+        newPostRef.setValue(breakEvent);
+        return 0; // TODO: check return value
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int addDoNotDisturbEvents(LocalDate curDate) {
+        Log.d(LOG_TAG, "Add do not disturb event");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("eventList");
+        DatabaseReference newPostRef = newref.push();
+        Event ev1 = new Event("DND", curDate.toString(), "00:01", 9*60, 4,
+                            "DNDEVENT", "DNDEVENT");
+        // TODO: check for success/failure.
+        newPostRef.setValue(ev1);
+
+        Event ev2 = new Event("DND", curDate.toString(), "21:00", 3*60, 4,
+                "DNDEVENT", "DNDEVENT");
+        // TODO: check for success/failure.
+        newPostRef.setValue(ev2);
+
+        return 0; // TODO: check return value
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int addEvent(LocalTime tm, int duration, GenericTask tsk, LocalDate localDate) {
+        Log.d(LOG_TAG, "Scheduling event: " + tsk.desc + " at: " + tm.toString() + " on: " + localDate.toString());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("eventList");
+        DatabaseReference newPostRef = newref.push();
+        Event breakEvent = new Event(tsk.desc, localDate.toString(), tm.toString(), duration, 2,
+                tsk.hash, tsk.notes);
+        // TODO: check for success/failure.
+        newPostRef.setValue(breakEvent);
+        return 0; // TODO: check return value
+    }
+
+    class GetEventsForRange extends AsyncTask<Void, Void, Integer> {
+
+        LocalDate fDate, tDate;
+        boolean evtFetchDone = false;
+        ArrayList<Event> calEvntList;
+        Object caller;
+
+        public GetEventsForRange(LocalDate from, LocalDate to, Object _caller) {
+            fDate = from;
+            tDate = to;
+            caller =  _caller;
+            calEvntList = new ArrayList<Event>();
+            Log.d(LOG_TAG, "getevents for range: " + from.toString() + " to " + to.toString());
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int res = 0;
+
+            try {
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                userId = mAuth.getCurrentUser().getUid();
+                Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
+                        startAt(fDate.toString()).endAt(tDate.toString());
+
+                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
+
+                eventList.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            //Log.d(LOG_TAG, "add activitiy to list");
+                            //arrList.add(ds.getValue(GenericActivity.class));
+                            //GenericActivity e = new GenericActivity();
+                            calEvntList.add(ds.getValue(Event.class));
+                            //arrList.add(e);
+                            //Event e = ds.getValue(Event.class);
+                            //Log.d(LOG_TAG, "Printing EventList for display: " + e.print());
+                            //Log.d("async task", "11 arrList size " + arrList.size());
+                        }
+                        evtFetchDone = true;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                Log.d(LOG_TAG, "Wait for event list data fetch");
+                while ((evtFetchDone == false))
+                    Thread.yield();
+                Log.d(LOG_TAG, " data fetch done");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+            return res;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            super.onPostExecute(result);
+            // TODO: Check result
+            if ( result == 0 ) {
+                Log.d(LOG_TAG, "total event list: " + calEvntList.size());
+                CustomCalendar c = (CustomCalendar) caller;
+                c.onEventsFetchDone(calEvntList);
+            }
+        }
+    }
+
+    class AddTaskAndSchedule extends AsyncTask<Void, Void, Integer> {
+        //String uname, password, subdomain;
+        boolean actFetchDone, evtFetchDone;
+        GenericTask taskToBeScheduled;
+
+        public AddTaskAndSchedule(GenericTask t) {
+            //uname = username;
+            //password = pswd;
+            //subdomain = sub_dmn;
+            actFetchDone = false;
+            evtFetchDone = false;
+            taskToBeScheduled = t;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int res = 0;
+
+            try {
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                userId = mAuth.getCurrentUser().getUid();
+                DatabaseReference newref = mDatabase.child(userId).child("activityList");
+                String taskStartDate, taskEndDate;
+                taskStartDate = taskToBeScheduled.getStartDate().toString();
+                taskEndDate = taskToBeScheduled.getDueDate().toString();
+
+                Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
+                        startAt(taskStartDate).endAt(taskEndDate);
+
+                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
+
+                eventList.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            //Log.d(LOG_TAG, "add activitiy to list");
+                            //arrList.add(ds.getValue(GenericActivity.class));
+                            //GenericActivity e = new GenericActivity();
+                            evtList.add(ds.getValue(Event.class));
+                            //arrList.add(e);
+                            //Event e = ds.getValue(Event.class);
+                            //Log.d(LOG_TAG, "Orderbykey " + e.print());
+                            //Log.d("async task", "11 arrList size " + arrList.size());
+                        }
+                        evtFetchDone = true;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                newref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(LOG_TAG, "getAllActivities123");
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            //Log.d(LOG_TAG, "add activitiy to list");
+                            arrList.add(ds.getValue(GenericActivity.class));
+                            //GenericActivity e = new GenericActivity();
+                            //e = (GenericActivity)ds.getValue(GenericActivity.class);
+                            //arrList.add(e);
+                            //Event e = ds.getValue(Event.class);
+                            //Log.d(LOG_TAG, e.print());
+                            //Log.d("async task", "11 arrList size " + arrList.size());
+                        }
+                        Log.d("async task", "AddTaskAndSchedule arrList size " + arrList.size());
+                        actFetchDone = true;
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                        Log.w(LOG_TAG, "loadPost:onCancelled", databaseError.toException());
+                        // ...
+                    }
+                });
+                Log.d(LOG_TAG, "Wait for data fetch");
+                while ( (actFetchDone == false) || (evtFetchDone == false))
+                    Thread.yield();
+                Log.d(LOG_TAG, " data fetch done");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+
+            return res;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            /*
+                1. Get all activities from activityList
+                2. time needed to do the task.
+                   x = (dueDate - startDate - 1).
+                   if ( x == 1 ) totalTimeNeeded = 30m
+                   if ( x == 2 ) totalTimeNeeded = 40m
+                   if ( x == 3 ) 50m
+                   if ( x == 4 ) 60m
+                   perDayTaskTime = totalTimeNeeded / x
+                   [[15min break Task + perDayTaskTime]]
+                 from start_date to start_date+x {
+
+                    // walk all activity and already scheduled events to figure out free slots
+                    // then schedule an event in a slot and add this new event to the day.
+                 }
+             */
+
+            int minTimeSlot = taskToBeScheduled.timeToFinishTheTask()/ taskToBeScheduled.nrDaysToDue();
+            int timeToFin = taskToBeScheduled.timeToFinishTheTask();
+            int timeScheduled = 0;
+            int daysToDueDate = taskToBeScheduled.nrDaysToDue();
+            Log.d("post exec async task", Integer.toString(result) + " " + arrList.size() + " timeToFin " + timeToFin +
+                    " evtListsize " + evtList.size());
+            LocalDate curDate = taskToBeScheduled.startDate;
+            while (timeToFin > 0 && daysToDueDate > 0) {
+                intList = new ArrayList<CalInterval>();
+                if ((minTimeSlot % GenericTask.MIN_TASK_TIME) > 0) {
+                    timeScheduled = ((minTimeSlot/GenericTask.MIN_TASK_TIME)+1) * GenericTask.MIN_TASK_TIME;
+                }
+                else {
+                    timeScheduled = minTimeSlot;
+                }
+
+                Log.d(LOG_TAG, "mintimeslot " + minTimeSlot + " timescheduled " + timeScheduled);
+                Iterator itr = arrList.iterator();
+                while (itr.hasNext()) {
+                    GenericActivity a = (GenericActivity) itr.next();
+                    Log.d(LOG_TAG, "ITERATOR " + a.getDesc());
+                    if ( a.getRepeats() == 2 ) { // once a week every week
+                        if ( curDate.getDayOfWeek() == a.startDate.getDayOfWeek() ) {
+                            markTimeAsBusy(a, 1);
+                        }
+                    }
+                    if ( a.getRepeats() == 3 ) { // once in 2 weeks
+                        if ( (curDate.getDayOfWeek() == a.startDate.getDayOfWeek()) &&
+                                is2Weeks(curDate, a.startDate) ) {
+                            markTimeAsBusy(a, 1);
+                        }
+                    }
+                    if ( a.getRepeats() == 5 ) { // every week day (school or dinner or sleep)
+                        if ( curDate.getDayOfWeek() != DayOfWeek.SATURDAY &&
+                             curDate.getDayOfWeek() != DayOfWeek.SUNDAY ) {
+                            markTimeAsBusy(a, 1);
+                        }
+                    }
+                    if ( a.getRepeats() == 7 ) { // every day of week. sleep, dinner
+                            markTimeAsBusy(a, 1);
+                    }
+                }
+
+                // Get all events that were already scheduled for this day and mark those
+                // slots as busy.
+                Iterator evIter = evtList.iterator();
+                //curDate = taskToBeScheduled.startDate;
+                while( evIter.hasNext() ) {
+                    Event e = (Event) evIter.next();
+                    if (e.date.equals(curDate)) {
+                        markTimeAsBusy(e, 2);
+                    }
+                }
+
+                // sleep from 9am-9pm if no other events on that day.
+                // TODO: we shouldn't run into this if any activity falls on weekend
+                if ( intList.size() == 0 ) {
+                    CalInterval he1 = new CalInterval();
+                    CalInterval he2 = new CalInterval();
+                    he1.t1 = LocalTime.of(0, 1);
+                    he1.duration = 9*60;
+                    he2.t1 = LocalTime.of(21, 0);
+                    he2.duration = 180;
+                    intList.add(he1);
+                    intList.add(he2);
+                    addDoNotDisturbEvents(curDate);
+                }
+
+                // Sort the time interval.
+                Collections.sort(intList);
+
+                // 0830 - 420
+                //           0830+420+45 != 1830
+                //
+                // 1830 - 60
+                // 2000 - 480
+                printIntList();
+                // Find a slot thats free.
+                int freeSlotIndex = findFreeSlot(GenericTask.MIN_BREAK_TIME + timeScheduled);
+                if ( freeSlotIndex != -1 ) {
+                    CalInterval i = intList.get(freeSlotIndex);
+                    // Schedule Break Event.
+                    LocalTime breakAt = i.t1.plusMinutes(i.duration);
+                    Log.d(LOG_TAG, "time of break " + i.t1.toString());
+                    addBreakEvent(breakAt, curDate);
+                    // Schedule Hw Event.
+                    LocalTime hwAt = i.t1.plusMinutes(i.duration + GenericTask.MIN_BREAK_TIME);
+                    Log.d(LOG_TAG, "time of hw " + i.t1.toString());
+                    addEvent(hwAt, timeScheduled, taskToBeScheduled, curDate);
+                    timeToFin -= timeScheduled;
+                    Log.d(LOG_TAG, "free slot found after: " + i.t1.toString() + " scheduled: " + timeScheduled + " need to schedule: " + timeToFin + " more mins");
+                }
+                else {
+                    Log.d(LOG_TAG, "COULDN'T FIND A FREE SLOT ON: " + curDate.toString());
+                }
+                // Insert an Event for this day at that free slot.
+                curDate = curDate.plusDays(1);
+                daysToDueDate--;
+                Log.d(LOG_TAG, "get all activities and events for " + curDate.toString());
+            }
+            if ( timeToFin > 0 ) {
+                Log.d(LOG_TAG, "COULD NOT SCHEDULE!!!");
+            }
+            else {
+                Log.d(LOG_TAG, "Event scheduled successfully!!!");
+            }
+        }
+    }
+
 
     public int saveCalendarEvent(String key, Object e) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -30,7 +515,7 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
-    public void getAllActivities(String key) {
+    public void getAllActivities() {
         //String key = ""
         /*
         Firebase ref = new Firebase(FIREBASE_URL);
@@ -53,13 +538,20 @@ public class FirebaseRealtimeDatabase {
          */
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
-        DatabaseReference newref = mDatabase.child(userId).child(key);
-        newref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference newref = mDatabase.child(userId).child("activityList");
+
+        newref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(LOG_TAG, "getAllActivities");
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Event e = ds.getValue(Event.class);
+
+                    //arrList.add(ds.getValue(GenericActivity.class));
+                    GenericActivity e = ds.getValue(GenericActivity.class);
+                    //Log.d(LOG_TAG, "add" + e.getDesc() +" to list");
+                    //arrList.add(e);
+                    //Event e = ds.getValue(Event.class);
                     Log.d(LOG_TAG, e.print());
                 }
             }

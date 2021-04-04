@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             EditText tv = findViewById(R.id.userEmail);
             EditText pswd = findViewById(R.id.userPassword);
 
-            tv.setText("test@test.com");
+            tv.setText("test123@test.com");
             pswd.setText("test123");
         }
 
@@ -267,6 +267,18 @@ public class MainActivity extends AppCompatActivity {
                 model.setName(first_name + " " + last_name);
                 model.setEmail(email);
                 arrayList.add(model);
+
+                2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: US History 8 Expansion notes 03/31/2021hash=>252b2c7054b80c118a4ca91c2918b8c6
+2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: US History 8 Edpuzzle - The Mexican-American War 03/31/2021hash=>e19cb8308fb3997ccb6882aa1182d53e
+2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: US History 8 Compromise of 1850 vocab 03/31/2021hash=>5a3a7f858d0399c9cee8012e17c359c9
+2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: Common Core Math 3 & Algebra 1 Accel Wednesday 3/31 submissions #88 #90 #91 Due 11:59 PM 04/01/2021hash=>0f1090044d20c3d52c3113149f06a745
+2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: Common Core Math 3 & Algebra 1 Accel #95 Presentation relationships of 2 parallel lines and a transversal line This
+    was taught last year and is Review. Take any notes that YOU need to. Complete
+    slide 20 "Find all the remaining angles" as a self check to make sure you
+    understand the relationships. Then complete the 7 problems attached. 04/01/2021hash=>52625e5b99d142d2e3baf36c80d25ccb
+2021-03-31 00:07:33.950 30671-30671/com.example.technovation2021 D/post Exec: Common Core Math 3 & Algebra 1 Accel #96 Practice Test Course 3 Unit 3 Link attached 04/02/2021hash=>cc42e5a1541eaaa170fabf557d585430
+2021-03-31 00:07:33.951 30671-30671/com.example.technovation2021 D/post Exec: Common Core Math 3 & Algebra 1 Accel Unit 3 Test Course 3 04/12/2021hash=>bac10d64e0ac29bdd9d697dc501eea93
+
                  */
                 }
             } catch (JSONException e) {
@@ -280,6 +292,12 @@ public class MainActivity extends AppCompatActivity {
             //Intent intent = new Intent(MainActivity.this, UserInfo.class);
             //startActivity(intent);
 
+            /*
+            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+            frd.getAllActivities("activityList");
+             */
+
+            /*
             SharedPreferences sharedPref = getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             //SharedPreferences.Editor editor = sharedPref.edit();
@@ -288,5 +306,6 @@ public class MainActivity extends AppCompatActivity {
             String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
             //Log.d(LOG_TAG, sluser+slpswd+subdomain);
             new HTTPReqTask(sluser, slpswd, subdomain).execute();
+             */
         }
 }
