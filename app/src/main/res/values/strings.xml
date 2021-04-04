@@ -30,7 +30,8 @@
     <string name="event_start_time">event start time</string>
     <string name="duration">Duration</string>
     <string name="repeats">Repeats</string>
-
+    <string name="recurrence">Recurrence</string>
+    <string name="activity_name">Name</string>
 
     <string name="confirm_password">Confirm Password</string>
 
@@ -46,12 +47,25 @@
     <string name="add_to_calendar">Add To Calendar</string>
     <string name="cancel">Cancel</string>
     <string name="notes">Notes</string>
+    <string name="textview">TextView</string>
+    <string name="new_activity">New Activity</string>
+    <string name="saturday">S</string>
+    <string name="sunday">S</string>
+    <string name="monday">M</string>
+    <string name="tuesday">T</string>
+    <string name="wednesday">W</string>
+    <string name="thursday">Th</string>
+    <string name="friday">F</string>
+    <string name="activity_description">Activity Description</string>
+    <string name="time">Time</string>
+    <string name="act_end_time">End Time</string>
+    <string name="add">Add</string>
+    <string name="recurring">Recurring:</string>
     <string name="skip">Skip</string>
     <string name="tell_us_a_bit_about_yourself_so_we_can_help_create_your_schedule">Tell us a bit about yourself, so we can help create your schedule!</string>
     <string name="what_time_is_your_school_at">What time is your school at?</string>
     <string name="when_do_you_have_extracurricular_activities">When do you have extracurricular activities?</string>
     <string name="add_activity">Add Activity</string>
-    <string name="end_time">End Time</string>
     <string name="what_time_do_you_sleep_at">What time do you sleep at?</string>
     <string name="to">to</string>
     <string name="textSpace" />
@@ -62,6 +76,24 @@
     <string name="event_1">Event 1</string>
     <string name="event_3">Event 3</string>
     <string name="event_2">Event 2</string>
+    <string name="what_time_do_you_eat_breakfast">What time do you eat breakfast?</string>
+    <string name="dinner">Dinner?</string>
+    <string name="lunch">Lunch?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="what_time_do_you_eat_dinner">What time do you eat dinner?</string>
+    <string name="start_school_time">Start Time</string>
+    <string name="end_school_time">End</string>
+    <string name="start_sleep_time">Start Time</string>
+    <string name="end_sleep_time">End Time</string>
+    <string name="start_dinner_time">Start Time</string>
+    <string name="end_dinner_time">End Time</string>
+    <string name="end_time">End Time</string>
+    <string name="_10_00_pm">10:00 PM</string>
+    <string name="_6_30_am">6:30 AM</string>
+    <string name="_7_30_pm">7:30 PM</string>
+    <string name="_6_30_pm">6:30 PM</string>
+    <string name="_8_00_am">8:00 AM</string>
+    <string name="_3_00_pm">3:00 PM</string>
     <string name="preference_file_key">MissionTech</string>
     <string-array name="event_duration_times">
         <item>15m</item>

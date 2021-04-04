@@ -5,10 +5,8 @@
     <item
         android:id="@+id/settingMenu"
         android:title="Settings" />
-    <item
-        android:id="@+id/addEvent"
-        android:title="Add Activity" />
+
     <item android:title="Student Activity"
-        android:id="@+id/studentActivity"
-        />
+        android:id="@+id/studentActivity" />
+
 </menu>

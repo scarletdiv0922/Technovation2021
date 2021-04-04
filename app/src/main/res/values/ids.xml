@@ -3,7 +3,7 @@
 
     <item name="endSchoolTime" type="id"/>
     <item name="endSleepTime" type="id"/>
-    <item name="skip_button" type="id"/>
+    <item name="skipButton" type="id"/>
     <item name="continueButton" type="id"/>
     <item name="startSleepTime" type="id"/>
     <item name="introductionText1" type="id"/>

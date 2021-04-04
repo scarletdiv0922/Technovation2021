@@ -97,10 +97,19 @@ public class AddActivity extends AppCompatActivity implements
         }
     }
 
+//
+//    public void startTimeClicked (View view) {
+//        DialogFragment newFragment = new TimePickerFragment(R.id.idStartTime);
+//        newFragment.show(getSupportFragmentManager(), "datePicker");
+//    }
+
     public void startTimeClicked(View view) {
+        /*
         DialogFragment newFragment = new TimePickerFragment();
+>>>>>>> f178e97dc7f54d584bb1af0fded323e1f0fcd727
         newFragment.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "start time clicked");
+         */
     }
 
     public void startDateClicked(View view) {

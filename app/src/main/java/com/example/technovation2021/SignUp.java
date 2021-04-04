@@ -94,7 +94,7 @@ public class SignUp extends AppCompatActivity {
                     if ( task.isSuccessful()) {
                         Toast.makeText(SignUp.this, "User signed up!", Toast.LENGTH_SHORT).show();
                         pbar.setVisibility(View.GONE);
-                        Intent intent = new Intent(SignUp.this, CalendarActivity.class);
+                        Intent intent = new Intent(SignUp.this, UserInfo.class);
                         startActivity(intent);
                     }
                     else {
@@ -105,4 +105,11 @@ public class SignUp extends AppCompatActivity {
                 }
             });
     }
+
+
+    public void CancelClicked(View view){
+        Intent intent = new Intent(SignUp.this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
