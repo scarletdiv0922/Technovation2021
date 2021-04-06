@@ -1,10 +1,12 @@
 package com.example.technovation2021;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import androidx.annotation.RequiresApi;
 
@@ -42,10 +44,12 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
     // date format
     private String dateFormat;
     private ArrayList<LocalDate> cells;
+    Context calContext;
 
     // current displayed month
-    private Calendar currentDate = Calendar.getInstance();
+    //private Calendar currentDate = Calendar.getInstance();
     LocalDate curDate = LocalDate.now();
+    int displayMonth = 0;
 
     //event handling
     private EventHandler eventHandler = null;
@@ -60,7 +64,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
 
     public void onEventsFetchDone(ArrayList<Event> evList) {
         //updateCalendar(evList);
-        Log.d(LOG_TAG, "time to render events " + evList.size());
+        Log.d(LOG_TAG, "time to render events " + evList.size() + " datesArraysize: " + cells.size());
         // Appears to be sorted by date already! TODO: Double check this
         // If not we need to sort this in CalendarAdapter::getView()!!!
         for (int i = 0; i < evList.size(); i++ ) {
@@ -82,6 +86,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
     {
         super(context, attrs);
         initControl(context, attrs);
+        Log.d(LOG_TAG, "Have caller context");
+        calContext = context;
     }
 
     /*
@@ -105,7 +111,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         assignUiElements();
         assignClickHandlers();
 
-        updateCalendar(curDate);
+        //updateCalendar(curDate);
     }
 
     private void loadDateFormat(AttributeSet attrs)
@@ -144,7 +150,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             {
                 //currentDate.add(Calendar.MONTH, 1);
                 //updateCalendar(LocalDate.now());
-                curDate = curDate.plusDays(DAYS_COUNT);
+                curDate = curDate.plusMonths(1);
                 updateCalendar(curDate);
             }
         });
@@ -157,7 +163,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             {
                 //currentDate.add(Calendar.MONTH, -1);
                 //updateCalendar(LocalDate.now());
-                curDate = curDate.plusDays(-DAYS_COUNT);
+                curDate = curDate.plusMonths(-1);
                 updateCalendar(curDate);
             }
         });
@@ -173,29 +179,48 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 if (eventHandler == null)
                     return false;
 
-                eventHandler.onDayLongPress((Date)view.getItemAtPosition(position));
+                eventHandler.onDayLongPress((LocalDate)view.getItemAtPosition(position));
                 return true;
             }
         });
     }
 
+    /*
     public void updateCalendar()
     {
-        LocalDate fromDay = LocalDate.now();
-        Calendar calendar = (Calendar)currentDate.clone();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        // move calendar backwards to the beginning of the week
-        calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
-        fromDay = fromDay.plusDays(-monthBeginningCell);
+        LocalDate fromDay = curDate;
+        fromDay = fromDay.with(TemporalAdjusters.firstDayOfMonth());
+        Log.d(LOG_TAG, "day of week: " + fromDay.getDayOfWeek());
+        int displayBeginsAtDate = fromDay.getDayOfWeek().getValue();
+        fromDay = fromDay.plusDays(-displayBeginsAtDate);
         Log.d(LOG_TAG, "Show next 42 day events from " + fromDay.toString());
         updateCalendar(fromDay);
     }
 
+     */
+
     public void updateCalendar(LocalDate now)
     {
-        LocalDate fromDate = now;
+        //LocalDate fromDate = now;
         cells = new ArrayList<>();
+
+        displayMonth = now.getMonth().getValue();
+        LocalDate fromDay = now;
+        fromDay = fromDay.with(TemporalAdjusters.firstDayOfMonth());
+        Log.d(LOG_TAG, "for " + now.toString() + " day of week: " + fromDay.getDayOfWeek());
+        int displayBeginsAtDate = fromDay.getDayOfWeek().getValue();
+        if (displayBeginsAtDate != 7) {
+            fromDay = fromDay.plusDays(-displayBeginsAtDate);
+        }
+
+        // update title
+        //SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        //txtDate.setText(sdf.format(now));//.getTime()));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("LLLL yyyy");
+        txtDate.setText(now.format(formatter));
+
+
 /*
         Calendar calendar = (Calendar)currentDate.clone();
 
@@ -218,17 +243,15 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             //Log.d("CalXXY", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
             //EventDetail ed = new EventDetail(calendar.get(Calendar.DAY_OF_MONTH),
             //                    calendar.get(Calendar.MONTH),calendar.get(Calendar.YEAR));
-            cells.add(now);
+            cells.add(fromDay);
+            //Log.d(LOG_TAG, "updateCal: show day: " + fromDay.toString());
             //calendar.add(Calendar.DAY_OF_MONTH, 1);
-            now = now.plusDays(1);
+            fromDay = fromDay.plusDays(1);
         }
 
         // update grid
         // grid.setAdapter(new CalendarAdapter(getContext(), cells, events));
 
-        // update title
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-        txtDate.setText(sdf.format(currentDate.getTime()));
 
         // set header color according to current season
         //int month = currentDate.get(Calendar.MONTH);
@@ -236,13 +259,15 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         header.setBackgroundColor(Color.WHITE);
 
         FirebaseRealtimeDatabase frb = new FirebaseRealtimeDatabase();
-        Log.d(LOG_TAG, "updatecal " + fromDate.toString() + " TO " + fromDate.plusDays(DAYS_COUNT-1).toString());
-        frb.getEvents(fromDate, fromDate.plusDays(DAYS_COUNT-1), this);
+        //Log.d(LOG_TAG, "updatecal " + fromDate.toString() + " TO " + fromDate.plusDays(DAYS_COUNT-1).toString());
+        // TODO: do we really need to fill and use 'cells'?
+        frb.getEvents(fromDay.plusDays(-DAYS_COUNT), fromDay,this);
     }
 
     private static class ViewHolder {
         public TextView day;
-        public int evCount;
+        public LocalDate date;
+        ArrayList<Event> eventsForDay;
         public TextView[] events;
     }
 
@@ -265,32 +290,63 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         public View getView(int position, View view, ViewGroup parent)
         {
             LocalDate day = getItem(position);
-            ArrayList<Event> daysEvents = new ArrayList<Event>();
+            //ArrayList<Event> daysEvents = new ArrayList<Event>();
 
             //Log.d(LOG_TAG, "show events for: " + day.toString());
             // today
             //Calendar today = Calendar.getInstance();
-            ViewHolder holder;
+            ViewHolder holder = null;
 
-
+            //Log.d("cal render", "create new view: " + position);
             // inflate item if it does not exist yet
             if (view == null) {
                 holder = new ViewHolder();
-                Log.d("cal render", "create new view");
+                //holder.day = day;
                 LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
+                holder.date = day;
+                holder.eventsForDay = new ArrayList<Event>();
                 view.setTag(holder);
             }
 
             // if this day has an event
             view.setBackgroundResource(0);
 
+            view.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    ViewHolder v = (ViewHolder) view.getTag();
+                    if (v != null && v.eventsForDay.size() > 0) {
+                        Log.d(LOG_TAG, "on long press. show:" + v.date.toString() + " eventList Size:" + v.eventsForDay.size());
+                        Intent intent = new Intent(calContext, DailyEvents.class);
+                        intent.putExtra("EventsForDay", v.date.toString());
+
+                        //Bundle args = new Bundle();
+                        //args.putParcelableArrayList("EventList", v.eventsForDay);
+                        //intent.putExtra("BUNDLE",args);
+
+                        calContext.startActivity(intent);
+                    }
+                    return false;
+                }
+            });
+
+            //Log.d(LOG_TAG, "getView show date: " + day.toString() + " showingMo:" + showingMonth);
             TextView tvDate = view.findViewById(R.id.calDate);
             tvDate.setText(String.valueOf(day.getDayOfMonth()));
+            if ( displayMonth == day.getMonthValue() ) {
+                tvDate.setTextColor(Color.BLUE);
+                tvDate.setTypeface(null, Typeface.BOLD);
+            }
+            // This is current day.
+            if (LocalDate.now().getDayOfMonth() == day.getDayOfMonth() &&
+                LocalDate.now().getMonth() == day.getMonth() &&
+                LocalDate.now().getYear() == day.getYear()) {
+                tvDate.setTextColor(Color.RED);
+            }
 
-
-            // TODO: If firebase returned event list is already sorted, then we can just use
-            // TODO: eventList.get() to pick all events for a certain day.
+            // TODO: If the firebase returned event list is already sorted, then we can just
+            // TODO: traverse eventList with an index to pick all events for a certain day.
             if (eventList != null)
             {
                 for (Event eventDate : eventList)
@@ -300,16 +356,18 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                         //TextView ev1 = view.findViewById(R.id.calEvent1);
                         //ev1.setText("Event1");
                         //Log.d(LOG_TAG, "Have events for: " + day.toString());
-                        daysEvents.add(eventDate);
+                        //daysEvents.add(eventDate);
+                        holder.eventsForDay.add(eventDate);
                     }
                 }
                 TextView ev1 = view.findViewById(R.id.calEvent1);
-                if ( daysEvents.size() > 0 ) {
-                    ev1.setText(daysEvents.get(0).eventDesc);
+                if ( holder != null && holder.eventsForDay.size() > 0 ) {
+                    ev1.setText(holder.eventsForDay.get(0).eventDesc);
                 }
                 else {
                     ev1.setText("NONE");
                     ev1.setTypeface(null, Typeface.ITALIC);
+                    ev1.setTextColor(Color.LTGRAY);
                 }
             }
 /*
@@ -357,6 +415,6 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
      */
     public interface EventHandler
     {
-        void onDayLongPress(Date date);
+        void onDayLongPress(LocalDate date);
     }
 }

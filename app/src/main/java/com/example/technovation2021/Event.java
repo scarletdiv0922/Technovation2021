@@ -1,10 +1,12 @@
 package com.example.technovation2021;
 
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,6 +19,10 @@ public class Event implements Serializable, Comparable {
     // Event end date, end time
     //LocalDateTime endDateTime;
     Integer duration;
+    // If a task gets divided into, say, 5 working slots, which one
+    // is this particular slot.
+    Integer chunkNumber = 0;
+    Integer totalChunks;
     // break = 1, homework = 2, activity = 3, do-not-disturb = 4
     Integer type;
 
@@ -94,6 +100,18 @@ public class Event implements Serializable, Comparable {
 
  */
 
+    public Integer getChunkNumber() {
+        return chunkNumber;
+    }
+
+    public void setChunkNumber(int nr) {
+        chunkNumber = nr;
+    }
+
+    public Integer getTotalChunks() { return totalChunks; }
+    public void setTotalChunks(Integer totalChunks1 ) {
+        totalChunks = totalChunks1;
+    }
     public Integer getType() {
         return type;
     }
@@ -185,7 +203,8 @@ public class Event implements Serializable, Comparable {
             String eventDesc,
             String date,
             String startTime,
-            //String dueDate,
+            Integer chunkNumber,
+            Integer totalChunks,
             Integer duration,
             Integer type,
             String taskId,
@@ -199,6 +218,8 @@ public class Event implements Serializable, Comparable {
         this.notes = notes;
         this.taskId = taskId;
         this.duration = duration;
+        this.chunkNumber = chunkNumber;
+        this.totalChunks = totalChunks;
         this.type = type;
         /*
         this.activityDuration = activityDuration;
@@ -217,4 +238,56 @@ public class Event implements Serializable, Comparable {
     public int compareTo(Object o) {
         return startTime.compareTo(((Event)o).startTime);
     }
+
+    /*
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+     */
+
+    /*
+    LocalDate date;
+    LocalTime startTime;
+    // Event end date, end time
+    //LocalDateTime endDateTime;
+    Integer duration;
+    // If a task gets divided into, say, 5 working slots, which one
+    // is this particular slot.
+    Integer chunkNumber = 0;
+    Integer totalChunks;
+    // break = 1, homework = 2, activity = 3, do-not-disturb = 4
+    Integer type;
+    // link to "master" activity or task
+    String taskId;
+    String notes;
+    String eventDesc;
+
+            String eventDesc,
+            String date,
+            String startTime,
+            Integer chunkNumber,
+            Integer totalChunks,
+            Integer duration,
+            Integer type,
+            String taskId,
+            String notes
+
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        Log.d("EventParcel", Integer.toString(i));
+        parcel.writeString(eventDesc);
+        parcel.writeString( date.toString());
+        parcel.writeString( startTime.toString());
+        parcel.writeInt(chunkNumber);
+        parcel.writeInt(totalChunks);
+        parcel.writeInt(duration);
+        parcel.writeInt(type);
+        parcel.writeString(taskId);
+        parcel.writeString(notes);
+    }
+
+     */
 }

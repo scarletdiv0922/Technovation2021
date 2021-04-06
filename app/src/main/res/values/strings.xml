@@ -95,6 +95,9 @@
     <string name="_8_00_am">8:00 AM</string>
     <string name="_3_00_pm">3:00 PM</string>
     <string name="preference_file_key">MissionTech</string>
+    <string name="desc">Desc</string>
+    <string name="next_day">Next Day</string>
+    <string name="previous_day">Previous Day</string>
     <string-array name="event_duration_times">
         <item>15m</item>
         <item>30m</item>

@@ -26,6 +26,8 @@ import java.util.Iterator;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import static java.lang.Integer.max;
+
 public class FirebaseRealtimeDatabase {
     private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();
     private FirebaseAuth mAuth;
@@ -43,7 +45,7 @@ public class FirebaseRealtimeDatabase {
     }
 
     public void getEvents(LocalDate fromDate, LocalDate toDate, Object caller) {
-        Log.d(LOG_TAG, "FRD::getEvents:");
+        Log.d(LOG_TAG, "FRD::getEvents:" + fromDate.toString() + " to:" + toDate.toString());
         new GetEventsForRange(fromDate, toDate, caller).execute();
     }
 
@@ -156,13 +158,16 @@ public class FirebaseRealtimeDatabase {
             String eventDesc,
             String date,
             String startTime,
+            Integer chunkNumber,
+            Integer totalChunks,
             Integer duration,
             Integer type,
             String taskId,
             String notes
          */
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
-        Event breakEvent = new Event("Break time", d.toString(), tm.toString(), GenericTask.MIN_BREAK_TIME, 1,
+        Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
+                1, 1, GenericTask.MIN_BREAK_TIME, 1,
                         "BREAKTASK", "Chill!");
         // TODO: check for success/failure.
         newPostRef.setValue(breakEvent);
@@ -176,12 +181,12 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
-        Event ev1 = new Event("DND", curDate.toString(), "00:01", 9*60, 4,
+        Event ev1 = new Event("DND", curDate.toString(), "00:01", 1,1, 9*60, 4,
                             "DNDEVENT", "DNDEVENT");
         // TODO: check for success/failure.
         newPostRef.setValue(ev1);
 
-        Event ev2 = new Event("DND", curDate.toString(), "21:00", 3*60, 4,
+        Event ev2 = new Event("DND", curDate.toString(), "21:00", 1,1, 3*60, 4,
                 "DNDEVENT", "DNDEVENT");
         // TODO: check for success/failure.
         newPostRef.setValue(ev2);
@@ -190,16 +195,16 @@ public class FirebaseRealtimeDatabase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int addEvent(LocalTime tm, int duration, GenericTask tsk, LocalDate localDate) {
+    public int addEvent(LocalTime tm, int duration, GenericTask tsk, LocalDate localDate, Integer slotNr, Integer totSlots) {
         Log.d(LOG_TAG, "Scheduling event: " + tsk.desc + " at: " + tm.toString() + " on: " + localDate.toString());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
-        Event breakEvent = new Event(tsk.desc, localDate.toString(), tm.toString(), duration, 2,
+        Event workEvent = new Event(tsk.desc, localDate.toString(), tm.toString(), slotNr, totSlots, duration, 2,
                 tsk.hash, tsk.notes);
         // TODO: check for success/failure.
-        newPostRef.setValue(breakEvent);
+        newPostRef.setValue(workEvent);
         return 0; // TODO: check return value
     }
 
@@ -279,6 +284,7 @@ public class FirebaseRealtimeDatabase {
             }
         }
     }
+
 
     class AddTaskAndSchedule extends AsyncTask<Void, Void, Integer> {
         //String uname, password, subdomain;
@@ -402,6 +408,8 @@ public class FirebaseRealtimeDatabase {
             Log.d("post exec async task", Integer.toString(result) + " " + arrList.size() + " timeToFin " + timeToFin +
                     " evtListsize " + evtList.size());
             LocalDate curDate = taskToBeScheduled.startDate;
+            Integer slotNr = 1;
+            Integer totalSlotsNeeded = max(taskToBeScheduled.timeToFinishTheTask() / minTimeSlot, 1);
             while (timeToFin > 0 && daysToDueDate > 0) {
                 intList = new ArrayList<CalInterval>();
                 if ((minTimeSlot % GenericTask.MIN_TASK_TIME) > 0) {
@@ -429,12 +437,12 @@ public class FirebaseRealtimeDatabase {
                     }
                     if ( a.getRepeats() == 5 ) { // every week day (school or dinner or sleep)
                         if ( curDate.getDayOfWeek() != DayOfWeek.SATURDAY &&
-                             curDate.getDayOfWeek() != DayOfWeek.SUNDAY ) {
+                                curDate.getDayOfWeek() != DayOfWeek.SUNDAY ) {
                             markTimeAsBusy(a, 1);
                         }
                     }
                     if ( a.getRepeats() == 7 ) { // every day of week. sleep, dinner
-                            markTimeAsBusy(a, 1);
+                        markTimeAsBusy(a, 1);
                     }
                 }
 
@@ -483,7 +491,8 @@ public class FirebaseRealtimeDatabase {
                     // Schedule Hw Event.
                     LocalTime hwAt = i.t1.plusMinutes(i.duration + GenericTask.MIN_BREAK_TIME);
                     Log.d(LOG_TAG, "time of hw " + i.t1.toString());
-                    addEvent(hwAt, timeScheduled, taskToBeScheduled, curDate);
+                    addEvent(hwAt, timeScheduled, taskToBeScheduled, curDate, slotNr, totalSlotsNeeded);
+                    slotNr++;
                     timeToFin -= timeScheduled;
                     Log.d(LOG_TAG, "free slot found after: " + i.t1.toString() + " scheduled: " + timeScheduled + " need to schedule: " + timeToFin + " more mins");
                 }
@@ -503,7 +512,6 @@ public class FirebaseRealtimeDatabase {
             }
         }
     }
-
 
     public int saveCalendarEvent(String key, Object e) {
         mDatabase = FirebaseDatabase.getInstance().getReference();

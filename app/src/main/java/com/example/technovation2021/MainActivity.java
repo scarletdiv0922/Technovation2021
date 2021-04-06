@@ -287,25 +287,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        public void forgotPasswordClicked(View view) {
-            //Intent intent = new Intent(MainActivity.this, UserInfo.class);
-            //startActivity(intent);
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void forgotPasswordClicked(View view) {
+        //Intent intent = new Intent(MainActivity.this, UserInfo.class);
+        //startActivity(intent);
 
-            /*
-            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-            frd.getAllActivities("activityList");
-             */
+        /*
+        FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+        frd.getAllActivities("activityList");
+         */
 
-            /*
-            SharedPreferences sharedPref = getSharedPreferences(
-                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            //SharedPreferences.Editor editor = sharedPref.edit();
-            String sluser = sharedPref.getString("sluser", "invalid");
-            String slpswd = sharedPref.getString("slpswd", "invalid");
-            String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
-            //Log.d(LOG_TAG, sluser+slpswd+subdomain);
-            new HTTPReqTask(sluser, slpswd, subdomain).execute();
-             */
-        }
+        /*
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedPref.edit();
+        String sluser = sharedPref.getString("sluser", "invalid");
+        String slpswd = sharedPref.getString("slpswd", "invalid");
+        String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
+        //Log.d(LOG_TAG, sluser+slpswd+subdomain);
+        new HTTPReqTask(sluser, slpswd, subdomain).execute();
+         */
+    }
 }

@@ -2,17 +2,19 @@
 package com.example.technovation2021;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CalendarView;
+import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -30,8 +32,20 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         CustomCalendar cv = findViewById(R.id.custom_calendar);
+        //cv.setContext(CalendarActivity.this);
         Log.d("CalendarXX", "call custom calendar");
-        cv.updateCalendar();//events);
+        /* Below handler works but may not be needed.
+        cv.setEventHandler(new CustomCalendar.EventHandler()
+        {
+            @Override
+            public void onDayLongPress(LocalDate date)
+            {
+                // Expand events of day.
+                Log.d(LOG_TAG, "show all events for:" + date.toString());
+            }
+        });
+         */
+        cv.updateCalendar(LocalDate.now());
     }
 
     @Override

@@ -118,7 +118,7 @@ public class UserSettings extends AppCompatActivity {
         return false;
     }
 
-    public void btnConfigDoneClicked(View view) {
+    public void btnSaveSchoolLoopDetails(View view) {
         //Toast.makeText(UserSettings.this, "done", Toast.LENGTH_SHORT).show();
         //if ( errorsInActivity() )
           //  return;
@@ -149,6 +149,7 @@ public class UserSettings extends AppCompatActivity {
         editor.putString("slpswd", slPswd.getText().toString());
         // TODO: add field for entering sub-domain
         editor.putString("slsubdomain", "hjh-fusd-ca");
+        editor.putString("fetchhwat", "15:00"); // 3pm everyday
         editor.commit();
 
         pbar.setVisibility(View.GONE);
