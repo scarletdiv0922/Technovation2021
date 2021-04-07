@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.example.technovation2021.CustomCalendar
         android:id="@+id/custom_calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#D7F4FF"
         tools:layout_editor_absoluteX="149dp"
         tools:layout_editor_absoluteY="73dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

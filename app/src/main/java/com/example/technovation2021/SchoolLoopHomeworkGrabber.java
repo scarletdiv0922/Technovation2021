@@ -66,6 +66,8 @@ public class SchoolLoopHomeworkGrabber {
             LocalTime now = LocalTime.now();
             LocalDate today = LocalDate.now();
             Log.d(LOG_TAG, "now " + now.toString());
+            getSchoolLoopHomework();
+            /*
             if ( today.getDayOfWeek() != DayOfWeek.SUNDAY &&
                     today.getDayOfWeek() != DayOfWeek.SATURDAY ) {
                 if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("15:00:00"))) {
@@ -74,13 +76,15 @@ public class SchoolLoopHomeworkGrabber {
                 }
             }
             mHandler.postDelayed( this, 60*1000);
+
+             */
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     void getSchoolLoopHomework() {
         Log.d(LOG_TAG, "get school loop homework");
-        slc = new SchoolLoopConnector(userName, userPassword, slDomain);
+        slc = new SchoolLoopConnector(userName, userPassword, slDomain, this);
         slc.execute();
     }
 
@@ -153,12 +157,14 @@ public class SchoolLoopHomeworkGrabber {
     class SchoolLoopConnector extends AsyncTask<Void, Void, String> {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         String uname, password, subdomain;
+        Object slHwGrabberObj;
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        public SchoolLoopConnector(String username, String pswd, String sub_dmn) {
+        public SchoolLoopConnector(String username, String pswd, String sub_dmn, Object caller) {
             uname = username;
             password = pswd;
             subdomain = sub_dmn;
+            slHwGrabberObj = caller;
         }
 
         @Override
@@ -286,12 +292,11 @@ public class SchoolLoopHomeworkGrabber {
 2021-03-31 00:07:33.951 30671-30671/com.example.technovation2021 D/post Exec: Common Core Math 3 & Algebra 1 Accel Unit 3 Test Course 3 04/12/2021hash=>bac10d64e0ac29bdd9d697dc501eea93
 
                  */
-
-                    /* Now start the task of getting "master" taskList from firebase */
-                    FirebaseRealtimeDatabase frb = new FirebaseRealtimeDatabase();
-                    // TODO: from and to dates below show be based on the home work posted date and due dates
-                    frb.getTaskList(LocalDate.now().plusDays(-10), LocalDate.now().plusDays(10), this);
                 }
+                /* Now start the task of getting "master" taskList from firebase */
+                FirebaseRealtimeDatabase frb = new FirebaseRealtimeDatabase();
+                // TODO: from and to dates below show be based on the home work posted date and due dates
+                frb.getTaskList(LocalDate.now().plusDays(-10), LocalDate.now().plusDays(10), slHwGrabberObj);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

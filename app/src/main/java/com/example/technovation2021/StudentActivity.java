@@ -59,7 +59,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         //evFrequency = findViewById(R.id.event_frequency);
 
 
-        //activityDes = findViewById(R.id.activityDescription);
         sunday = findViewById(R.id.btnSunday);
         monday = findViewById((R.id.btnMonday));
         tuesday = findViewById((R.id.btnTuesday));
@@ -82,7 +81,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x1 = (ColorDrawable) sunday.getBackground();
                 if ( x1.getColor() == Color.WHITE ) {
-                    sunday.setBackgroundColor( Color.BLUE);
+                    sunday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     sunday.setBackgroundColor( Color.WHITE);
@@ -94,7 +93,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x2 = (ColorDrawable) monday.getBackground();
                 if ( x2.getColor() == Color.WHITE ) {
-                    monday.setBackgroundColor( Color.BLUE);
+                    monday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     monday.setBackgroundColor( Color.WHITE);
@@ -106,7 +105,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x3 = (ColorDrawable) tuesday.getBackground();
                 if ( x3.getColor() == Color.WHITE ) {
-                    tuesday.setBackgroundColor( Color.BLUE);
+                    tuesday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     tuesday.setBackgroundColor( Color.WHITE);
@@ -118,7 +117,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x4 = (ColorDrawable) wednesday.getBackground();
                 if ( x4.getColor() == Color.WHITE ) {
-                    wednesday.setBackgroundColor( Color.BLUE);
+                    wednesday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     wednesday.setBackgroundColor( Color.WHITE);
@@ -130,7 +129,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x5 = (ColorDrawable) thursday.getBackground();
                 if ( x5.getColor() == Color.WHITE ) {
-                    thursday.setBackgroundColor( Color.BLUE);
+                    thursday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     thursday.setBackgroundColor( Color.WHITE);
@@ -142,7 +141,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             public void onClick(View view) {
                 ColorDrawable x6 = (ColorDrawable) friday.getBackground();
                 if ( x6.getColor() == Color.WHITE ) {
-                    friday.setBackgroundColor( Color.BLUE);
+                    friday.setBackgroundColor( Color.CYAN);
                 }
                 else {
                     friday.setBackgroundColor( Color.WHITE);
@@ -156,7 +155,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x7 = (ColorDrawable) saturday.getBackground();
                 if ( x7.getColor() == Color.WHITE ) {
                     //int c1 = 0x6dedd1;
-                    saturday.setBackgroundColor(Color.BLUE);
+                    saturday.setBackgroundColor(Color.CYAN);
                 }
                 else {
                     saturday.setBackgroundColor( Color.WHITE);
@@ -263,14 +262,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         //Log.d("addToCalendar", "I am here Step1");
         if ( noDataErrors() ) {
           //  Log.d("No Data Errors", "I am Here ");
-            /*
-            Event e = new Event("Test event456", "03-25-2021 11:12",
-                    "04-11-2021 11:23", 45,
-                    0, false, 45, "test event notes");
-
-             */
-
-
           //  Event e = new Event("abcabc", "startdatetime", "enddatetime",1,2,false,3,"notes");
           //  Event e = new Event("testname", null,
             //        null, null, null,

@@ -27,7 +27,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/previous_icon"
+                android:src="@drawable/previous_month"
                 android:layout_alignParentStart="true"
                 android:contentDescription="@string/todo" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/next_icon"
+                android:src="@drawable/next_month"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/todo" />
         </RelativeLayout>

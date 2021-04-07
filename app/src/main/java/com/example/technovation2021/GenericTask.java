@@ -50,8 +50,8 @@ public class GenericTask implements Serializable {
         this.taskId = taskId;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public String getDueDate() {
+        return dueDate.toString();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -66,8 +66,8 @@ public class GenericTask implements Serializable {
         this.dueDate = strToDate(dueDate);
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public String getStartDate() {
+        return startDate.toString();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -15,19 +15,19 @@ import androidx.fragment.app.DialogFragment;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
-    public TimePickerFragment(int endDinnerTime) {
+//    public TimePickerFragment(int endDinnerTime) {
 
-    }
+    //}
 
 
     int resId;
 
-//    public TimePickerFragment(int _resId) {
-//        super();
-//        resId = _resId;
-//    }
+    public TimePickerFragment(int _resId) {
+        super();
+        resId = _resId;
+    }
 
-    int resourceId;
+//    int resourceId;
 
 //    public TimePickerFragment(int resId) {
 //        resourceId = resId;
