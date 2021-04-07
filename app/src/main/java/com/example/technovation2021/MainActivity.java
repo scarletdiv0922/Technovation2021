@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void forgotPasswordClicked(View view) {
-        //Intent intent = new Intent(MainActivity.this, UserInfo.class);
-        //startActivity(intent);
+//        Intent intent = new Intent(MainActivity.this, UserInfo.class);
+//        startActivity(intent);
 
         /*
         FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();

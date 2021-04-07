@@ -70,8 +70,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         continueButton = findViewById(R.id.btncontinue);
         pbar = findViewById(R.id.pbarUserInfo);
 
-//        pbar = findViewById(R.id.idProgressBarSignUp);
-//        pbar.setVisibility(View.GONE);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -179,6 +177,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void continueClicked(View view) {
             if (checksSuccessful()) {
+
                 pbar.setVisibility(View.VISIBLE);
 
                 FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
@@ -189,10 +188,13 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
                 frd.createWeekendEvent("12:01 AM", getTextOf(startWkend), "Weekend Family Time");
                 frd.createWeekendEvent(getTextOf(endWkend), "11:59 PM", "Weekend Family Time");
 
-                pbar.setVisibility(View.GONE);
+                pbar.setVisibility(View.INVISIBLE);
 
                 Intent intent = new Intent(UserInfo.this, CalendarActivity.class);
                 startActivity(intent);
+
+
+
             }
         }
 
@@ -250,7 +252,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
                 Toast.makeText(UserInfo.this, "End school time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
                 return false;
             }
-//
+
 //            if (time2IsAfterTime1(startSleep.getText().toString(), endSleep.getText().toString()) == false) {
 //                Toast.makeText(UserInfo.this, "End sleep time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
 //                return false;
@@ -263,7 +265,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 
 
             if (time2IsAfterTime1(endWkend.getText().toString(), startWkend.getText().toString()) == false) {
-                Toast.makeText(UserInfo.this, "End dinner time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserInfo.this, "End weekend scheduling time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -272,5 +274,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 
             return true;
         }
-    }
+
+}
 

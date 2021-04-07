@@ -70,16 +70,18 @@
 
     <EditText
         android:id="@+id/Subdomain"
-        android:layout_width="369dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_width="252dp"
+        android:layout_height="42dp"
         android:layout_marginTop="12dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textUri"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSchoolloopURL" />
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSchoolloopURL"
+        app:layout_constraintVertical_bias="0.018" />
 
     <ProgressBar
         android:id="@+id/idConfigProgressbar"
