@@ -98,6 +98,9 @@
     <string name="desc">Desc</string>
     <string name="next_day">Next Day</string>
     <string name="previous_day">Previous Day</string>
+    <string name="school_loop_url_subdomain">School Loop URL</string>
+    <string name="school_loop_login">School Loop Login</string>
+    <string name="connect_to_your_school_app">Connect to your school app:</string>
     <string-array name="event_duration_times">
         <item>15m</item>
         <item>30m</item>

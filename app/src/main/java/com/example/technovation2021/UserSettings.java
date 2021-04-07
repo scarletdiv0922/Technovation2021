@@ -3,7 +3,9 @@ package com.example.technovation2021;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -15,6 +17,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 @IgnoreExtraProperties
@@ -50,8 +53,10 @@ public class UserSettings extends AppCompatActivity {
     private static final String userKey = "schoolLoopCredentials";
     public static final int minIdLen = 5;
     ProgressBar pbar;
+    SchoolLoopHomeworkGrabber slg;
 
     //Button doneBtn = findViewById(R.id.idConfigDone);
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +67,19 @@ public class UserSettings extends AppCompatActivity {
         pbar = findViewById(R.id.idConfigProgressbar);
         pbar.setVisibility(View.GONE);
         userId = mAuth.getCurrentUser().getUid();
+        Log.d("User settings", "Start school loop homework grabber");
+
 
         SharedPreferences sharedPref = getSharedPreferences(
+                this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedPref.edit();
+        String sluser2 = sharedPref.getString("sluser", "invalid");
+        String slpswd2 = sharedPref.getString("slpswd", "invalid");
+        String subdomain2 = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
+
+        slg = new SchoolLoopHomeworkGrabber(sluser2, slpswd2, subdomain2);
+
+        SharedPreferences sharedPref2 = getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String sluser = sharedPref.getString("sluser", "invalid");
         String slpswd = sharedPref.getString("slpswd", "invalid");
@@ -158,5 +174,11 @@ public class UserSettings extends AppCompatActivity {
 
     public void cancelConfigTouched(View view) {
         this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        slg.stopTimer();
     }
 }

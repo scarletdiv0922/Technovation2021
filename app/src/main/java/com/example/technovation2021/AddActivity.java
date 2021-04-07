@@ -229,7 +229,7 @@ public class AddActivity extends AppCompatActivity implements
                        Integer hoursNeeded
              */
 
-
+/*
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
             GenericTask t1 = new GenericTask("TASK1234",
                     "2021-04-03", "2021-04-04",
@@ -250,6 +250,8 @@ public class AddActivity extends AppCompatActivity implements
                     0, 0);
 
             frd.saveTask(t3);
+            
+ */
 
         }
     }

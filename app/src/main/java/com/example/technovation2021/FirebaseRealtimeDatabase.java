@@ -49,6 +49,12 @@ public class FirebaseRealtimeDatabase {
         new GetEventsForRange(fromDate, toDate, caller).execute();
     }
 
+
+    public void getTaskList(LocalDate fromDate, LocalDate toDate, Object caller) {
+        Log.d(LOG_TAG, "FRD::getEvents:" + fromDate.toString() + " to:" + toDate.toString());
+        new GetTasksForRange(fromDate, toDate, caller).execute();
+    }
+
     public void printIntList() {
         Iterator localIter = intList.iterator();
         while( localIter.hasNext() ) {
@@ -68,7 +74,9 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
-    public int saveTask(GenericTask t) {
+    // split task into events. save events and task to firebase.
+    // events go into "eventList" and task goes into "taskList"
+    public int saveHwTask(GenericTask t, Object caller, int nextIndex) {
         Log.d(LOG_TAG, "saveTask called");
 
         //ArrayList<GenericActivity> activities = new ArrayList<GenericActivity>();
@@ -76,7 +84,7 @@ public class FirebaseRealtimeDatabase {
         //Log.d(LOG_TAG, "iter size " + activities.size());
 
         //t.timeToFinishTheTask();
-        new AddTaskAndSchedule(t).execute();
+        new AddTaskAndSchedule(t, caller, nextIndex).execute();
         return 0;
     }
 
@@ -208,6 +216,88 @@ public class FirebaseRealtimeDatabase {
         return 0; // TODO: check return value
     }
 
+    // Class to return master taskList from firebase
+    class GetTasksForRange extends AsyncTask<Void, Void, Integer> {
+
+        LocalDate fDate, tDate;
+        boolean evtFetchDone = false;
+        ArrayList<GenericTask> dbTaskList;
+        Object caller;
+
+        // TODO: For now get all tasks from fb. In theory app could only fetch tasks that
+        //       were posted from oldest homework posted date in the schoolloop to the
+        //       farthest due date in homework.
+        public GetTasksForRange(LocalDate from, LocalDate to, Object _caller) {
+            fDate = from;
+            tDate = to;
+            caller =  _caller;
+            dbTaskList = new ArrayList<GenericTask>();
+            Log.d(LOG_TAG, "get tasks for range: " + from.toString() + " to " + to.toString());
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int res = 0;
+
+            try {
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                userId = mAuth.getCurrentUser().getUid();
+                Query eventList = mDatabase.child(userId).child("taskList").orderByChild("date");
+                        //.startAt(fDate.toString()).endAt(tDate.toString());
+
+                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
+
+                eventList.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            //Log.d(LOG_TAG, "add activitiy to list");
+                            //arrList.add(ds.getValue(GenericActivity.class));
+                            //GenericActivity e = new GenericActivity();
+                            dbTaskList.add(ds.getValue(GenericTask.class));
+                            //arrList.add(e);
+                            //Event e = ds.getValue(Event.class);
+                            //Log.d(LOG_TAG, "Printing EventList for display: " + e.print());
+                            //Log.d("async task", "11 arrList size " + arrList.size());
+                        }
+                        evtFetchDone = true;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                Log.d(LOG_TAG, "Wait for taskk list data fetch");
+                while ((evtFetchDone == false))
+                    Thread.yield();
+                Log.d(LOG_TAG, " task list fetch done");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+            return res;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            super.onPostExecute(result);
+            // TODO: Check result
+            if ( result == 0 ) {
+                Log.d(LOG_TAG, "total task list: " + dbTaskList.size());
+                SchoolLoopHomeworkGrabber c = (SchoolLoopHomeworkGrabber) caller;
+                c.onTaskListFetchDone(dbTaskList);
+            }
+        }
+    }
+
+
     class GetEventsForRange extends AsyncTask<Void, Void, Integer> {
 
         LocalDate fDate, tDate;
@@ -285,19 +375,22 @@ public class FirebaseRealtimeDatabase {
         }
     }
 
-
     class AddTaskAndSchedule extends AsyncTask<Void, Void, Integer> {
         //String uname, password, subdomain;
         boolean actFetchDone, evtFetchDone;
         GenericTask taskToBeScheduled;
+        Object caller;
+        int nextIndex;
 
-        public AddTaskAndSchedule(GenericTask t) {
+        public AddTaskAndSchedule(GenericTask t, Object _caller, int nextIdx) {
             //uname = username;
             //password = pswd;
             //subdomain = sub_dmn;
             actFetchDone = false;
             evtFetchDone = false;
             taskToBeScheduled = t;
+            caller = _caller;
+            nextIndex = nextIdx;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -509,8 +602,27 @@ public class FirebaseRealtimeDatabase {
             }
             else {
                 Log.d(LOG_TAG, "Event scheduled successfully!!!");
+
+                // Save the task in "taskList"
+                pushHomeworkTask(taskToBeScheduled);
+
+                SchoolLoopHomeworkGrabber c = (SchoolLoopHomeworkGrabber) caller;
+                c.scheduleNextHomework(nextIndex);
             }
         }
+    }
+
+    // Use firebase keyword "push" as name of private function to be called from this class
+    // instead of "save". callers of FirebaseRealtimeDatabase class may use "saveHomeworkTask"
+    private int pushHomeworkTask(GenericTask t) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("taskList");
+        DatabaseReference newPostRef = newref.push();
+        // TODO: check for success/failure.
+        newPostRef.setValue(t);
+        Log.d(LOG_TAG, "task saved to firebase");
+        return 0;
     }
 
     public int saveCalendarEvent(String key, Object e) {

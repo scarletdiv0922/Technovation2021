@@ -17,7 +17,7 @@ public class GenericTask implements Serializable {
     String desc;
     String notes;
     String hash;
-    Integer status;
+    Integer status; // maybe 1 for unscheduled, 2 for scheduled, 3 for completed, 4 for cancelled??
     Integer timeNeeded; // Time needed in Minutes to complete whole task
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final int MIN_TASK_TIME = 15;  // 15 mins;
