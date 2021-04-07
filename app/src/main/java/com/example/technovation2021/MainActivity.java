@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             EditText tv = findViewById(R.id.userEmail);
             EditText pswd = findViewById(R.id.userPassword);
 
-            tv.setText("test123@test.com");
-            pswd.setText("test123");
+            tv.setText("randomemail@gmail.com");
+            pswd.setText("12345678");
         }
 
         // When the Login and Sign Up buttons are clicked, take the user to CalendarActivity
@@ -289,8 +289,8 @@ public class MainActivity extends AppCompatActivity {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         public void forgotPasswordClicked(View view) {
-            //Intent intent = new Intent(MainActivity.this, UserInfo.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, UserInfo.class);
+            startActivity(intent);
 
             /*
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();

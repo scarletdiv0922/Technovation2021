@@ -43,6 +43,8 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
     TextView endSleep;
     TextView startDinner;
     TextView endDinner;
+    TextView startWkend;
+    TextView endWkend;
     Button continueButton;
 
 //    ProgressBar pbar;
@@ -62,6 +64,8 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         endSleep = findViewById(R.id.endSleepTime);
         startDinner = findViewById(R.id.startDinnerTime);
         endDinner = findViewById(R.id.endDinnerTime);
+        startWkend = findViewById(R.id.startWkendSched);
+        endWkend = findViewById(R.id.endWkendSched);
         continueButton = findViewById(R.id.btncontinue);
 
 //        pbar = findViewById(R.id.idProgressBarSignUp);
@@ -70,7 +74,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
 
     }
@@ -143,6 +146,19 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
     }
 
 
+    public void startWkendSchedClicked(View view) {
+        DialogFragment newFragment = new TimePickerFragment(R.id.startWkendSched);
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+        Log.d(LOG_TAG, "start wkend scheduling time clicked");
+    }
+
+
+    public void endWkendSchedClicked(View view) {
+        DialogFragment newFragment = new TimePickerFragment(R.id.endWkendSched);
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+        Log.d(LOG_TAG, "end wkend scheduling time clicked");
+    }
+
 
     // parse time in "hh:mm am" format
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -169,67 +185,92 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         LocalTime t2 = strTimeToLocalTime(time2);
         // time is in format hh:mm am or pm
         // if t1 > t2 > 0
-        if ( t1.compareTo(t2) > 0 ) {
+        if (t1.compareTo(t2) > 0) {
             Log.d(LOG_TAG, time1 + " is gt " + time2);
             return true;
         }
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void continueClicked(View view) {
-        startSchool = findViewById(R.id.startSchoolTime);
-        endSchool = findViewById(R.id.endSchoolTime);
-        startSleep = findViewById(R.id.startSleepTime);
-        endSleep = findViewById(R.id.endSleepTime);
-        startDinner = findViewById(R.id.startDinnerTime);
-        endDinner = findViewById(R.id.endDinnerTime);
+
+    public String getTextOf(TextView tv) {
+        return tv.getText().toString();
+    }
 
 
-        Log.d(LOG_TAG, "startschool "  + startSchool.getText().toString());
-        if (startSchool.getText().toString().isEmpty()) {
-            startSchool.setError("Cannot be empty.");
-            return;
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public void continueClicked(View view) {
+            if (checksSuccessful()) {
+                FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+                frd.createWeekdayEvent(getTextOf(startSchool), getTextOf(endSchool), "School");
+                frd.createWeekdayEvent(getTextOf(startSleep), "11:59 PM", "Sleep");
+                frd.createWeekdayEvent("12:01 AM", getTextOf(endSleep), "Sleep");
+                frd.createEverydayEvent(getTextOf(startDinner), getTextOf(endDinner), "Dinner");
+                frd.createWeekendEvent("12:01 AM", getTextOf(startWkend), "Weekend Family Time");
+                frd.createWeekendEvent(getTextOf(endWkend), "11:59 PM", "Weekend Family Time");
+                /*
+                frd.saveActivityEvent("activityList", startSchool);
+                frd.saveActivityEvent("activityList", endSchool);
+                frd.saveActivityEvent("activityList", startSleep);
+                frd.saveActivityEvent("activityList", endSleep);
+                frd.saveActivityEvent("activityList", startDinner);
+                frd.saveActivityEvent("activityList", endDinner);
+                frd.saveActivityEvent("activityList", startWkend);
+                frd.saveActivityEvent("activityList", endWkend);
+                */
+            }
+
         }
-        else startSchool.setError(null);
-
-        //check if end school is empty
-        if (endSchool.getText().toString().isEmpty()) {
-            endSchool.setError("Cannot be empty.");
-            return;
-        }
-        else endSchool.setError(null);
 
 
-        // check if start sleep is empty
-        if (startSleep.getText().toString().isEmpty()) {
-            startSleep.setError("Cannot be empty.");
-            return;
-        }
-        else startSleep.setError(null);
-
-        //check if end sleep is empty
-        if (endSleep.getText().toString().isEmpty()) {
-            endSleep.setError("Cannot be empty.");
-            return;
-        }
-        else endSleep.setError(null);
-
-        // check if start dinner is empty
-        if (startDinner.getText().toString().isEmpty()) {
-            startDinner.setError("Cannot be empty.");
-            return;
-        }
-        else startDinner.setError(null);
-
-        //check if end dinner is empty
-        if (endDinner.getText().toString().isEmpty()) {
-            endDinner.setError("Cannot be empty.");
-            return;
-        }
-        else endDinner.setError(null);
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public boolean checksSuccessful() {
+            startSchool = findViewById(R.id.startSchoolTime);
+            endSchool = findViewById(R.id.endSchoolTime);
+            startSleep = findViewById(R.id.startSleepTime);
+            endSleep = findViewById(R.id.endSleepTime);
+            startDinner = findViewById(R.id.startDinnerTime);
+            endDinner = findViewById(R.id.endDinnerTime);
+            startWkend = findViewById(R.id.startWkendSched);
+            endWkend = findViewById(R.id.endWkendSched);
 
 
+            Log.d(LOG_TAG, "startschool " + startSchool.getText().toString());
+            if (startSchool.getText().toString().isEmpty()) {
+                startSchool.setError("Cannot be empty.");
+                return false;
+            } else startSchool.setError(null);
+
+            //check if end school is empty
+            if (endSchool.getText().toString().isEmpty()) {
+                endSchool.setError("Cannot be empty.");
+                return false;
+            } else endSchool.setError(null);
+
+
+            // check if start sleep is empty
+            if (startSleep.getText().toString().isEmpty()) {
+                startSleep.setError("Cannot be empty.");
+                return false;
+            } else startSleep.setError(null);
+
+            //check if end sleep is empty
+            if (endSleep.getText().toString().isEmpty()) {
+                endSleep.setError("Cannot be empty.");
+                return false;
+            } else endSleep.setError(null);
+
+            // check if start dinner is empty
+            if (startDinner.getText().toString().isEmpty()) {
+                startDinner.setError("Cannot be empty.");
+                return false;
+            } else startDinner.setError(null);
+
+            //check if end dinner is empty
+            if (endDinner.getText().toString().isEmpty()) {
+                endDinner.setError("Cannot be empty.");
+                return false;
+            } else endDinner.setError(null);
 
 
 //        EditText usernameEditText = (EditText) findViewById(R.id.startSleepTime);
@@ -240,32 +281,40 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 //            return;
 //        }
 
-        if (time2IsAfterTime1(endSchool.getText().toString(), startSchool.getText().toString()) == false) {
-            Toast.makeText(UserInfo.this, "End school time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (time2IsAfterTime1(startSleep.getText().toString(), endSleep.getText().toString()) == false) {
-            Toast.makeText(UserInfo.this, "End sleep time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (time2IsAfterTime1(endDinner.getText().toString(), startDinner.getText().toString()) == false) {
-            Toast.makeText(UserInfo.this, "End dinner time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        /* save this as activity and show calendar */
-        Toast.makeText(UserInfo.this, "Click Continue to move on.", Toast.LENGTH_LONG).show();
-
-        // click continue button and it goes to the calendar screen
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserInfo.this, CalendarActivity.class);
-                startActivity(intent);
+            if (time2IsAfterTime1(endSchool.getText().toString(), startSchool.getText().toString()) == false) {
+                Toast.makeText(UserInfo.this, "End school time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+                return false;
             }
-        });
+//
+//            if (time2IsAfterTime1(startSleep.getText().toString(), endSleep.getText().toString()) == false) {
+//                Toast.makeText(UserInfo.this, "End sleep time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+
+            if (time2IsAfterTime1(endDinner.getText().toString(), startDinner.getText().toString()) == false) {
+                Toast.makeText(UserInfo.this, "End dinner time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+
+            if (time2IsAfterTime1(endWkend.getText().toString(), startWkend.getText().toString()) == false) {
+                Toast.makeText(UserInfo.this, "End dinner time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            /* save this as activity and show calendar */
+            Toast.makeText(UserInfo.this, "Click Continue to move on.", Toast.LENGTH_LONG).show();
+
+            // click continue button and it goes to the calendar screen
+            continueButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(UserInfo.this, CalendarActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            return true;
         /*
 
 
@@ -322,8 +371,9 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 //
 //            }
 //        });
-        //}
+            //}
 
 
+        }
     }
-}
+

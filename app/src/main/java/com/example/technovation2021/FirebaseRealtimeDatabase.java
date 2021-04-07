@@ -26,6 +26,12 @@ import java.util.Iterator;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+enum EventFrequency {
+    EVENT_FREQUENCY_EVERYDAY,
+    EVENT_FREQUENCY_WEEKDAY,
+    EVENT_FREQUENCY_WEEKEND
+}
+
 public class FirebaseRealtimeDatabase {
     private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();
     private FirebaseAuth mAuth;
@@ -49,7 +55,7 @@ public class FirebaseRealtimeDatabase {
 
     public void printIntList() {
         Iterator localIter = intList.iterator();
-        while( localIter.hasNext() ) {
+        while (localIter.hasNext()) {
             CalInterval e = (CalInterval) localIter.next();
             Log.d(LOG_TAG, "Interval: " + e.t1.toString() + " duration: " + e.duration);
         }
@@ -78,13 +84,14 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean is2Weeks(LocalDate d1, LocalDate d2) {
         LocalDateTime b = d1.atStartOfDay();
         LocalDateTime e = d2.atStartOfDay();
         Duration dn = Duration.between(b, e);
         // days between from and to
         Log.d(LOG_TAG, "is2Weeks " + dn.toDays() + " days");
-        if ( (dn.toDays() % 14) == 0 ) {
+        if ((dn.toDays() % 14) == 0) {
             return true;
         }
         return false;
@@ -94,6 +101,7 @@ public class FirebaseRealtimeDatabase {
         LocalTime t1;
         int duration;
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public CalInterval() {
             this.t1 = LocalTime.MIDNIGHT;
             this.duration = 30;
@@ -110,15 +118,15 @@ public class FirebaseRealtimeDatabase {
         // type 1: GenericActivity, 2: Event
         CalInterval i = new CalInterval();
         //if( GenericActivity.class.isInstance(obj) ) {
-        if ( type == 1 ) {
-            GenericActivity a = (GenericActivity)obj;
+        if (type == 1) {
+            GenericActivity a = (GenericActivity) obj;
             i.t1 = a.startTime;
             i.duration = a.duration;
             Log.d(LOG_TAG, a.desc + " busy from " + a.getStartTime());
         }
         //if( Event.class.isInstance(obj) ) {
-        if ( type == 2 ) {
-            Event e = (Event)obj;
+        if (type == 2) {
+            Event e = (Event) obj;
             i.t1 = e.startTime;
             i.duration = e.duration;
             Log.d(LOG_TAG, e.eventDesc + " event busy from " + e.getStartTime());
@@ -128,16 +136,16 @@ public class FirebaseRealtimeDatabase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int findFreeSlot(int timeNeeded ) {
+    public int findFreeSlot(int timeNeeded) {
         //for(CalInterval timeSlot: intList){
-            //if ( timeSlot.t1)
+        //if ( timeSlot.t1)
         //}
         Log.d(LOG_TAG, "findFreeSlot of: " + timeNeeded + " busySlots: " + intList.size());
-        for ( int i = 0;i < (intList.size() - 1); i++ ) {
+        for (int i = 0; i < (intList.size() - 1); i++) {
             CalInterval i1 = intList.get(i);
-            CalInterval i2 = intList.get(i+1);
+            CalInterval i2 = intList.get(i + 1);
             Log.d(LOG_TAG, "i1.time " + i1.t1.toString() + " duration: " + i1.duration + " next slot: " + i2.t1.toString());
-            if ( i1.t1.plusMinutes( i1.duration + timeNeeded ).compareTo(i2.t1) < 0 ) {
+            if (i1.t1.plusMinutes(i1.duration + timeNeeded).compareTo(i2.t1) < 0) {
                 Log.d(LOG_TAG, "free slot after: " + i1.t1.toString());
                 return i;
             }
@@ -163,7 +171,7 @@ public class FirebaseRealtimeDatabase {
          */
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
         Event breakEvent = new Event("Break time", d.toString(), tm.toString(), GenericTask.MIN_BREAK_TIME, 1,
-                        "BREAKTASK", "Chill!");
+                "BREAKTASK", "Chill!");
         // TODO: check for success/failure.
         newPostRef.setValue(breakEvent);
         return 0; // TODO: check return value
@@ -176,12 +184,12 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
-        Event ev1 = new Event("DND", curDate.toString(), "00:01", 9*60, 4,
-                            "DNDEVENT", "DNDEVENT");
+        Event ev1 = new Event("DND", curDate.toString(), "00:01", 9 * 60, 4,
+                "DNDEVENT", "DNDEVENT");
         // TODO: check for success/failure.
         newPostRef.setValue(ev1);
 
-        Event ev2 = new Event("DND", curDate.toString(), "21:00", 3*60, 4,
+        Event ev2 = new Event("DND", curDate.toString(), "21:00", 3 * 60, 4,
                 "DNDEVENT", "DNDEVENT");
         // TODO: check for success/failure.
         newPostRef.setValue(ev2);
@@ -213,7 +221,7 @@ public class FirebaseRealtimeDatabase {
         public GetEventsForRange(LocalDate from, LocalDate to, Object _caller) {
             fDate = from;
             tDate = to;
-            caller =  _caller;
+            caller = _caller;
             calEvntList = new ArrayList<Event>();
             Log.d(LOG_TAG, "getevents for range: " + from.toString() + " to " + to.toString());
         }
@@ -266,13 +274,13 @@ public class FirebaseRealtimeDatabase {
             return res;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(Integer result) {
 
             super.onPostExecute(result);
             // TODO: Check result
-            if ( result == 0 ) {
+            if (result == 0) {
                 Log.d(LOG_TAG, "total event list: " + calEvntList.size());
                 CustomCalendar c = (CustomCalendar) caller;
                 c.onEventsFetchDone(calEvntList);
@@ -361,7 +369,7 @@ public class FirebaseRealtimeDatabase {
                     }
                 });
                 Log.d(LOG_TAG, "Wait for data fetch");
-                while ( (actFetchDone == false) || (evtFetchDone == false))
+                while ((actFetchDone == false) || (evtFetchDone == false))
                     Thread.yield();
                 Log.d(LOG_TAG, " data fetch done");
             } catch (Exception e) {
@@ -373,7 +381,7 @@ public class FirebaseRealtimeDatabase {
             return res;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
@@ -395,7 +403,7 @@ public class FirebaseRealtimeDatabase {
                  }
              */
 
-            int minTimeSlot = taskToBeScheduled.timeToFinishTheTask()/ taskToBeScheduled.nrDaysToDue();
+            int minTimeSlot = taskToBeScheduled.timeToFinishTheTask() / taskToBeScheduled.nrDaysToDue();
             int timeToFin = taskToBeScheduled.timeToFinishTheTask();
             int timeScheduled = 0;
             int daysToDueDate = taskToBeScheduled.nrDaysToDue();
@@ -405,9 +413,8 @@ public class FirebaseRealtimeDatabase {
             while (timeToFin > 0 && daysToDueDate > 0) {
                 intList = new ArrayList<CalInterval>();
                 if ((minTimeSlot % GenericTask.MIN_TASK_TIME) > 0) {
-                    timeScheduled = ((minTimeSlot/GenericTask.MIN_TASK_TIME)+1) * GenericTask.MIN_TASK_TIME;
-                }
-                else {
+                    timeScheduled = ((minTimeSlot / GenericTask.MIN_TASK_TIME) + 1) * GenericTask.MIN_TASK_TIME;
+                } else {
                     timeScheduled = minTimeSlot;
                 }
 
@@ -416,25 +423,25 @@ public class FirebaseRealtimeDatabase {
                 while (itr.hasNext()) {
                     GenericActivity a = (GenericActivity) itr.next();
                     Log.d(LOG_TAG, "ITERATOR " + a.getDesc());
-                    if ( a.getRepeats() == 2 ) { // once a week every week
-                        if ( curDate.getDayOfWeek() == a.startDate.getDayOfWeek() ) {
+                    if (a.getRepeats() == 2) { // once a week every week
+                        if (curDate.getDayOfWeek() == a.startDate.getDayOfWeek()) {
                             markTimeAsBusy(a, 1);
                         }
                     }
-                    if ( a.getRepeats() == 3 ) { // once in 2 weeks
-                        if ( (curDate.getDayOfWeek() == a.startDate.getDayOfWeek()) &&
-                                is2Weeks(curDate, a.startDate) ) {
+                    if (a.getRepeats() == 3) { // once in 2 weeks
+                        if ((curDate.getDayOfWeek() == a.startDate.getDayOfWeek()) &&
+                                is2Weeks(curDate, a.startDate)) {
                             markTimeAsBusy(a, 1);
                         }
                     }
-                    if ( a.getRepeats() == 5 ) { // every week day (school or dinner or sleep)
-                        if ( curDate.getDayOfWeek() != DayOfWeek.SATURDAY &&
-                             curDate.getDayOfWeek() != DayOfWeek.SUNDAY ) {
+                    if (a.getRepeats() == 5) { // every week day (school or dinner or sleep)
+                        if (curDate.getDayOfWeek() != DayOfWeek.SATURDAY &&
+                                curDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
                             markTimeAsBusy(a, 1);
                         }
                     }
-                    if ( a.getRepeats() == 7 ) { // every day of week. sleep, dinner
-                            markTimeAsBusy(a, 1);
+                    if (a.getRepeats() == 7) { // every day of week. sleep, dinner
+                        markTimeAsBusy(a, 1);
                     }
                 }
 
@@ -442,7 +449,7 @@ public class FirebaseRealtimeDatabase {
                 // slots as busy.
                 Iterator evIter = evtList.iterator();
                 //curDate = taskToBeScheduled.startDate;
-                while( evIter.hasNext() ) {
+                while (evIter.hasNext()) {
                     Event e = (Event) evIter.next();
                     if (e.date.equals(curDate)) {
                         markTimeAsBusy(e, 2);
@@ -451,11 +458,11 @@ public class FirebaseRealtimeDatabase {
 
                 // sleep from 9am-9pm if no other events on that day.
                 // TODO: we shouldn't run into this if any activity falls on weekend
-                if ( intList.size() == 0 ) {
+                if (intList.size() == 0) {
                     CalInterval he1 = new CalInterval();
                     CalInterval he2 = new CalInterval();
                     he1.t1 = LocalTime.of(0, 1);
-                    he1.duration = 9*60;
+                    he1.duration = 9 * 60;
                     he2.t1 = LocalTime.of(21, 0);
                     he2.duration = 180;
                     intList.add(he1);
@@ -474,7 +481,7 @@ public class FirebaseRealtimeDatabase {
                 printIntList();
                 // Find a slot thats free.
                 int freeSlotIndex = findFreeSlot(GenericTask.MIN_BREAK_TIME + timeScheduled);
-                if ( freeSlotIndex != -1 ) {
+                if (freeSlotIndex != -1) {
                     CalInterval i = intList.get(freeSlotIndex);
                     // Schedule Break Event.
                     LocalTime breakAt = i.t1.plusMinutes(i.duration);
@@ -486,8 +493,7 @@ public class FirebaseRealtimeDatabase {
                     addEvent(hwAt, timeScheduled, taskToBeScheduled, curDate);
                     timeToFin -= timeScheduled;
                     Log.d(LOG_TAG, "free slot found after: " + i.t1.toString() + " scheduled: " + timeScheduled + " need to schedule: " + timeToFin + " more mins");
-                }
-                else {
+                } else {
                     Log.d(LOG_TAG, "COULDN'T FIND A FREE SLOT ON: " + curDate.toString());
                 }
                 // Insert an Event for this day at that free slot.
@@ -495,15 +501,100 @@ public class FirebaseRealtimeDatabase {
                 daysToDueDate--;
                 Log.d(LOG_TAG, "get all activities and events for " + curDate.toString());
             }
-            if ( timeToFin > 0 ) {
+            if (timeToFin > 0) {
                 Log.d(LOG_TAG, "COULD NOT SCHEDULE!!!");
-            }
-            else {
+            } else {
                 Log.d(LOG_TAG, "Event scheduled successfully!!!");
             }
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalTime strToTime(String tmStr) {
+        // tmStr may contain AM or PM
+        // expected tmStr format "12:28 AM"
+        int hr = Integer.parseInt(tmStr.split(":")[0]);
+        int mn = Integer.parseInt(tmStr.split(" ")[0].split(":")[1]);
+        if (tmStr.contains("AM") && hr == 12)
+            hr -= 12;
+        if (tmStr.contains("PM") && (hr >= 1 && hr <= 11))
+            hr += 12;
+        return LocalTime.of(hr, mn, 0);
+    }
+
+    /*
+    frd.createWeekdayEvent(getTextOf(startSchool), getTextOf(endSchool), "School");
+                frd.createWeekdayEvent(getTextOf(startSleep), "11:59", "Sleep");
+                frd.createWeekdayEvent("12:01", getTextOf(endSleep), "Sleep");
+                frd.createEverydayEvent(getTextOf(startDinner), getTextOf(endDinner), "Dinner");
+                frd.createWeekendEvent("12:01 AM", getTextOf(startWkend), "Weekend Sleep Hours");
+                frd.createWeekendEvent(getTextOf(endWkend), "11:59 PM", "Weekend Sleep Hours");)
+
+     */
+
+    private boolean dayIsWeekend(LocalDate dateToCheck) {
+        if ( dateToCheck.getDayOfWeek() == DayOfWeek.SATURDAY ||
+            dateToCheck.getDayOfWeek() == DayOfWeek.SUNDAY )
+            return true;
+        return false;
+    }
+
+    private boolean dayIsWeekday(LocalDate dateToCheck) {
+        if ( false == dayIsWeekend(dateToCheck) )
+            return true;
+        return false;
+    }
+
+    private int createEventWithFreq(String eventStart, String eventEnd, String desc, EventFrequency freq) {
+        LocalDate today = LocalDate.now();
+        LocalTime evStart = strToTime(eventStart);
+        LocalTime evEnd = strToTime(eventEnd);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("eventList");
+
+        for (int i = 1; i < 7; i++) {
+            if ( (freq == EventFrequency.EVENT_FREQUENCY_EVERYDAY) ||
+                    ((freq == EventFrequency.EVENT_FREQUENCY_WEEKEND) && dayIsWeekend(today)) ||
+                    ((freq == EventFrequency.EVENT_FREQUENCY_WEEKDAY) && dayIsWeekday(today)) ) {
+                Duration duration = Duration.between(evStart, evEnd);
+                Event e = new Event(desc, today.toString(), evStart.toString(),
+                        (int) (duration.getSeconds() / 60), 4, desc + "EVENT",
+                        desc + "Hours");
+                DatabaseReference newPostRef = newref.push();
+                newPostRef.setValue(e);
+            }
+            today = today.plusDays(1);
+        }
+        return 0;
+    }
+
+    //school
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int createWeekdayEvent(String eventStart, String eventEnd, String desc) {
+        Log.d(LOG_TAG, "createWeekdayEvent: " + eventStart + " to:" + eventEnd);
+        createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_WEEKDAY);
+        return 0;
+    }
+
+
+    ///save dinner time inputs to firebase
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int createEverydayEvent(String eventStart, String eventEnd, String desc) {
+        Log.d(LOG_TAG, "createEverydayEvent: " + eventStart + " to:" + eventEnd);
+        createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_EVERYDAY);
+        return 0;
+    }
+
+
+    //save weekend free hours to firebase
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int createWeekendEvent(String eventStart, String eventEnd, String desc) {
+        Log.d(LOG_TAG, "createWeekendEvent: " + eventStart + " to:" + eventEnd);
+        createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_WEEKEND);
+        return 0;
+    }
 
     public int saveCalendarEvent(String key, Object e) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -515,8 +606,18 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
+    public int saveActivityEvent(String key, Object e) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("activityList").child(key);
+        DatabaseReference newPostRef = newref.push();
+        newPostRef.setValue(e);
+        return 0;
+    }
+
     public void getAllActivities() {
-        //String key = ""
+//            String key = ""
+//        }
         /*
         Firebase ref = new Firebase(FIREBASE_URL);
 
@@ -565,7 +666,10 @@ public class FirebaseRealtimeDatabase {
         });
     }
 
-    public int deleteEvent() {
-        return 0;
-    }
 }
+//
+//        public int deleteEvent () {
+//            return 0;
+
+
+
