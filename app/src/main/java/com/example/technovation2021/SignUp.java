@@ -98,7 +98,7 @@ public class SignUp extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        Toast.makeText(SignUp.this, "User already exists. Logging in.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp.this, "User already exists. Please go back and log in.", Toast.LENGTH_SHORT).show();
                         Log.d(LOG_TAG, task.getException().toString());
                         pbar.setVisibility(View.GONE);
                     }

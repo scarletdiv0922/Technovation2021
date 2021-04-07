@@ -45,6 +45,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
     TextView endDinner;
     TextView startWkend;
     TextView endWkend;
+    ProgressBar pbar;
     Button continueButton;
 
 //    ProgressBar pbar;
@@ -67,6 +68,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         startWkend = findViewById(R.id.startWkendSched);
         endWkend = findViewById(R.id.endWkendSched);
         continueButton = findViewById(R.id.btncontinue);
+        pbar = findViewById(R.id.pbarUserInfo);
 
 //        pbar = findViewById(R.id.idProgressBarSignUp);
 //        pbar.setVisibility(View.GONE);
@@ -201,6 +203,8 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void continueClicked(View view) {
             if (checksSuccessful()) {
+                pbar.setVisibility(View.VISIBLE);
+
                 FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
                 frd.createWeekdayEvent(getTextOf(startSchool), getTextOf(endSchool), "School");
                 frd.createWeekdayEvent(getTextOf(startSleep), "11:59 PM", "Sleep");
@@ -208,6 +212,9 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
                 frd.createEverydayEvent(getTextOf(startDinner), getTextOf(endDinner), "Dinner");
                 frd.createWeekendEvent("12:01 AM", getTextOf(startWkend), "Weekend Family Time");
                 frd.createWeekendEvent(getTextOf(endWkend), "11:59 PM", "Weekend Family Time");
+
+                pbar.setVisibility(View.GONE);
+
                 /*
                 frd.saveActivityEvent("activityList", startSchool);
                 frd.saveActivityEvent("activityList", endSchool);
@@ -315,6 +322,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
             });
 
             return true;
+
         /*
 
 

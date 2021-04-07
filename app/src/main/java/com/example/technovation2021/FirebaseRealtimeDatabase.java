@@ -415,7 +415,7 @@ public class FirebaseRealtimeDatabase {
                     " evtListsize " + evtList.size());
             LocalDate curDate = taskToBeScheduled.startDate;
             Integer slotNr = 1;
-            Integer totalSlotsNeeded = max(taskToBeScheduled.timeToFinishTheTask() / minTimeSlot, 1);
+            Integer totalSlotsNeeded = Math.max(taskToBeScheduled.timeToFinishTheTask() / minTimeSlot, 1);
             while (timeToFin > 0 && daysToDueDate > 0) {
                 intList = new ArrayList<CalInterval>();
                 if ((minTimeSlot % GenericTask.MIN_TASK_TIME) > 0) {
@@ -529,6 +529,7 @@ public class FirebaseRealtimeDatabase {
         return LocalTime.of(hr, mn, 0);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean dayIsWeekend(LocalDate dateToCheck) {
         if ( dateToCheck.getDayOfWeek() == DayOfWeek.SATURDAY ||
             dateToCheck.getDayOfWeek() == DayOfWeek.SUNDAY )
@@ -536,12 +537,14 @@ public class FirebaseRealtimeDatabase {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean dayIsWeekday(LocalDate dateToCheck) {
         if ( false == dayIsWeekend(dateToCheck) )
             return true;
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private int createEventWithFreq(String eventStart, String eventEnd, String desc, EventFrequency freq) {
         LocalDate today = LocalDate.now();
         LocalTime evStart = strToTime(eventStart);
@@ -551,12 +554,24 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
 
+
+        /*
+                 String eventDesc,
+            String date,
+            String startTime,
+            Integer chunkNumber,
+            Integer totalChunks,
+            Integer duration,
+            Integer type,
+            String taskId,
+            String notes)
+         */
         for (int i = 1; i < 7; i++) {
             if ( (freq == EventFrequency.EVENT_FREQUENCY_EVERYDAY) ||
                     ((freq == EventFrequency.EVENT_FREQUENCY_WEEKEND) && dayIsWeekend(today)) ||
                     ((freq == EventFrequency.EVENT_FREQUENCY_WEEKDAY) && dayIsWeekday(today)) ) {
                 Duration duration = Duration.between(evStart, evEnd);
-                Event e = new Event(desc, today.toString(), evStart.toString(),
+                Event e = new Event(desc, today.toString(), eventStart.toString(),1, 1,
                         (int) (duration.getSeconds() / 60), 4, desc + "EVENT",
                         desc + "Hours");
                 DatabaseReference newPostRef = newref.push();
