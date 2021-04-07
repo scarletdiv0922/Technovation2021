@@ -650,6 +650,7 @@ public class FirebaseRealtimeDatabase {
         return LocalTime.of(hr, mn, 0);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean dayIsWeekend(LocalDate dateToCheck) {
         if ( dateToCheck.getDayOfWeek() == DayOfWeek.SATURDAY ||
             dateToCheck.getDayOfWeek() == DayOfWeek.SUNDAY )
@@ -657,12 +658,14 @@ public class FirebaseRealtimeDatabase {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean dayIsWeekday(LocalDate dateToCheck) {
         if ( false == dayIsWeekend(dateToCheck) )
             return true;
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private int createEventWithFreq(String eventStart, String eventEnd, String desc, EventFrequency freq) {
         LocalDate today = LocalDate.now();
         LocalTime evStart = strToTime(eventStart);
