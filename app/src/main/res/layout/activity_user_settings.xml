@@ -117,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:background="#6dedd1"
-        android:onClick="btnConfigDoneClicked"
+        android:onClick="btnSaveSchoolLoopDetails"
         android:text="@string/Configdone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

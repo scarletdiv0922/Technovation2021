@@ -33,7 +33,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     private TextView actETime; //Time the activity ends
     // private Spinner hwPrepTimes; //TODO: Delete
     // private SwitchCompat hwSwitch; //TODO: Delete
-    public EditText activityDes;
+    //public EditText activityDes;
     public Button sunday;
     public Button monday;
     public Button tuesday;
@@ -262,15 +262,15 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         //Log.d("addToCalendar", "I am here Step1");
         if ( noDataErrors() ) {
           //  Log.d("No Data Errors", "I am Here ");
-//            Event e = new Event("Test event456", "03-25-2021 11:12",
-//                    "04-11-2021 11:23", 45,
-//                    0, false, 45, "test event notes");
           //  Event e = new Event("abcabc", "startdatetime", "enddatetime",1,2,false,3,"notes");
           //  Event e = new Event("testname", null,
             //        null, null, null,
               //      null, null, null);
+
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-//            frd.saveCalendarEvent("activityList", e);
+            //frd.saveCalendarEvent("activityList", e);
+
+
             //fb.saveCalendarEvent();
             // Saving of event to firebase db
             /*

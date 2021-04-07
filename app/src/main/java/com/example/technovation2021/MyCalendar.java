@@ -27,6 +27,7 @@ public class MyCalendar extends AppCompatActivity {
         cv.updateCalendar(LocalDate.now());//events);
 
         // assign event handler
+        /*
         cv.setEventHandler(new CustomCalendar.EventHandler()
         {
             @Override
@@ -37,5 +38,7 @@ public class MyCalendar extends AppCompatActivity {
                 Toast.makeText(MyCalendar.this, df.format(date), Toast.LENGTH_SHORT).show();
             }
         });
+
+         */
     }
 }
