@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,51 +41,54 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void signup_clicked(View view) {
-            EditText email = findViewById(R.id.userEmailSignUpScreen);
-            EditText pswd = findViewById(R.id.idPasswordSignUpScreen);
-            EditText confirmPassword = findViewById(R.id.idConfirmPasswordSignUpScreen);
+        EditText email = findViewById(R.id.userEmailSignUpScreen);
+        EditText pswd = findViewById(R.id.idPasswordSignUpScreen);
+        EditText confirmPassword = findViewById(R.id.idConfirmPasswordSignUpScreen);
 
-            if (TextUtils.isEmpty(email.getText().toString()) ) {
-                //Toast.makeText(MainActivity.this, "Email cannot be empty.",
-                //        Toast.LENGTH_SHORT).show();
-                email.setError("Email cannot be empty.");
-                return;
-            }
 
-            if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-                //Toast.makeText(MainActivity.this, "Email address is not valid.",
-                 //       Toast.LENGTH_SHORT).show();
-                email.setError("Email address is not valid.");
-                return;
-            }
+        if (TextUtils.isEmpty(email.getText().toString()) ) {
+            //Toast.makeText(MainActivity.this, "Email cannot be empty.",
+            //        Toast.LENGTH_SHORT).show();
+            email.setError("Email cannot be empty.");
+            return;
+        }
 
-            if ( TextUtils.isEmpty(pswd.getText().toString()) ) {
-                //Toast.makeText(SignUp.this, "Password is empty.",
-                //        Toast.LENGTH_SHORT).show();
-                pswd.setError("Password cannot be empty.");
-                return;
-            }
+        if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            //Toast.makeText(MainActivity.this, "Email address is not valid.",
+             //       Toast.LENGTH_SHORT).show();
+            email.setError("Email address is not valid.");
+            return;
+        }
 
-            if ( pswd.length() < 6 ) {
-                //Toast.makeText(SignUp.this, "Password is too short.",
-                //        Toast.LENGTH_SHORT).show();
-                pswd.setError("Too short. Must be minimum 6 characters.");
-                return;
-            }
+        if ( TextUtils.isEmpty(pswd.getText().toString()) ) {
+            //Toast.makeText(SignUp.this, "Password is empty.",
+            //        Toast.LENGTH_SHORT).show();
+            pswd.setError("Password cannot be empty.");
+            return;
+        }
 
-            if ( TextUtils.isEmpty(confirmPassword.getText().toString()) ) {
-                //Toast.makeText(SignUp.this, "Password is empty.",
-                //        Toast.LENGTH_SHORT).show();
-                confirmPassword.setError("Password cannot be empty.");
-                return;
-            }
+        if ( pswd.length() < 6 ) {
+            //Toast.makeText(SignUp.this, "Password is too short.",
+            //        Toast.LENGTH_SHORT).show();
+            pswd.setError("Too short. Must be minimum 6 characters.");
+            return;
+        }
 
-            if ( !pswd.getText().toString().equals(confirmPassword.getText().toString()) ) {
-                confirmPassword.setError("Passwords do not match.");
-                return;
-            }
+        if ( TextUtils.isEmpty(confirmPassword.getText().toString()) ) {
+            //Toast.makeText(SignUp.this, "Password is empty.",
+            //        Toast.LENGTH_SHORT).show();
+            confirmPassword.setError("Password cannot be empty.");
+            return;
+        }
 
-            Log.d( LOG_TAG, "go ahead authenticate the user");
+        if ( !pswd.getText().toString().equals(confirmPassword.getText().toString()) ) {
+            confirmPassword.setError("Passwords do not match.");
+            return;
+        }
+
+
+
+        Log.d( LOG_TAG, "go ahead authenticate the user");
             //Toast.makeText(SignUp.this, "All good. Sign up the user!",
             //            Toast.LENGTH_SHORT).show();
             pbar.setVisibility(View.VISIBLE);
@@ -96,6 +100,8 @@ public class SignUp extends AppCompatActivity {
                         pbar.setVisibility(View.GONE);
                         Intent intent = new Intent(SignUp.this, UserInfo.class);
                         startActivity(intent);
+                        //FirebaseRealtimeDatabase fdb = new FirebaseRealtimeDatabase();
+                        //fdb.savePasswordHint(passwordHint.getText().toString());
                     }
                     else {
                         Toast.makeText(SignUp.this, "User already exists. Please go back and log in.", Toast.LENGTH_SHORT).show();

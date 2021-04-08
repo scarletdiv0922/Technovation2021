@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -31,6 +32,20 @@ enum EventFrequency {
     EVENT_FREQUENCY_WEEKDAY,
     EVENT_FREQUENCY_WEEKEND
 }
+
+/*
+class UserSettings implements Serializable {
+    String passwordHint;
+
+    public String getPasswordHint() {
+        return passwordHint;
+    }
+
+    public UserSettings(String pswdHint) {
+        this.passwordHint = pswdHint;
+    }
+}
+ */
 
 public class FirebaseRealtimeDatabase {
     private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();
@@ -66,6 +81,16 @@ public class FirebaseRealtimeDatabase {
             Log.d(LOG_TAG, "Interval: " + e.t1.toString() + " duration: " + e.duration);
         }
     }
+
+    /*
+    public int savePasswordHint(String hint) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth.getCurrentUser().
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("userSettings");
+    }
+
+     */
 
     public int saveActivity(GenericActivity e) {
         Log.d(LOG_TAG, "saveActivity " + e.getDesc());

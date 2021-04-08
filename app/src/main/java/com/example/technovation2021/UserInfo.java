@@ -36,6 +36,12 @@ import java.util.SimpleTimeZone;
 public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
     private static final String LOG_TAG = AddActivity.class.getSimpleName();
 
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Toast.makeText(UserInfo.this,"There is no back action.",Toast.LENGTH_LONG).show();
+        return;
+    }
 
     TextView startSchool;
     TextView endSchool;

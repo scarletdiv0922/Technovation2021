@@ -29,6 +29,15 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
 
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Toast.makeText(CalendarActivity.this,"Long press on a day to open its events. ",Toast.LENGTH_LONG).show();
+        return;
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
