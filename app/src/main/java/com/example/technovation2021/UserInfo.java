@@ -183,7 +183,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void continueClicked(View view) {
             if (checksSuccessful()) {
-
                 pbar.setVisibility(View.VISIBLE);
 
                 FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
@@ -274,9 +273,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
                 Toast.makeText(UserInfo.this, "End weekend scheduling time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
-            /* save this as activity and show calendar */
-            //Toast.makeText(UserInfo.this, "Click Continue to move on.", Toast.LENGTH_LONG).show();
 
             return true;
         }
