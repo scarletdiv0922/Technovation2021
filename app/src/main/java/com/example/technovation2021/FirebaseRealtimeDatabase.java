@@ -274,23 +274,26 @@ public class FirebaseRealtimeDatabase {
             try {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
                 userId = mAuth.getCurrentUser().getUid();
-                Query eventList = mDatabase.child(userId).child("taskList").orderByChild("date");
+                //Query eventList = mDatabase.child(userId).child("taskList");//.orderByChild("date");
                         //.startAt(fDate.toString()).endAt(tDate.toString());
 
                 //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
 
-                eventList.addListenerForSingleValueEvent(new ValueEventListener() {
+                DatabaseReference newref = mDatabase.child(userId).child("taskList");
+
+                newref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.e(LOG_TAG ,"taskCount: "+snapshot.getChildrenCount());
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            //Log.d(LOG_TAG, "add activitiy to list");
-                            //arrList.add(ds.getValue(GenericActivity.class));
-                            //GenericActivity e = new GenericActivity();
+                            Log.d(LOG_TAG, "add task to list");
+                            //GenericTask gt = ds.getValue(GenericTask.class);
+                            //Log.d(LOG_TAG, "print task: " + gt.print());
                             dbTaskList.add(ds.getValue(GenericTask.class));
                             //arrList.add(e);
                             //Event e = ds.getValue(Event.class);
-                            //Log.d(LOG_TAG, "Printing EventList for display: " + e.print());
+
                             //Log.d("async task", "11 arrList size " + arrList.size());
                         }
                         evtFetchDone = true;

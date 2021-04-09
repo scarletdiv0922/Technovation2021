@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 import androidx.annotation.RequiresApi;
 
@@ -32,9 +33,11 @@ public class GenericTask implements Serializable {
                        Integer status,
                        Integer timeNeeded /* in minutes */
                        ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         this.taskId = taskId;
-        this.startDate = strToDate(startDate);
-        this.dueDate = strToDate(dueDate);
+        this.startDate = LocalDate.parse(startDate, formatter);
+        this.dueDate = LocalDate.parse(dueDate, formatter);
         this.desc = desc;
         this.notes = notes;
         this.hash = hash;
@@ -54,6 +57,10 @@ public class GenericTask implements Serializable {
         return dueDate.toString();
     }
 
+    public String print() {
+        return hash + " " + startDate.toString() + " " + desc + " " + notes;
+    }
+    /*
     @RequiresApi(api = Build.VERSION_CODES.O)
     private LocalDate strToDate(String dateStr) {
         return LocalDate.of(
@@ -61,9 +68,12 @@ public class GenericTask implements Serializable {
                 Integer.parseInt(dateStr.split("-")[1]), // month
                 Integer.parseInt(dateStr.split("-")[2]));
     }
+
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDueDate(String dueDate) {
-        this.dueDate = strToDate(dueDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.dueDate = LocalDate.parse(dueDate, formatter);
     }
 
     public String getStartDate() {
@@ -71,9 +81,11 @@ public class GenericTask implements Serializable {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         // TODO: change this to start date from UI.
-        this.startDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.startDate = LocalDate.parse(startDate, formatter);
+        //this.startDate = LocalDate.now();
     }
 
     public String getDesc() {
@@ -121,6 +133,9 @@ public class GenericTask implements Serializable {
         return Period.between(startDate, dueDate).getDays();
     }
 
+    public GenericTask() {
+
+    }
 
     // Time to finish the task without any break.
     public int timeToFinishTheTask() {

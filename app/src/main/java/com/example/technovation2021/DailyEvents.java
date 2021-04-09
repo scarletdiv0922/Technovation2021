@@ -32,6 +32,7 @@ import static java.lang.Integer.max;
 public class DailyEvents extends AppCompatActivity {
 
     ArrayList<Event> evList;
+    ArrayList<Event> filteredList;
     private static final String LOG_TAG = DailyEvents.class.getSimpleName();
 
     RecyclerView recyclerView;
@@ -99,7 +100,7 @@ public class DailyEvents extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public GetEventsForDay(LocalDate date) {
             dateToFetch = date;
-            endDay = dateToFetch.plusDays(1);
+            endDay = dateToFetch.plusDays(0);
             evList = new ArrayList<Event>();
         }
 
@@ -153,7 +154,15 @@ public class DailyEvents extends AppCompatActivity {
                 /* show events fetched */
                 Log.d(LOG_TAG, "got " + evList.size());
 
-                DailyEventsAdapter dea = new DailyEventsAdapter(DailyEvents.this, evList );
+
+                filteredList = new ArrayList<Event>();
+                for (int i =0;i < evList.size(); i++) {
+                    Log.d(LOG_TAG, "ev :" + i + " desc:" + evList.get(i).eventDesc + " start:" + evList.get(i).startTime + " day:" + evList.get(i).date.toString());
+                    if ( evList.get(i).type != 4 ) {
+                        filteredList.add(evList.get(i));
+                    }
+                }
+                DailyEventsAdapter dea = new DailyEventsAdapter(DailyEvents.this, filteredList );
                 recyclerView.setAdapter(dea);
             }
         }

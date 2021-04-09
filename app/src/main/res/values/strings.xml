@@ -135,6 +135,8 @@
     <string name="add_task">Add Task</string>
     <string name="break_notif">Break</string>
     <string name="notifications">Notifications</string>
+    <string name="schoolloop_com">.schoolloop.com</string>
+    <string name="school_specific_url_part">School specific URL part</string>
 
 
 </resources>

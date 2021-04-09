@@ -23,7 +23,8 @@ public class Event implements Serializable, Comparable {
     // is this particular slot.
     Integer chunkNumber = 0;
     Integer totalChunks;
-    // break = 1, homework = 2, activity = 3, do-not-disturb = 4
+    // break = 1, homework = 2, extra-curricular activity = 3, do-not-disturb = 4
+    // by default do not show event type 4: school, dinner, sleep at home events in daily view.
     Integer type;
 
     //public Integer activityDuration;

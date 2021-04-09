@@ -119,7 +119,7 @@ public class SchoolLoopHomeworkGrabber {
                 GenericTask newtask = new GenericTask(LocalTime.now().toString(),
                         LocalDate.now().toString(),
                         LocalDate.parse(h.duedate, formatter).toString(),
-                        h.hw_desc, h.hw_desc, h.hash, 2, 120);
+                        h.sub, h.hw_desc, h.hash, 2, 120);
                 // Split the task into events, save them to firebase. then save task itself
                 // to firebase. when its done, callback scheduleNextHomework with index+1
                 frd.saveHwTask(newtask, this, index+1);
