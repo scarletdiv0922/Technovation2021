@@ -20,9 +20,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.widget.Toast;
+import java.util.Calendar;
+
 public class CalendarActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
+
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        Toast.makeText(CalendarActivity.this,"Long press on a day to open its events. ",Toast.LENGTH_LONG).show();
+        return;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -32,6 +46,20 @@ public class CalendarActivity extends AppCompatActivity {
 
 
         CustomCalendar cv = findViewById(R.id.custom_calendar);
+
+
+        Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
+        PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
+
+        AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        long currentTime = System.currentTimeMillis();
+        long tenSeconds = 1000*10;
+
+        notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
+                currentTime+tenSeconds,
+                notifPendingIntent);
+
         //cv.setContext(CalendarActivity.this);
         Log.d("CalendarXX", "call custom calendar");
         /* Below handler works but may not be needed.
@@ -64,9 +92,18 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-
             case R.id.studentActivity:
-                Intent intent4 = new Intent( CalendarActivity.this, StudentActivity.class);
+                Intent intent2 = new Intent( CalendarActivity.this, StudentActivity.class);
+                startActivity(intent2);
+                return true;
+
+            case R.id.addTask:
+                Intent intent3 = new Intent( CalendarActivity.this, AddTask.class);
+                startActivity(intent3);
+                return true;
+
+            case R.id.notifications:
+                Intent intent4 = new Intent( CalendarActivity.this, StudentNotification.class);
                 startActivity(intent4);
                 return true;
             }

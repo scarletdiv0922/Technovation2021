@@ -6,7 +6,13 @@
         android:id="@+id/settingMenu"
         android:title="Settings" />
 
-    <item android:title="Student Activity"
+    <item android:title="Add Activity"
         android:id="@+id/studentActivity" />
 
+    <item
+        android:title="Add Task"
+        android:id="@+id/addTask" />
+    <item
+        android:title="Notifications"
+        android:id="@+id/notifications" />
 </menu>

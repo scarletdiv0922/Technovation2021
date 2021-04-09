@@ -11,6 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DailyEvents"></activity>
         <activity android:name=".StudentActivity" />
+        <activity android:name=".StudentNotification"></activity>
+        <activity android:name=".AddTask" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".AddActivity" />
         <activity android:name=".SignUp" />
@@ -27,6 +29,8 @@
         <activity
             android:name=".CalendarActivity"
             android:screenOrientation="portrait" />
+
+        <receiver android:name=".EventNotificationBroadcast"/>
 
         <meta-data
             android:name="preloaded_fonts"

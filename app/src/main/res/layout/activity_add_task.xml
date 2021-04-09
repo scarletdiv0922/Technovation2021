@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d7f4ffff"
+    tools:context=".AddTask">
+
+    <EditText
+        android:id="@+id/idTaskIdealSitting"
+        android:layout_width="138dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="3dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/bitter"
+        android:gravity="bottom"
+        android:hint="@string/ideal_sitting"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTaskDuration" />
+
+    <TextView
+        android:id="@+id/idTxtTaskName3"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/minutes"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/idTaskDuration"
+        android:layout_width="139dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/bitter"
+        android:gravity="bottom"
+        android:hint="@string/duration"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTaskDueDate" />
+
+    <TextView
+        android:id="@+id/idTaskDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bitter"
+        android:gravity="bottom"
+        android:onClick="dueDateClicked"
+        android:text="@string/due_date"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTaskStartDate" />
+
+    <TextView
+        android:id="@+id/idTaskStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="26dp"
+        android:fontFamily="@font/bitter"
+        android:gravity="bottom"
+        android:onClick="startDateClicked"
+        android:text="@string/start_date"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTaskName" />
+
+    <TextView
+        android:id="@+id/idATLine"
+        android:layout_width="180dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="15dp"
+        android:background="#6dedd1"
+        android:text="@string/textSpace"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtAddTask" />
+
+    <Button
+        android:id="@+id/idTBtnAddToCalendar"
+        android:layout_width="238dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="65dp"
+        android:background="#6DEDD1"
+        android:fontFamily="@font/bitter"
+        android:onClick="addToCalendarClicked"
+        android:text="@string/add_to_calendar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/idTBtnCancel"
+        android:layout_width="83dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="#00000000"
+        android:fontFamily="@font/bitter"
+        android:onClick="cancelAddActivityClicked"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/idTaskNotes"
+        android:layout_width="377dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="428dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/bitter"
+        android:gravity="start|top"
+        android:hint="@string/notes"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idTxtTaskDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/duration"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtTaskDueDate" />
+
+    <TextView
+        android:id="@+id/idTxtTaskName"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/activity_name"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idATLine" />
+
+    <TextView
+        android:id="@+id/idTxtTaskName2"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginTop="295dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/minutes"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idTxtTaskDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/due_date"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtTaskStartDate" />
+
+    <EditText
+        android:id="@+id/idTaskName"
+        android:layout_width="197dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="@font/bitter"
+        android:gravity="bottom"
+        android:hint="@string/activity_name"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idATLine" />
+
+    <TextView
+        android:id="@+id/idTxtTaskIdealSitting"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/ideal_sitting"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtTaskDuration" />
+
+    <TextView
+        android:id="@+id/idTxtTaskStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/start_date"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtTaskName" />
+
+    <TextView
+        android:id="@+id/idTxtAddTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/bitter"
+        android:text="@string/add_task"
+        android:textColor="#283953"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

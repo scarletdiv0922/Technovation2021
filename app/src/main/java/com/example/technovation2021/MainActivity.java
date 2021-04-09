@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button signUpButton;
     ProgressBar pbar;
+    EditText passwordHint;
+    Button forgotPassword;
     //ArrayList<itemModel> arrayList;
     // References (firebase signin): https://www.youtube.com/watch?v=TwHmrZxiPA8
 
@@ -60,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: make validating email and password a method by itself
     // TODO: Make custom Toast() message using BuildConfig.DEBUG
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         signUpButton = findViewById(R.id.sign_up_button);
         pbar = findViewById(R.id.progressBar);
+        forgotPassword = findViewById(R.id.idBtnForgotPassword);
 
         pbar.setVisibility(View.GONE);
-        if ( BuildConfig.DEBUG ) {
+        if (BuildConfig.DEBUG) {
             EditText tv = findViewById(R.id.userEmail);
             EditText pswd = findViewById(R.id.userPassword);
 
@@ -93,26 +102,26 @@ public class MainActivity extends AppCompatActivity {
                 EditText pswd = findViewById(R.id.userPassword);
 
                 // Do sanity checks to make sure data is good!
-                if (TextUtils.isEmpty(email.getText().toString()) ) {
+                if (TextUtils.isEmpty(email.getText().toString().trim())) {
                     //Toast.makeText(MainActivity.this, "Email cannot be empty.",
-                            //Toast.LENGTH_SHORT).show();
+                    //Toast.LENGTH_SHORT).show();
                     email.setError("Email cannot be empty.");
                     return;
                 }
-                if ( !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
                     // TODO: Change these toast message to field.setError()
                     Toast.makeText(MainActivity.this, "Email address is not valid.",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if ( TextUtils.isEmpty(pswd.getText().toString()) ) {
+                if (TextUtils.isEmpty(pswd.getText().toString())) {
                     Toast.makeText(MainActivity.this, "Password is empty.",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // TODO: Make password length a constant variable
-                if ( pswd.length() < 5 ) {
+                if (pswd.length() < 5) {
                     Toast.makeText(MainActivity.this, "Password is too short.",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -124,13 +133,12 @@ public class MainActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if ( task.isSuccessful() ) {
+                        if (task.isSuccessful()) {
                             pbar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                             startActivity(intent);
-                        }
-                        else {
+                        } else {
                             //Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
                             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                             switch (errorCode) {
@@ -157,12 +165,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
+//        forgotPassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "Hint:" + passwordHint, Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+    }
+    //
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void forgotPasswordClicked(View view) {
-        //Intent intent = new Intent(MainActivity.this, UserInfo.class);
-        //startActivity(intent);
+        EditText email = findViewById(R.id.userEmail);
+
+        Log.d(LOG_TAG, "Forgot Password is clicked.");
+
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(LOG_TAG, "Email sent.");
+                            Toast.makeText(MainActivity.this, "An email to reset your password has been sent.", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+    }
+}
+
+//        Intent intent = new Intent(MainActivity.this, UserInfo.class);
+//        startActivity(intent);
 
         /*
         FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
@@ -179,5 +213,4 @@ public class MainActivity extends AppCompatActivity {
         //Log.d(LOG_TAG, sluser+slpswd+subdomain);
         new HTTPReqTask(sluser, slpswd, subdomain).execute();
          */
-    }
-}
+

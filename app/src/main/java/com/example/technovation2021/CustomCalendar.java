@@ -151,6 +151,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 //currentDate.add(Calendar.MONTH, 1);
                 //updateCalendar(LocalDate.now());
                 curDate = curDate.plusMonths(1);
+                Log.d(LOG_TAG, "show me events for next mo:" + curDate.toString());
                 updateCalendar(curDate);
             }
         });
@@ -164,6 +165,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 //currentDate.add(Calendar.MONTH, -1);
                 //updateCalendar(LocalDate.now());
                 curDate = curDate.plusMonths(-1);
+                Log.d(LOG_TAG, "show me events for prev mo:" + curDate.toString());
                 updateCalendar(curDate);
             }
         });

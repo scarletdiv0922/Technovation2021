@@ -126,4 +126,15 @@
         <item>10h</item>
         <item>20h</item>
     </string-array>
+
+
+    <string name="minutes">mins</string>
+    <string name="max_sitting">Max Sitting</string>
+    <string name="ideal_sitting">Ideal Sitting</string>
+    <string name="due_date">Due Date</string>
+    <string name="add_task">Add Task</string>
+    <string name="break_notif">Break</string>
+    <string name="notifications">Notifications</string>
+
+
 </resources>
