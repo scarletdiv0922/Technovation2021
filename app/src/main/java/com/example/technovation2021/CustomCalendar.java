@@ -308,6 +308,12 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 holder.eventsForDay = new ArrayList<Event>();
                 view.setTag(holder);
             }
+            else {
+                holder = (ViewHolder) view.getTag();
+                holder.date = day;
+                holder.eventsForDay = new ArrayList<Event>();
+                Log.d(LOG_TAG, "view not null");
+            }
 
             // if this day has an event
             view.setBackgroundResource(0);
