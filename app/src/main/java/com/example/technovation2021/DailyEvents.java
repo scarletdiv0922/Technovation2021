@@ -49,10 +49,9 @@ public class DailyEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_events);
 
-
-
         evList = new ArrayList<Event>();
         String showEventsForDay = getIntent().getStringExtra("EventsForDay");
+        Log.d("event date test", "showEventsForDay= " + showEventsForDay);
         setTitle("Events for " + showEventsForDay);
         fromDate = LocalDate.parse(showEventsForDay);
         mAuth = FirebaseAuth.getInstance();

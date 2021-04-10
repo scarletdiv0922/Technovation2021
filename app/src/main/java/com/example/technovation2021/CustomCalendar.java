@@ -328,6 +328,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                         Log.d(LOG_TAG, "on long press. show:" + v.date.toString() + " eventList Size:" + v.eventsForDay.size());
                         Intent intent = new Intent(calContext, DailyEvents.class);
                         intent.putExtra("EventsForDay", v.date.toString());
+                        // Log.d("v.date description", "v.date= "+v.date.toString());
 
                         //Bundle args = new Bundle();
                         //args.putParcelableArrayList("EventList", v.eventsForDay);
