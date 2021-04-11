@@ -137,6 +137,7 @@
     <string name="notifications">Notifications</string>
     <string name="schoolloop_com">.schoolloop.com</string>
     <string name="school_specific_url_part">School specific URL part</string>
+    <string name="img_todo">TODO</string>
 
 
 </resources>

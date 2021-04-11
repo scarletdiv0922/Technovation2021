@@ -1,15 +1,19 @@
 package com.example.technovation2021;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.CalViewHolder> {
@@ -31,11 +35,23 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
         return new CalViewHolder(vw);
     }
 
+    private String durationFormat(Integer duration) {
+        String disp = "";
+        if ( (duration / 60) > 0 ) {
+            disp = Integer.toString(duration / 60) + "h:";
+        }
+        disp += Integer.toString(duration % 60) + "m";
+        return disp;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DailyEventsAdapter.CalViewHolder holder, int position) {
         //Log.d(LOG_TAG, "Show event number: " + position);
-        holder.startTime.setText(evList.get(position).startTime.toString());
-        holder.duration.setText(evList.get(position).duration.toString());
+        DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("KK:mm a");
+        holder.startTime.setText(evList.get(position).startTime.format(dateFormat));
+        //holder.duration.setText(evList.get(position).duration.toString());
+        holder.duration.setText(durationFormat(evList.get(position).duration));
         holder.evDesc.setText(evList.get(position).eventDesc);
         holder.notes.setText(evList.get(position).notes);
     }

@@ -207,7 +207,7 @@ public class FirebaseRealtimeDatabase {
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
         Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
                 1, 1, GenericTask.MIN_BREAK_TIME, 1,
-                        "BREAKTASK", "Chill!");
+                        "BREAKTASK", "Relax. Play some music or read a book or play an instrument!");
         // TODO: check for success/failure.
         newPostRef.setValue(breakEvent);
         return 0; // TODO: check return value

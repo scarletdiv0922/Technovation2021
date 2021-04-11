@@ -53,7 +53,7 @@ public class StudentNotification extends AppCompatActivity {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "1");
         mBuilder.setContentTitle("Test title");
         mBuilder.setContentText("This is a test text and it should be long");
-        mBuilder.setSmallIcon(R.drawable.next_icon);
+        mBuilder.setSmallIcon(R.drawable.next_month);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(this);
         myNotificationManager.notify(1, mBuilder.build());

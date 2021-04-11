@@ -45,39 +45,27 @@ public class SchoolLoopHomeworkGrabber {
     String userPassword;
     String slDomain;
     SlThread slt;
-    SchoolLoopConnector slc;
+    SchoolLoopConnector slc = null;
     ArrayList<HomeworkFromSchoolloop> unscheduledHwList;
     ArrayList<GenericTask> masterTaskList;
 
     class SlThread implements Runnable {
-
-        /*
-        String user, pswd, dmn;
-        public SlThread(String u, String p, String d) {
-            user = u;
-            pswd = p;
-            dmn = d;
-        }
-
-         */
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void run() {
             LocalTime now = LocalTime.now();
             LocalDate today = LocalDate.now();
             Log.d(LOG_TAG, "now " + now.toString());
-            getSchoolLoopHomework();
-            /*
+            //getSchoolLoopHomework();
             if ( today.getDayOfWeek() != DayOfWeek.SUNDAY &&
                     today.getDayOfWeek() != DayOfWeek.SATURDAY ) {
-                if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("15:00:00"))) {
+                if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("18:00:00"))) {
                     Log.d(LOG_TAG, "call getschoolloophomework");
                     getSchoolLoopHomework();
                 }
             }
-            mHandler.postDelayed( this, 60*1000);
-
-             */
+            // Fetch homework every 2 hours between 8am - 6pm on weekdays
+            mHandler.postDelayed( this, 2*60*60*1000);
         }
     }
 
@@ -91,7 +79,7 @@ public class SchoolLoopHomeworkGrabber {
     public boolean hwTaskAlreadyScheduled(HomeworkFromSchoolloop h, ArrayList<GenericTask> taskList) {
         for ( int i = 0; i < taskList.size(); i++ ) {
             if ( h.hash.equals(taskList.get(i).hash)) {
-                Log.d(LOG_TAG, "hw " + h.sub +  " desc " + h.hw_desc + " is already scheduled");
+                //Log.d(LOG_TAG, "hw " + h.sub +  " desc " + h.hw_desc + " is already scheduled");
                 return true;
             }
         }
@@ -150,7 +138,8 @@ public class SchoolLoopHomeworkGrabber {
     public void stopTimer() {
         Log.d(LOG_TAG, "cancel callbacks");
         mHandler.removeCallbacks(slt);
-        slc.cancel(true);
+        if (slc != null)
+            slc.cancel(true);
     }
 
 
@@ -270,7 +259,7 @@ public class SchoolLoopHomeworkGrabber {
                     String hw_desc = jsonObject.getString("hw_desc");
                     String duedate = jsonObject.getString("duedate");
                     String hash = jsonObject.getString("hash");
-                    Log.d("post Exec", sub + " " + hw_desc + " " + duedate + "hash=>" + hash);
+                    //Log.d("post Exec", sub + " " + hw_desc + " " + duedate + "hash=>" + hash);
                     unscheduledHwList.add(new HomeworkFromSchoolloop(sub, hw_desc, duedate, hash));
 
                 /*

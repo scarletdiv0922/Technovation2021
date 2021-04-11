@@ -78,6 +78,7 @@
         android:layout_marginTop="16dp"
         android:autofillHints=""
         android:ems="10"
+        android:gravity="right"
         android:hint="@string/school_specific_url_part"
         android:inputType="textUri"
         app:layout_constraintBottom_toBottomOf="parent"

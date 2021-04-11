@@ -79,14 +79,21 @@ public class UserSettings extends AppCompatActivity {
 
         slg = new SchoolLoopHomeworkGrabber(sluser2, slpswd2, subdomain2);
 
+        /*
         SharedPreferences sharedPref2 = getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String sluser = sharedPref.getString("sluser", "invalid");
         String slpswd = sharedPref.getString("slpswd", "invalid");
+
+         */
         EditText slId = findViewById(R.id.schoolloopId);
         EditText slPswd = findViewById(R.id.schoolloopPswd);
-        slId.setText(sluser);
-        slPswd.setText(slpswd);
+        EditText slDmn = findViewById(R.id.Subdomain);
+
+
+        slId.setText(sluser2);
+        slPswd.setText(slpswd2);
+        slDmn.setText(subdomain2);
 
         /* DO NOT SAVE USER LOGIN,PASSWORD in Firebase
         mDatabase.child(userId).child(userKey).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -129,20 +136,26 @@ public class UserSettings extends AppCompatActivity {
             return true;
         }
 
-        // TODO: need to ask user for schoolloop login website. this URL has student's exact school
-        //       domain. schoolloop login will fail of wrong URL is used.
+        EditText sl_subdomain = findViewById(R.id.Subdomain);
+        String subdmn = sl_subdomain.getText().toString().trim();
+        // TODO: is atleast 5 characters a sufficient check.
+        if ( subdmn.isEmpty() || subdmn.length() < 5 ) {
+            sl_subdomain.setError("Schoolloop suddomain is not valid. Please check.");
+            return true;
+        }
         return false;
     }
 
     public void btnSaveSchoolLoopDetails(View view) {
         //Toast.makeText(UserSettings.this, "done", Toast.LENGTH_SHORT).show();
-        //if ( errorsInActivity() )
-          //  return;
+        if ( errorsInActivity() )
+            return;
 
         pbar.setVisibility(View.VISIBLE);
 
         EditText slId = findViewById(R.id.schoolloopId);
         EditText slPswd = findViewById(R.id.schoolloopPswd);
+        EditText slDmn = findViewById(R.id.Subdomain);
 
         sld = new SchoolLoopDetails(slId.getText().toString(), slPswd.getText().toString(), "technovation.org");
         //mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -164,8 +177,8 @@ public class UserSettings extends AppCompatActivity {
         editor.putString("sluser", slId.getText().toString());
         editor.putString("slpswd", slPswd.getText().toString());
         // TODO: add field for entering sub-domain
-        editor.putString("slsubdomain", "hjh-fusd-ca");
-        editor.putString("fetchhwat", "15:00"); // 3pm everyday
+        editor.putString("slsubdomain", slDmn.getText().toString());
+        //editor.putString("fetchhwat", "15:00"); // 3pm everyday
         editor.commit();
 
         pbar.setVisibility(View.GONE);

@@ -3,25 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="5dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/event_border_rounded_rectangle"
         app:cardBackgroundColor="@color/lightBlue"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="1dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="410dp"
-        android:layout_height="110dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="182dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="410dp"
+            android:layout_height="110dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="182dp">
+
 
         <TextView
             android:id="@+id/idEventStartTime"
@@ -30,7 +31,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="6dp"
-            android:gravity="center_horizontal|center_vertical"
+            android:gravity="start|center_vertical"
             android:text="@string/start_time"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,26 +53,26 @@
         <TextView
             android:id="@+id/idEventDesc"
             android:layout_width="267dp"
-            android:layout_height="45dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:text="@string/desc"
-            android:textSize="24sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/idEventNotes"
             android:layout_width="266dp"
-            android:layout_height="48dp"
+            android:layout_height="58dp"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:gravity="center_vertical"
             android:text="@string/notes"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -81,9 +82,10 @@
             android:layout_height="41dp"
             tools:layout_editor_absoluteX="78dp"
             tools:layout_editor_absoluteY="64dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="@string/img_todo" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
