@@ -49,6 +49,9 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
         Log.d("Current Date", "currentdate= "+currentDate);
         notifIntent.putExtra("EventsForDay", currentDate);
 
+
+       // eventHandler.onDayLongPress((LocalDate)view.getItemAtPosition(position));
+
         //notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(notifContext, 0, notifIntent, 0);
 

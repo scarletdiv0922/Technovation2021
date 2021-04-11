@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -23,9 +24,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Calendar;
 
 public class CalendarActivity extends AppCompatActivity {
+    ArrayList<Event> evList = new ArrayList<Event>();
+    boolean eventsFetched = false;
+    String currentDate= LocalDate.now().toString();
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
 
@@ -74,6 +87,58 @@ public class CalendarActivity extends AppCompatActivity {
         });
          */
         cv.updateCalendar(LocalDate.now());
+
+
+        //Query (find) all events for today
+        FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
+        Log.d(LOG_TAG, " 1 before try");
+
+        try {
+            DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
+            String userId = mAuthEv.getCurrentUser().getUid();
+            Log.d(LOG_TAG, " 2 after getting user id");
+
+            Log.d(LOG_TAG, "userId= "+userId);
+
+
+           /* Query eventList = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
+                    startAt(currentDate).endAt("2021-04-10");
+           */
+
+            Query eventList1 = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
+                    startAt("2021-04-08").endAt("2021-04-10");
+
+            Log.d(LOG_TAG, " 3 after query");
+
+            //Query eventList1 = mDatabaseEv.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
+
+            eventList1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        evList.add(ds.getValue(Event.class));
+                        Log.d("onDataChange", "evList size= "+ evList.size());
+                    }
+                    eventsFetched = true;
+                    Log.d(LOG_TAG, "I fetched events");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            Log.d(LOG_TAG, " data fetch done");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+
+        //Loop through the events for the day and set a notification for 10 minutes before the notification start time
+        Log.d("I am here and this is the evList size", "evList= " + evList.size());
+
     }
 
     @Override

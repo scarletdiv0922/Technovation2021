@@ -375,6 +375,7 @@ public class FirebaseRealtimeDatabase {
                             //Log.d("async task", "11 arrList size " + arrList.size());
                         }
                         evtFetchDone = true;
+                        Log.d(LOG_TAG, "true- evList size= "+calEvntList.size());
                     }
 
                     @Override
