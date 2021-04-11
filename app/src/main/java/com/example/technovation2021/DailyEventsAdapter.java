@@ -44,12 +44,17 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
     private String durationFormat(Integer duration) {
         String disp = "";
         if ( (duration / 60) > 0 ) {
-            disp = Integer.toString(duration / 60) + "h:";
+            disp = Integer.toString(duration / 60) + "h";
+            if ((duration % 60) > 0) {
+                disp += ":";
+            }
         }
-        disp += Integer.toString(duration % 60) + "m";
+        if ((duration % 60) > 0) {
+            disp += Integer.toString(duration % 60) + "m";
+        }
         return disp;
     }
-
+    
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DailyEventsAdapter.CalViewHolder holder, final int position) {
