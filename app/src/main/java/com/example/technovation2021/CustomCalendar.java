@@ -351,7 +351,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             if (LocalDate.now().getDayOfMonth() == day.getDayOfMonth() &&
                 LocalDate.now().getMonth() == day.getMonth() &&
                 LocalDate.now().getYear() == day.getYear()) {
-                tvDate.setTextColor(Color.RED);
+                tvDate.setTextColor(Color.GREEN);
             }
 
             // TODO: If the firebase returned event list is already sorted, then we can just
@@ -369,7 +369,23 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                         holder.eventsForDay.add(eventDate);
                     }
                 }
+                // Done with picking all events for the date in cell
                 TextView ev1 = view.findViewById(R.id.calEvent1);
+                TextView ev2 = view.findViewById(R.id.calEvent2);
+                TextView ev3 = view.findViewById(R.id.calEvent3);
+                if ( holder.eventsForDay.size() > 0 )
+                    ev1.setText(holder.eventsForDay.get(0).eventDesc.substring(0, 5));
+                else ev1.setText("");
+
+                if ( holder.eventsForDay.size() >= 1 )
+                    ev2.setText(holder.eventsForDay.get(1).eventDesc.substring(0, 5));
+                else ev2.setText("");
+
+                if ( holder.eventsForDay.size() >= 2 )
+                    ev3.setText(holder.eventsForDay.get(2).eventDesc.substring(0, 5));
+                else ev3.setText("");
+
+                /*
                 if ( holder != null && holder.eventsForDay.size() > 0 ) {
                     ev1.setText(holder.eventsForDay.get(0).eventDesc);
                 }
@@ -378,6 +394,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                     ev1.setTypeface(null, Typeface.ITALIC);
                     ev1.setTextColor(Color.LTGRAY);
                 }
+
+                 */
             }
 /*
             // clear styling

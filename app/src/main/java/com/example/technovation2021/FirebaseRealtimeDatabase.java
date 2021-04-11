@@ -68,6 +68,9 @@ public class FirebaseRealtimeDatabase {
         new GetEventsForRange(fromDate, toDate, caller).execute();
     }
 
+    public int clearEvents(Event task) {
+        return 0;
+    }
 
     public void getTaskList(LocalDate fromDate, LocalDate toDate, Object caller) {
         Log.d(LOG_TAG, "FRD::getEvents:" + fromDate.toString() + " to:" + toDate.toString());

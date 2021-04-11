@@ -161,7 +161,7 @@ public class DailyEvents extends AppCompatActivity {
                         filteredList.add(evList.get(i));
                     }
                 }
-                DailyEventsAdapter dea = new DailyEventsAdapter(DailyEvents.this, filteredList );
+                DailyEventsAdapter dea = new DailyEventsAdapter(DailyEvents.this, dateToFetch, filteredList );
                 recyclerView.setAdapter(dea);
             }
         }

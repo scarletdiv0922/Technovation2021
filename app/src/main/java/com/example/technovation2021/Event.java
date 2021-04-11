@@ -27,11 +27,6 @@ public class Event implements Serializable, Comparable {
     // by default do not show event type 4: school, dinner, sleep at home events in daily view.
     Integer type;
 
-    //public Integer activityDuration;
-    //public Integer recurs;
-    //public Boolean schoolTask;
-    //public Integer timeToFinish;
-
     // link to "master" activity or task
     String taskId;
     String notes;
@@ -91,15 +86,6 @@ public class Event implements Serializable, Comparable {
     public void setTaskId(String task) {
         taskId = task;
     }
-
-/*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String getStartDateTime() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return startDateTime.format(format);
-    }
-
- */
 
     public Integer getChunkNumber() {
         return chunkNumber;

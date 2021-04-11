@@ -22,7 +22,7 @@
     <string name="tue">TUE</string>
     <string name="mon">MON</string>
     <string name="sun">SUN</string>
-    <string name="current_date">current date</string>
+    <string name="mon_year">Month and Year</string>
     <string name="todo">TODO</string>
     <string name="event_title">Event Title</string>
     <string name="start_date">Start Date</string>
@@ -72,7 +72,7 @@
     <string name="m">M</string>
     <string name="continuebutton">Continue</string>
     <string name="day_of_month">day of month</string>
-    <string name="dayofmonth">DayOfMonth</string>
+    <string name="dayofmonth">DayOf</string>
     <string name="event_1">Event 1</string>
     <string name="event_3">Event 3</string>
     <string name="event_2">Event 2</string>
