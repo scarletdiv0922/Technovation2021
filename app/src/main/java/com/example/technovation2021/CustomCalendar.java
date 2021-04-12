@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
@@ -273,19 +271,48 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         public TextView[] events;
     }
 
-    private class CalendarAdapter extends ArrayAdapter<LocalDate>
-    {
+    private class CalendarAdapter extends ArrayAdapter<LocalDate> {
         // days with events
         private ArrayList<Event> eventList;
 
         // for view inflation
         private LayoutInflater inflater;
 
-        public CalendarAdapter(Context context, ArrayList<LocalDate> days, ArrayList<Event> events)
-        {
+        public CalendarAdapter(Context context, ArrayList<LocalDate> days, ArrayList<Event> events) {
             super(context, R.layout.control_calendar_day, days);
             this.eventList = events;
             inflater = LayoutInflater.from(context);
+        }
+
+        private int getColor(Event e) {
+            if ( e.eventDesc.contains("Math") )
+                return Color.LTGRAY;
+            if ( e.eventDesc.contains("History") )
+                return Color.CYAN;
+            if ( e.eventDesc.contains("Science") )
+                return Color.GREEN;
+            if ( e.eventDesc.contains("English") )
+                return Color.MAGENTA;
+            return Color.YELLOW;
+        }
+
+        private void setCalEvent(int evNr, Event e, View view) {
+            TextView tv = null;
+            switch ( evNr ) {
+                case 1:
+                    tv = view.findViewById(R.id.calEvent1);
+                    break;
+                case 2:
+                    tv = view.findViewById(R.id.calEvent2);
+                    break;
+                case 3:
+                    tv = view.findViewById(R.id.calEvent3);
+                    break;
+            }
+            if ( tv != null ) {
+                tv.setBackgroundColor(getColor(e));
+                tv.setText(e.eventDesc.substring(0, 5));
+            }
         }
 
         @Override
@@ -370,9 +397,23 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                     }
                 }
                 // Done with picking all events for the date in cell
+                int k = 0;
                 TextView ev1 = view.findViewById(R.id.calEvent1);
                 TextView ev2 = view.findViewById(R.id.calEvent2);
                 TextView ev3 = view.findViewById(R.id.calEvent3);
+                ev1.setText("");
+                ev2.setText("");
+                ev3.setText("");
+                for (Event ev : holder.eventsForDay) {
+                    Log.d("CALDISPLAY", "ev type:" + ev.type + " desc:" + ev.eventDesc);
+                    if ((ev.type == CalEvent.CAL_EVENT_EXTRACURRICULAR.ordinal()) ||
+                            (ev.type == CalEvent.CAL_EVENT_HOMEWORK.ordinal())) {
+                        k++;
+                        Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
+                        setCalEvent(k, ev, view);
+                    }
+                }
+                /*
                 if ( holder.eventsForDay.size() > 0 )
                     ev1.setText(holder.eventsForDay.get(0).eventDesc.substring(0, 5));
                 else ev1.setText("");
@@ -385,7 +426,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                     ev3.setText(holder.eventsForDay.get(2).eventDesc.substring(0, 5));
                 else ev3.setText("");
 
-                /*
+
                 if ( holder != null && holder.eventsForDay.size() > 0 ) {
                     ev1.setText(holder.eventsForDay.get(0).eventDesc);
                 }

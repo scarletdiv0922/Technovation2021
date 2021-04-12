@@ -12,6 +12,14 @@ import java.time.format.DateTimeFormatter;
 
 import androidx.annotation.RequiresApi;
 
+enum CalEvent {
+    CAL_EVENT_NONE,
+    CAL_EVENT_BREAK,
+    CAL_EVENT_HOMEWORK,
+    CAL_EVENT_EXTRACURRICULAR,
+    CAL_EVENT_DONOTDISTURB
+}
+
 public class Event implements Serializable, Comparable {
     // Event start date, start time.
     LocalDate date;

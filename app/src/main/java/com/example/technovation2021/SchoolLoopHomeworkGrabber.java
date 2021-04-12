@@ -104,7 +104,7 @@ public class SchoolLoopHomeworkGrabber {
                  */
                 Log.d(LOG_TAG, "hw at index: " + index + " hw:" + h.sub);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                GenericTask newtask = new GenericTask(LocalTime.now().toString(),
+                GenericTask newtask = new GenericTask(String.valueOf(System.currentTimeMillis()),
                         LocalDate.now().toString(),
                         LocalDate.parse(h.duedate, formatter).toString(),
                         h.sub, h.hw_desc, h.hash, 2, 120);
