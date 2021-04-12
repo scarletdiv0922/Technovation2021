@@ -15,4 +15,8 @@
     <item
         android:title="Notifications"
         android:id="@+id/notifications" />
+
+    <item
+        android:title="About"
+        android:id="@+id/aboutPage" />
 </menu>

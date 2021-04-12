@@ -171,6 +171,11 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent4 = new Intent( CalendarActivity.this, StudentNotification.class);
                 startActivity(intent4);
                 return true;
+
+            case R.id.aboutPage:
+                Intent intent5 = new Intent( CalendarActivity.this, About.class);
+                startActivity(intent5);
+                return true;
             }
         return super.onOptionsItemSelected(item);
     }
