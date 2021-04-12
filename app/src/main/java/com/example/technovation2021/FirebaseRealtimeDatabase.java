@@ -191,7 +191,7 @@ public class FirebaseRealtimeDatabase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int addBreakEvent(LocalTime tm, LocalDate d) {
+    public int addBreakEvent(LocalTime tm, LocalDate d, String taskId) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
@@ -209,7 +209,7 @@ public class FirebaseRealtimeDatabase {
          */
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
         Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
-                1, 1, GenericTask.MIN_BREAK_TIME, 1,
+                1, 1, GenericTask.MIN_BREAK_TIME, CalEvent.CAL_EVENT_BREAK.ordinal(),
                         "BREAKTASK", "Relax. Play some music or read a book or play an instrument!");
         // TODO: check for success/failure.
         newPostRef.setValue(breakEvent);
@@ -244,7 +244,7 @@ public class FirebaseRealtimeDatabase {
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
         Event workEvent = new Event(tsk.desc, localDate.toString(), tm.toString(), slotNr, totSlots, duration, 2,
-                tsk.hash, tsk.notes);
+                tsk.taskId, tsk.notes);
         // TODO: check for success/failure.
         newPostRef.setValue(workEvent);
         return 0; // TODO: check return value
@@ -625,7 +625,7 @@ public class FirebaseRealtimeDatabase {
                     // Schedule Break Event.
                     LocalTime breakAt = i.t1.plusMinutes(i.duration);
                     Log.d(LOG_TAG, "time of break " + i.t1.toString());
-                    addBreakEvent(breakAt, curDate);
+                    addBreakEvent(breakAt, curDate, taskToBeScheduled.taskId);
                     // Schedule Hw Event.
                     LocalTime hwAt = i.t1.plusMinutes(i.duration + GenericTask.MIN_BREAK_TIME);
                     Log.d(LOG_TAG, "time of hw " + i.t1.toString());
