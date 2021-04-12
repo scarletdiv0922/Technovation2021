@@ -195,7 +195,7 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
 
                 pbar.setVisibility(View.INVISIBLE);
 
-                Intent intent = new Intent(UserInfo.this, CalendarActivity.class);
+                Intent intent = new Intent(UserInfo.this, UserOnboardingScreenOne.class);
                 startActivity(intent);
 
 

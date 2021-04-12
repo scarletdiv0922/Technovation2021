@@ -67,10 +67,10 @@ public class CalendarActivity extends AppCompatActivity {
         AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         long currentTime = System.currentTimeMillis();
-        long tenSeconds = 1000*10;
+        long fiveSeconds = 1000*5;
 
         notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
-                currentTime+tenSeconds,
+                currentTime+fiveSeconds,
                 notifPendingIntent);
 
         //cv.setContext(CalendarActivity.this);
@@ -167,11 +167,11 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent3);
                 return true;
 
-            case R.id.notifications:
+            /*case R.id.notifications:
                 Intent intent4 = new Intent( CalendarActivity.this, StudentNotification.class);
                 startActivity(intent4);
                 return true;
-
+*/
             case R.id.aboutPage:
                 Intent intent5 = new Intent( CalendarActivity.this, About.class);
                 startActivity(intent5);

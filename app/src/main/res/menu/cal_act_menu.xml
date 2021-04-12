@@ -12,9 +12,6 @@
     <item
         android:title="Add Task"
         android:id="@+id/addTask" />
-    <item
-        android:title="Notifications"
-        android:id="@+id/notifications" />
 
     <item
         android:title="About"
