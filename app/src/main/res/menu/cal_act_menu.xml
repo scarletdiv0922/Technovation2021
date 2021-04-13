@@ -16,4 +16,7 @@
     <item
         android:title="About"
         android:id="@+id/aboutPage" />
+    <item
+        android:id="@+id/privacyScreen"
+        android:title="Privacy" />
 </menu>

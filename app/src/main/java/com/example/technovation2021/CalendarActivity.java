@@ -176,6 +176,12 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent5 = new Intent( CalendarActivity.this, About.class);
                 startActivity(intent5);
                 return true;
+
+            case R.id.privacyScreen:
+                //Toast.makeText(CalendarActivity.this, "Go to settings", Toast.LENGTH_SHORT).show();
+                Intent intent6 = new Intent(CalendarActivity.this, Privacy.class);
+                startActivity(intent6);
+                return true;
             }
         return super.onOptionsItemSelected(item);
     }
