@@ -332,12 +332,12 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             return false;
         }
 
-        if (sunday
-            && monday
-            && tuesday
-            ){
-
-        }
+//        if (sunday
+//            && monday
+//            && tuesday
+//            ){
+//
+//        }
 
 
 

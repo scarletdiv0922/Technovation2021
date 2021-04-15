@@ -219,7 +219,7 @@
         app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.159" />
 
     <TextView
         android:id="@+id/idTxtActStartTime"
@@ -237,21 +237,21 @@
 
     <EditText
         android:id="@+id/idActName"
-        android:layout_width="196sp"
-        android:layout_height="40sp"
+        android:layout_width="194dp"
+        android:layout_height="50dp"
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/bitter"
         android:gravity="bottom"
-        android:hint="@string/activity_name"
+        android:hint="Description"
         android:inputType="textPersonName"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.786"
+        app:layout_constraintHorizontal_bias="0.782"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintVertical_bias="0.151" />
 
     <TextView
         android:id="@+id/idActEndTime"
@@ -292,8 +292,8 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/bitter"
         android:gravity="bottom"
+        android:hint="Start Date"
         android:onClick="startDateClicked"
-        android:text="@string/start_date"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idActName" />

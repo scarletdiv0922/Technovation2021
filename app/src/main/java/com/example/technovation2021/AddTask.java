@@ -55,7 +55,6 @@ public class AddTask extends AppCompatActivity {
             taskSDate = findViewById(R.id.idTaskStartDate);
             taskDDate = findViewById(R.id.idTaskDueDate);
             taskDuration = findViewById(R.id.idTaskDuration);
-            taskIdealSitting = findViewById(R.id.idTaskIdealSitting);
 
             int sittings = Integer.parseInt(taskDuration.getText().toString()) / Integer.parseInt(taskIdealSitting.getText().toString());
             Log.d("noDataErrors", "sittings= " + sittings);
@@ -93,16 +92,9 @@ public class AddTask extends AppCompatActivity {
             taskSDate = findViewById(R.id.idTaskStartDate);
             taskDDate = findViewById(R.id.idTaskDueDate);
             taskDuration = findViewById(R.id.idTaskDuration);
-            taskIdealSitting = findViewById(R.id.idTaskIdealSitting);
 
             int tDuration; //Duration of task as integer
             int tIdealSitting; //Ideal Sitting of task as integer
-            //   LocalDateTime currentDate= LocalDateTime.now();
-            //     Date tSDate = new Date(2021, 3, 24); //Start Date for task in date format //TODO: Remove comment
-            //   Date tDDate = new Date(2021, 3, 24); //Due Date for task in date format //TODO: Remove Comment
-
-            //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("mm/dd/yyyy");
-            // LocalDateTime now = LocalDateTime.now();
 
             SimpleDateFormat s1 = new SimpleDateFormat("mm/dd/yyyy");
             try {
