@@ -12,16 +12,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
-import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 import androidx.annotation.NonNull;
@@ -698,10 +696,10 @@ public class FirebaseRealtimeDatabase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private int createEventWithFreq(String eventStart, String eventEnd, String desc, EventFrequency freq) {
+    private int createEventWithFreq(String eventStartTime, String eventEndTime, String desc, EventFrequency freq) {
         LocalDate today = LocalDate.now();
-        LocalTime evStart = strToTime(eventStart);
-        LocalTime evEnd = strToTime(eventEnd);
+        LocalTime evStart = strToTime(eventStartTime);
+        LocalTime evEnd = strToTime(eventEndTime);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
@@ -724,6 +722,76 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
+    // TODO: The activity screen needs to be redesigned or made more simple
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public int createExtraCurricularActivity(String startTime, String endTime, String startDate, String desc,
+                                             int[] daysOfEvent, long recurs, String actNotes) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate startDay = LocalDate.parse(startDate, formatter);
+        LocalTime evStart = strToTime(startTime);
+        LocalTime evEnd = strToTime(endTime);
+        Duration duration = Duration.between(evStart, evEnd);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference newref = mDatabase.child(userId).child("eventList");
+
+        if ( startDay.getDayOfWeek().getValue() != 1 ) {
+            int dayAdjust = startDay.getDayOfWeek().getValue()-1;
+            startDay = startDay.plusDays(-dayAdjust);
+            Log.d(LOG_TAG, "Start scheduling in week starting:" + startDay.toString());
+        }
+        LocalDate scheduleWeek = startDay;
+        // TODO: for now schedule all activities for an year.
+        int nrWeeks;
+        switch ((int) recurs) {
+            case 0:
+                nrWeeks = 1;
+                break;
+            case 1:
+                nrWeeks = 52;
+                break;
+            case 2:
+                nrWeeks = 26;
+                break;
+            case 3:
+                nrWeeks = 12;
+                break;
+            default:
+                nrWeeks = 24;
+                break;
+        }
+        Log.d(LOG_TAG, "nrWeeks: " + nrWeeks);
+        for ( int j = 1; j <= nrWeeks; j++ ) {
+            startDay =  scheduleWeek;
+            for (int i = 0; i <= 6; i++) {
+                if ( daysOfEvent[i] == 1 ) {
+                    Log.d(LOG_TAG, "Schedule " + desc + " on:" + startDay.toString());
+                    Event e = new Event(desc, startDay.toString(), evStart.toString(), 1, 1,
+                            (int) (duration.getSeconds() / 60), 3, String.valueOf(System.currentTimeMillis()),
+                            actNotes);
+                    DatabaseReference newPostRef = newref.push();
+                    newPostRef.setValue(e);
+                }
+                startDay = startDay.plusDays(1);
+            }
+            switch ((int) recurs) {
+                case 1:
+                    scheduleWeek = scheduleWeek.plusDays(7);
+                    Log.d(LOG_TAG, "scheduling for week starting: " + scheduleWeek.toString());
+                    break;
+                case 2:
+                    scheduleWeek = scheduleWeek.plusDays(14);
+                    Log.d(LOG_TAG, "scheduling for 2 weeks. starting: " + scheduleWeek.toString());
+                    break;
+                case 3:
+                    scheduleWeek = scheduleWeek.plusMonths(1);
+                    Log.d(LOG_TAG, "scheduling for a month starting: " + scheduleWeek.toString());
+                default:
+                    break;
+            }
+        }
+        return 0;
+    }
     //school
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int createWeekdayEvent(String eventStart, String eventEnd, String desc) {

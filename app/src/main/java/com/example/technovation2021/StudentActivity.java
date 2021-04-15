@@ -31,6 +31,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     private TextView actSDate; //Start Date of Activity
     private TextView actSTime; //Time the activity starts
     private TextView actETime; //Time the activity ends
+    private TextView actNote;
     // private Spinner hwPrepTimes; //TODO: Delete
     // private SwitchCompat hwSwitch; //TODO: Delete
     //public EditText activityDes;
@@ -40,6 +41,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     public Button wednesday;
     public Button thursday;
     public Button friday, saturday;
+    Spinner rec;
     private int [] daysSelected = new int[7];
     //private Spinner evFrequency;
 
@@ -58,7 +60,8 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         //actETime = findViewById(R.id.idActEndTime);
         actFrequency = findViewById(R.id.idActRecurrence);
         //evFrequency = findViewById(R.id.event_frequency);
-
+        rec = findViewById(R.id.idActRecurrence);
+        actNote = findViewById(R.id.idActivityNote);
 
         sunday = findViewById(R.id.btnSunday);
         monday = findViewById((R.id.btnMonday));
@@ -77,16 +80,18 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         saturday.setBackgroundColor(Color.WHITE);
 
 
+
         sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ColorDrawable x1 = (ColorDrawable) sunday.getBackground();
                 if ( x1.getColor() == Color.WHITE ) {
                     sunday.setBackgroundColor( Color.CYAN);
-                    daysSelected[0] = 1;
+                    // DayOfWeek.SUNDAY is 7. that is index 6 in daysSelected[]
+                    daysSelected[6] = 1;
                 }
                 else {
-                    daysSelected[0] = 0;
+                    daysSelected[6] = 0;
                     sunday.setBackgroundColor( Color.WHITE);
                 }
             }
@@ -97,11 +102,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x2 = (ColorDrawable) monday.getBackground();
                 if ( x2.getColor() == Color.WHITE ) {
                     monday.setBackgroundColor( Color.CYAN);
-                    daysSelected[1] = 1;
+                    daysSelected[0] = 1;
                 }
                 else {
                     monday.setBackgroundColor( Color.WHITE);
-                    daysSelected[1] = 0;
+                    daysSelected[0] = 0;
                 }
             }
         });
@@ -111,11 +116,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x3 = (ColorDrawable) tuesday.getBackground();
                 if ( x3.getColor() == Color.WHITE ) {
                     tuesday.setBackgroundColor( Color.CYAN);
-                    daysSelected[2] = 1;
+                    daysSelected[1] = 1;
                 }
                 else {
                     tuesday.setBackgroundColor( Color.WHITE);
-                    daysSelected[2] = 0;
+                    daysSelected[1] = 0;
                 }
             }
         });
@@ -125,11 +130,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x4 = (ColorDrawable) wednesday.getBackground();
                 if ( x4.getColor() == Color.WHITE ) {
                     wednesday.setBackgroundColor( Color.CYAN);
-                    daysSelected[3] = 1;
+                    daysSelected[2] = 1;
                 }
                 else {
                     wednesday.setBackgroundColor( Color.WHITE);
-                    daysSelected[3] = 0;
+                    daysSelected[2] = 0;
                 }
             }
         });
@@ -139,11 +144,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x5 = (ColorDrawable) thursday.getBackground();
                 if ( x5.getColor() == Color.WHITE ) {
                     thursday.setBackgroundColor( Color.CYAN);
-                    daysSelected[4] = 1;
+                    daysSelected[3] = 1;
                 }
                 else {
                     thursday.setBackgroundColor( Color.WHITE);
-                    daysSelected[4] = 0;
+                    daysSelected[3] = 0;
                 }
             }
         });
@@ -153,11 +158,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x6 = (ColorDrawable) friday.getBackground();
                 if ( x6.getColor() == Color.WHITE ) {
                     friday.setBackgroundColor( Color.CYAN);
-                    daysSelected[5] = 1;
+                    daysSelected[4] = 1;
                 }
                 else {
                     friday.setBackgroundColor( Color.WHITE);
-                    daysSelected[5] = 0;
+                    daysSelected[4] = 0;
                 }
             }
         });
@@ -169,11 +174,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 if ( x7.getColor() == Color.WHITE ) {
                     //int c1 = 0x6dedd1;
                     saturday.setBackgroundColor(Color.CYAN);
-                    daysSelected[6] = 1;
+                    daysSelected[5] = 1;
                 }
                 else {
                     saturday.setBackgroundColor( Color.WHITE);
-                    daysSelected[6] = 0;
+                    daysSelected[5] = 0;
                 }
             }
         });
@@ -276,6 +281,15 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addToCalendarClicked(View view) {
         if ( noDataErrors() ) {
+            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
+            int ret = frd.createExtraCurricularActivity(actSTime.getText().toString(),
+                    actETime.getText().toString(), actSDate.getText().toString(),
+                    actName.getText().toString(), daysSelected, rec.getSelectedItemId(),
+                    actNote.getText().toString().trim());
+            if ( ret == 0 ) {
+                Toast.makeText(StudentActivity.this, "Activity is added to Calendar!", Toast.LENGTH_SHORT).show();
+            }
+            finish();
         }
     }
 
@@ -338,10 +352,12 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         friday = findViewById(R.id.btnFriday);
         saturday = findViewById(R.id.btnSaturday);
 
+
         // Do sanity checks to make sure data is good!
-        if (TextUtils.isEmpty(actName.getText().toString()) ) {
-            actName.setError("Please input a name");
-            //Toast.makeText(StudentActivity.this, "Input name", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(actName.getText().toString()) ||
+            actName.getText().toString().length() < 5) {
+            actName.setError("Too short description.");
+            Toast.makeText(StudentActivity.this, "Description is too short.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -389,6 +405,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         }
         actETime.setError(null);
 
+        //Log.d(LOG_TAG, "recur: " + rec.getSelectedItemId());
         //Toast.makeText(StudentActivity.this, "ALL GOOD!!", Toast.LENGTH_SHORT).show();
         /*
         if (TextUtils.isEmpty(actFrequency.getText().toString()) ) {
