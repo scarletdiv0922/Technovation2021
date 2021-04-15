@@ -167,7 +167,7 @@
         android:fontFamily="@font/bitter"
         android:gravity="bottom"
         android:hint="@string/duration"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/idTxtTaskDuration"
         app:layout_constraintTop_toBottomOf="@+id/idTaskDueDate" />
