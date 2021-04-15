@@ -8,153 +8,162 @@
     tools:context=".StudentActivity">
 
     <Button
-        android:id="@+id/btnSunday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="212dp"
-        android:text="@string/sunday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnFriday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="212dp"
-        android:text="@string/friday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnThursday" />
-
-    <Button
-        android:id="@+id/btnSaturday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="212dp"
-        android:text="@string/saturday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFriday" />
-
-    <Button
         android:id="@+id/btnThursday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginBottom="212dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/thursday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnWednesday" />
+        app:layout_constraintStart_toEndOf="@+id/btnWednesday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
 
     <Button
         android:id="@+id/btnWednesday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="212dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/wednesday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnTuesday" />
+        app:layout_constraintStart_toEndOf="@+id/btnTuesday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
+
+    <Button
+        android:id="@+id/btnSunday"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/sunday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
 
     <Button
         android:id="@+id/btnTuesday"
-        android:layout_width="44dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="212dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/tuesday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnMonday" />
+        app:layout_constraintStart_toEndOf="@+id/btnMonday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
+
+    <Button
+        android:id="@+id/btnFriday"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/friday"
+        app:layout_constraintStart_toEndOf="@+id/btnThursday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
+
+    <Button
+        android:id="@+id/btnSaturday"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/saturday"
+        app:layout_constraintStart_toEndOf="@+id/btnFriday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
+
+    <TextView
+        android:id="@+id/txtday"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/bitter"
+        android:text="Day"
+        android:textColor="#283953"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTxtActEndTime" />
 
     <Button
         android:id="@+id/btnMonday"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="212dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
         android:text="@string/monday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnSunday" />
+        app:layout_constraintStart_toEndOf="@+id/btnSunday"
+        app:layout_constraintTop_toBottomOf="@+id/txtday" />
 
     <Button
         android:id="@+id/idBtnAddToCalendar"
         android:layout_width="238dp"
         android:layout_height="45dp"
+        android:layout_marginBottom="50dp"
         android:background="#6DEDD1"
         android:fontFamily="@font/bitter"
         android:onClick="addToCalendarClicked"
         android:text="@string/add_to_calendar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/idBtnCancel"
         android:layout_width="83dp"
         android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         android:background="#00000000"
         android:fontFamily="@font/bitter"
         android:onClick="cancelAddActivityClicked"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/idActivityNote"
-        android:layout_width="320dp"
-        android:layout_height="63dp"
-        android:layout_marginBottom="128dp"
+        android:layout_width="316dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="@font/bitter"
         android:gravity="start|top"
         android:hint="@string/notes"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.351"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idActTxtRecurrence" />
 
     <Spinner
         android:id="@+id/idActRecurrence"
-        android:layout_width="196sp"
-        android:layout_height="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="136dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.883"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintTop_toBottomOf="@+id/btnThursday" />
 
     <TextView
         android:id="@+id/idActTxtRecurrence"
         android:layout_width="wrap_content"
         android:layout_height="30sp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/bitter"
         android:text="@string/recurrence"
         android:textColor="#283953"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSunday" />
 
     <TextView
         android:id="@+id/idTxtAddActivity"
@@ -182,22 +191,6 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idTxtAddActivity" />
-
-    <TextView
-        android:id="@+id/txtday"
-        android:layout_width="wrap_content"
-        android:layout_height="30sp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/bitter"
-        android:text="Day"
-        android:textColor="#283953"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTxtActEndTime"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/idTxtActEndTime"

@@ -35,14 +35,6 @@
         app:layout_constraintTop_toBottomOf="@+id/privacyScreen"
         app:layout_constraintVertical_bias="0.017" />
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <include
         android:id="@+id/include"
         layout="@layout/content_privacy"
@@ -64,19 +56,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="165dp"
-        tools:layout_editor_absoluteY="372dp" />
-
-    <TextView
         android:id="@+id/privacyPolicy"
         android:layout_width="341dp"
         android:layout_height="363dp"
         android:layout_marginBottom="52dp"
         android:fontFamily="@font/bitter"
-        android:text="Thank you for using *App Name*! Protecting your privacy is important for us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored safely, but we won’t be able to view it. We need the username and password of your School Loop account to pull all the assignments and tests to create an automatic schedule. We can not see your School Loop information and we do not share it as well. Once again, your persronal information is safe and we won’t be able to access them.  "
+        android:text="Thank you for using *App Name*! Protecting your privacy is important to us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored only on this device, and no one else will be able to view it. The app needs the username and password of your School Loop account to pull assignments and tests to create an automatic schedule. We can not see or share your School Loop information. Once again, your personal information is safe and we will not be able to access them.  "
         android:textColor="#283953"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

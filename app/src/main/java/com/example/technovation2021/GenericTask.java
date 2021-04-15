@@ -24,6 +24,7 @@ public class GenericTask implements Serializable {
     public static final int MIN_TASK_TIME = 15;  // 15 mins;
     public static final int MIN_BREAK_TIME = 10; // 10 mins break time
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public GenericTask(String taskId,
                        String startDate,
                        String dueDate,
@@ -128,6 +129,7 @@ public class GenericTask implements Serializable {
         this.timeNeeded = timeNeeded;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public int nrDaysToDue() {
         assert Period.between(startDate, dueDate).getDays() > 0;
         return Period.between(startDate, dueDate).getDays();
@@ -138,6 +140,7 @@ public class GenericTask implements Serializable {
     }
 
     // Time to finish the task without any break.
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public int timeToFinishTheTask() {
         int timeToFinish = 10;
         // getDays() for "2021-04-02" to "2021-04-05" returns 3

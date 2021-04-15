@@ -20,6 +20,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import java.time.LocalTime;
+
 import static android.R.layout.simple_spinner_dropdown_item;
 
 public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends AppCompatActivity  {
@@ -286,20 +288,29 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean noDataErrors() {
         actName = findViewById(R.id.idActName);
-        //actSDate = findViewById(R.id.idActStartDate);
+        actSDate = findViewById(R.id.idActStartDate);
         //Log.d("Startdateabc", "start date picked " + actSDate );
-        //actSTime = findViewById(R.id.idActStartTime);
-        //actETime = findViewById(R.id.idActEndTime);
-        //actFrequency = findViewById(R.id.idActRecurrence);
+        actSTime = findViewById(R.id.idActStartTime);
+        actETime = findViewById(R.id.idActEndTime);
+        actFrequency = findViewById(R.id.idActRecurrence);
+        sunday = findViewById(R.id.btnSunday);
+        monday = findViewById((R.id.btnMonday));
+        tuesday = findViewById((R.id.btnTuesday));
+        wednesday = findViewById(R.id.btnWednesday);
+        thursday = findViewById(R.id.btnThursday);
+        friday = findViewById(R.id.btnFriday);
+        saturday = findViewById(R.id.btnSaturday);
+
         // Do sanity checks to make sure data is good!
         if (TextUtils.isEmpty(actName.getText().toString()) ) {
             actName.setError("Please input a name");
             Toast.makeText(StudentActivity.this, "Input name", Toast.LENGTH_SHORT).show();
             return false;
         }
-/*
+
         if (TextUtils.isEmpty(actSDate.getText().toString()) ) {
             actName.setError("Please input a date");
             Toast.makeText(StudentActivity.this, "Input date", Toast.LENGTH_SHORT).show();
@@ -316,7 +327,20 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             return false;
         }
 
-*/
+        if (time2IsAfterTime1(actETime.getText().toString(), actSTime.getText().toString()) == false) {
+            Toast.makeText(StudentActivity.this, "End activity time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (sunday
+            && monday
+            && tuesday
+            ){
+
+        }
+
+
+
         /*
         if (TextUtils.isEmpty(actFrequency.getText().toString()) ) {
             actFrequency.setError("Please input the recurrence");
@@ -325,6 +349,39 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         }*/ //TODO: delete
         return true;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public LocalTime strTimeToLocalTime(String userTime) {
+        int hr = 0, min = 0;
+        try {
+            hr = Integer.parseInt(userTime.split(" ")[0].split(":")[0]);
+            min = Integer.parseInt(userTime.split(" ")[0].split(":")[1]);
+            if (userTime.contains("AM") && hr == 12) {
+                hr -= 12;
+            }
+            if (userTime.contains("PM") && hr >= 1 && hr <= 11) {
+                hr += 12;
+            }
+        } catch (Exception e) {
+
+        }
+        return LocalTime.of(hr, min);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Boolean time2IsAfterTime1(String time1, String time2) {
+        LocalTime t1 = strTimeToLocalTime(time1);
+        LocalTime t2 = strTimeToLocalTime(time2);
+        // time is in format hh:mm am or pm
+        // if t1 > t2 > 0
+        if (t1.compareTo(t2) > 0) {
+            Log.d(LOG_TAG, time1 + " is gt " + time2);
+            return true;
+        }
+        return false;
+    }
+
 
     public void cancelAddActivityClicked(View view) {
         //super.onBackPressed();
