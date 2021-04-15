@@ -48,6 +48,23 @@ public class AddTask extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean invalidStartDate(String dateInp) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        try {
+            LocalDate inputDate = LocalDate.parse(dateInp, formatter);
+            Log.d(LOG_TAG, "input date:" + inputDate.toString());
+            LocalDate today = LocalDate.now();
+            return inputDate.isBefore(today) == true;
+            //Log.d(LOG_TAG, "date check: " + chk + "date converted: " + inputDate.toString());
+            //return chk;
+        } catch (Exception e) {
+            Log.d(LOG_TAG, "input date:" + dateInp + "exception:" + e.toString());
+        }
+        return true;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addToCalendarClicked(View view) {
         if (noDataErrors()) {
@@ -55,7 +72,6 @@ public class AddTask extends AppCompatActivity {
             taskSDate = findViewById(R.id.idTaskStartDate);
             taskDDate = findViewById(R.id.idTaskDueDate);
             taskDuration = findViewById(R.id.idTaskDuration);
-            taskIdealSitting = findViewById(R.id.idTaskIdealSitting);
 
             int sittings = Integer.parseInt(taskDuration.getText().toString()) / Integer.parseInt(taskIdealSitting.getText().toString());
             Log.d("noDataErrors", "sittings= " + sittings);
@@ -83,33 +99,28 @@ public class AddTask extends AppCompatActivity {
         }
 
     }
+
         private void getDayEvents (LocalDateTime ldt){
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
             //    frd.getDayEvents("eventList", ldt);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         private boolean noDataErrors () {
             taskName = findViewById(R.id.idTaskName);
             taskSDate = findViewById(R.id.idTaskStartDate);
             taskDDate = findViewById(R.id.idTaskDueDate);
             taskDuration = findViewById(R.id.idTaskDuration);
-            taskIdealSitting = findViewById(R.id.idTaskIdealSitting);
 
             int tDuration; //Duration of task as integer
             int tIdealSitting; //Ideal Sitting of task as integer
-            //   LocalDateTime currentDate= LocalDateTime.now();
-            //     Date tSDate = new Date(2021, 3, 24); //Start Date for task in date format //TODO: Remove comment
-            //   Date tDDate = new Date(2021, 3, 24); //Due Date for task in date format //TODO: Remove Comment
-
-            //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("mm/dd/yyyy");
-            // LocalDateTime now = LocalDateTime.now();
 
             SimpleDateFormat s1 = new SimpleDateFormat("mm/dd/yyyy");
             try {
                 Date tSDate = s1.parse(taskSDate.getText().toString());
                 Date tDDate = s1.parse(taskDDate.getText().toString());
                 if (tDDate.compareTo(tSDate) < 0) {
-                    Toast.makeText(AddTask.this, "Due date can not be before start date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddTask.this, "Due date can not be before start date. ", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             } catch (Exception e) {
@@ -121,6 +132,28 @@ public class AddTask extends AppCompatActivity {
             if (TextUtils.isEmpty(taskName.getText().toString())) {
                 taskName.setError("Please input a name");
                 Toast.makeText(AddTask.this, "Input name", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if (TextUtils.isEmpty(taskSDate.getText().toString())) {
+//                taskSDate.setError("Please input a date");
+                Toast.makeText(AddTask.this, "Please input a date.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if ( invalidStartDate(taskSDate.getText().toString()) == true ) {
+                Toast.makeText(AddTask.this, "Start date cannot be earlier than today.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if (TextUtils.isEmpty(taskDDate.getText().toString())) {
+//                taskDDate.setError("Please input a date");
+                Toast.makeText(AddTask.this, "Please input a date.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if ( invalidStartDate(taskDDate.getText().toString()) == true ) {
+                Toast.makeText(AddTask.this, "End date cannot be earlier than today.", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -144,39 +177,28 @@ public class AddTask extends AppCompatActivity {
                 return false;
             }
 
-            if (TextUtils.isEmpty(taskIdealSitting.getText().toString())) {
-                taskIdealSitting.setError("Please input an ideal sitting");
-                Toast.makeText(AddTask.this, "Input ideal sitting", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            try {
-                tIdealSitting = Integer.parseInt(taskIdealSitting.getText().toString());
-            } catch (Exception e) {
-                taskIdealSitting.setError("Please input a valid number");
-                Toast.makeText(AddTask.this, "Input valid maximum sitting", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            if (tIdealSitting <= 0) {
-                taskIdealSitting.setError("Please input a number greater than zero");
-                Toast.makeText(AddTask.this, "Input a maximum sitting greater than zero", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-
-            if (TextUtils.isEmpty(taskSDate.getText().toString())) {
-                taskName.setError("Please input a date");
-                Toast.makeText(AddTask.this, "Input date", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+//            if (TextUtils.isEmpty(taskIdealSitting.getText().toString())) {
+//                taskIdealSitting.setError("Please input an ideal sitting");
+//                Toast.makeText(AddTask.this, "Input ideal sitting", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//
+//            try {
+//                tIdealSitting = Integer.parseInt(taskIdealSitting.getText().toString());
+//            } catch (Exception e) {
+//                taskIdealSitting.setError("Please input a valid number");
+//                Toast.makeText(AddTask.this, "Input valid maximum sitting", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//
+//            if (tIdealSitting <= 0) {
+//                taskIdealSitting.setError("Please input a number greater than zero");
+//                Toast.makeText(AddTask.this, "Input a maximum sitting greater than zero", Toast.LENGTH_SHORT).show();
+//                return false;
+            //}
 
 
-            if (TextUtils.isEmpty(taskDDate.getText().toString())) {
-                taskName.setError("Please input a date");
-                Toast.makeText(AddTask.this, "Input date", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+
 
             return true;
         }
