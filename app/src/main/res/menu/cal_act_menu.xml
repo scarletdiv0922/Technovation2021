@@ -12,7 +12,11 @@
     <item
         android:title="Add Task"
         android:id="@+id/addTask" />
+
     <item
-        android:title="Notifications"
-        android:id="@+id/notifications" />
+        android:title="About"
+        android:id="@+id/aboutPage" />
+    <item
+        android:id="@+id/privacyScreen"
+        android:title="Privacy" />
 </menu>

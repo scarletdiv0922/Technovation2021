@@ -241,13 +241,13 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
 
     public void startTimeClicked(View view) {
-        DialogFragment newFragmentSTime = new ActivityStartTimePickerFragment();
+        DialogFragment newFragmentSTime = new TimePickerFragment(R.id.idActStartTime);
         newFragmentSTime.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "start time clicked");
     }
 
     public void endTimeClicked(View view) {
-        DialogFragment newFragmentETime = new ActivityEndTimePickerFragment();
+        DialogFragment newFragmentETime = new TimePickerFragment(R.id.idActEndTime);
         newFragmentETime.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "end time clicked");
     }

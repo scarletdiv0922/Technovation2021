@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".About"></activity>
+        <activity
+            android:name=".Privacy"
+            android:label="@string/title_activity_privacy"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".UserOnboardingScreenThree" />
+        <activity android:name=".UserOnboardingScreenTwo" />
+        <activity android:name=".UserOnboardingScreenOne" />
+        <activity android:name=".About" />
         <activity android:name=".DailyEvents" />
         <activity android:name=".StudentActivity" />
         <activity android:name=".StudentNotification" />

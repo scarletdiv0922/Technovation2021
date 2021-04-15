@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -54,7 +53,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
         }
         return disp;
     }
-    
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DailyEventsAdapter.CalViewHolder holder, final int position) {
@@ -70,7 +69,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
         }
         else {
             if ( displayDate.isBefore(LocalDate.now()) == false ) {
-                holder.taskDone.setImageResource(R.drawable.next_month);
+                holder.taskDone.setImageResource(R.drawable.checkbox_unclicked);
             }
             else holder.taskDone.setVisibility(View.GONE);
         }

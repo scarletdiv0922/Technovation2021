@@ -57,8 +57,8 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(notifContext, "1");
-        mBuilder.setContentTitle("Event Notification Title");
-        mBuilder.setContentText("This is a notification for an event");
+        mBuilder.setContentTitle("Good things take time");
+        mBuilder.setContentText("'What is not started today is never finished tomorrow.'");
         mBuilder.setSmallIcon(R.drawable.next_month);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         mBuilder.setContentIntent(pendingIntent);
