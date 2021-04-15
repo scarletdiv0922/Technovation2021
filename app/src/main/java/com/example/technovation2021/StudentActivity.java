@@ -9,20 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-
-import java.time.LocalTime;
-
-import static android.R.layout.simple_spinner_dropdown_item;
 
 public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends AppCompatActivity  {
 
@@ -42,6 +40,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     public Button wednesday;
     public Button thursday;
     public Button friday, saturday;
+    private int [] daysSelected = new int[7];
     //private Spinner evFrequency;
 
 
@@ -84,8 +83,10 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x1 = (ColorDrawable) sunday.getBackground();
                 if ( x1.getColor() == Color.WHITE ) {
                     sunday.setBackgroundColor( Color.CYAN);
+                    daysSelected[0] = 1;
                 }
                 else {
+                    daysSelected[0] = 0;
                     sunday.setBackgroundColor( Color.WHITE);
                 }
             }
@@ -96,9 +97,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x2 = (ColorDrawable) monday.getBackground();
                 if ( x2.getColor() == Color.WHITE ) {
                     monday.setBackgroundColor( Color.CYAN);
+                    daysSelected[1] = 1;
                 }
                 else {
                     monday.setBackgroundColor( Color.WHITE);
+                    daysSelected[1] = 0;
                 }
             }
         });
@@ -108,9 +111,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x3 = (ColorDrawable) tuesday.getBackground();
                 if ( x3.getColor() == Color.WHITE ) {
                     tuesday.setBackgroundColor( Color.CYAN);
+                    daysSelected[2] = 1;
                 }
                 else {
                     tuesday.setBackgroundColor( Color.WHITE);
+                    daysSelected[2] = 0;
                 }
             }
         });
@@ -120,9 +125,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x4 = (ColorDrawable) wednesday.getBackground();
                 if ( x4.getColor() == Color.WHITE ) {
                     wednesday.setBackgroundColor( Color.CYAN);
+                    daysSelected[3] = 1;
                 }
                 else {
                     wednesday.setBackgroundColor( Color.WHITE);
+                    daysSelected[3] = 0;
                 }
             }
         });
@@ -132,9 +139,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x5 = (ColorDrawable) thursday.getBackground();
                 if ( x5.getColor() == Color.WHITE ) {
                     thursday.setBackgroundColor( Color.CYAN);
+                    daysSelected[4] = 1;
                 }
                 else {
                     thursday.setBackgroundColor( Color.WHITE);
+                    daysSelected[4] = 0;
                 }
             }
         });
@@ -144,9 +153,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 ColorDrawable x6 = (ColorDrawable) friday.getBackground();
                 if ( x6.getColor() == Color.WHITE ) {
                     friday.setBackgroundColor( Color.CYAN);
+                    daysSelected[5] = 1;
                 }
                 else {
                     friday.setBackgroundColor( Color.WHITE);
+                    daysSelected[5] = 0;
                 }
             }
         });
@@ -158,9 +169,11 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
                 if ( x7.getColor() == Color.WHITE ) {
                     //int c1 = 0x6dedd1;
                     saturday.setBackgroundColor(Color.CYAN);
+                    daysSelected[6] = 1;
                 }
                 else {
                     saturday.setBackgroundColor( Color.WHITE);
+                    daysSelected[6] = 0;
                 }
             }
         });
@@ -260,32 +273,53 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void addToCalendarClicked(View view) {
-        //Log.d("addToCalendar", "I am here Step1");
         if ( noDataErrors() ) {
-          //  Log.d("No Data Errors", "I am Here ");
-          //  Event e = new Event("abcabc", "startdatetime", "enddatetime",1,2,false,3,"notes");
-          //  Event e = new Event("testname", null,
-            //        null, null, null,
-              //      null, null, null);
-
-            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-            //frd.saveCalendarEvent("activityList", e);
-
-
-            //fb.saveCalendarEvent();
-            // Saving of event to firebase db
-            /*
-            Event e = new Event("Test event", "03-25-2021 11:12",
-                    "04-11-2021 11:23", "45",
-                    "0", false, "45", "test event notes");
-            //mDatabase.child(userId).child(userKey).setValue(sld);
-            FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-            frd.saveCalendarEvent("activityList", e);
-            */
-            //FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-            //frd.getAllActivities("activityList");
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean invalidStartDate(String dateInp) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        try {
+            LocalDate inputDate = LocalDate.parse(dateInp, formatter);
+            Log.d(LOG_TAG, "input date:" + inputDate.toString());
+            LocalDate today = LocalDate.now();
+            return inputDate.isBefore(today) == true;
+            //Log.d(LOG_TAG, "date check: " + chk + "date converted: " + inputDate.toString());
+            //return chk;
+        } catch (Exception e) {
+            Log.d(LOG_TAG, "input date:" + dateInp + "exception:" + e.toString());
+        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean invalidStartTime(String dateInp, String timeStart) {
+        Log.d(LOG_TAG, "dateInp " + dateInp + " timeStart: " + timeStart);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate inputDate = LocalDate.parse(dateInp, formatter);
+        LocalDate today = LocalDate.now();
+        if ( today.isBefore(inputDate) == true )
+            return false;
+
+        LocalTime lt = LocalTime.now();
+        LocalTime timeInp = strTimeToLocalTime(timeStart);
+        return timeInp.isBefore(lt) == true;
+    }
+
+    private boolean noDaysAreSelected() {
+        int nrDaysSelected = 0;
+        for ( int i = 0; i<= 6; i++ ) {
+            Log.d(LOG_TAG, "index " + i + " selected? " + daysSelected[i]);
+            if ( daysSelected[i] == 1)
+                nrDaysSelected++;
+        }
+        Log.d(LOG_TAG, "total days selected: " + nrDaysSelected);
+        if ( nrDaysSelected == 0 )
+            return true;
+        return false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -307,40 +341,55 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         // Do sanity checks to make sure data is good!
         if (TextUtils.isEmpty(actName.getText().toString()) ) {
             actName.setError("Please input a name");
-            Toast.makeText(StudentActivity.this, "Input name", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(StudentActivity.this, "Input name", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (TextUtils.isEmpty(actSDate.getText().toString()) ) {
-            actName.setError("Please input a date");
-            Toast.makeText(StudentActivity.this, "Input date", Toast.LENGTH_SHORT).show();
+            actSDate.setError("Please input a date");
+            //Toast.makeText(StudentActivity.this, "Input date", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        Log.d(LOG_TAG, "check start date: " + actSDate.getText().toString());
+        if ( invalidStartDate(actSDate.getText().toString()) == true ) {
+            actSDate.setError("Start date cannot be earlier than today.");
+            return false;
+        }
+        actSDate.setError(null);
+
         if (TextUtils.isEmpty(actSTime.getText().toString()) ) {
-            actName.setError("Please input a start time");
-            Toast.makeText(StudentActivity.this, "Input start time", Toast.LENGTH_SHORT).show();
+            actSTime.setError("Please input a start time");
+            //Toast.makeText(StudentActivity.this, "Input start time", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        if ( invalidStartTime(actSDate.getText().toString(), actSTime.getText().toString()) == true ) {
+            actSTime.setError("Start time has already passed.");
+            return false;
+        }
+        actSTime.setError(null);
+
         if (TextUtils.isEmpty(actETime.getText().toString()) ) {
-            actName.setError("Please input an end time");
-            Toast.makeText(StudentActivity.this, "Input end time", Toast.LENGTH_SHORT).show();
+            actETime.setError("Please input an end time");
+            //Toast.makeText(StudentActivity.this, "Input end time", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (time2IsAfterTime1(actETime.getText().toString(), actSTime.getText().toString()) == false) {
-            Toast.makeText(StudentActivity.this, "End activity time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StudentActivity.this, "End activity time cannot be earlier than start time.", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if (sunday
-            && monday
-            && tuesday
-            ){
+        ColorDrawable x1 = (ColorDrawable) sunday.getBackground();
 
+        if ( noDaysAreSelected() == true ) {
+            Toast.makeText(StudentActivity.this, "Day of activity is not selected.", Toast.LENGTH_LONG).show();
+            return false;
         }
+        actETime.setError(null);
 
-
-
+        //Toast.makeText(StudentActivity.this, "ALL GOOD!!", Toast.LENGTH_SHORT).show();
         /*
         if (TextUtils.isEmpty(actFrequency.getText().toString()) ) {
             actFrequency.setError("Please input the recurrence");
