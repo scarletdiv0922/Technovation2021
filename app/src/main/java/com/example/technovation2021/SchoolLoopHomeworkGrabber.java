@@ -1,5 +1,7 @@
 package com.example.technovation2021;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -39,16 +41,16 @@ class HomeworkFromSchoolloop {
 }
 
 public class SchoolLoopHomeworkGrabber {
-    private Handler mHandler = new Handler();
+    private static Handler mHandler = new Handler();
     private static String LOG_TAG = "SchoolLoopHomeworkGrabber";
     String userName;
     String userPassword;
     String slDomain;
-    SlThread slt;
+    //private SlThread slt = new SlThread();
     SchoolLoopConnector slc = null;
     ArrayList<HomeworkFromSchoolloop> unscheduledHwList;
     ArrayList<GenericTask> masterTaskList;
-
+/*
     class SlThread implements Runnable {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -56,7 +58,7 @@ public class SchoolLoopHomeworkGrabber {
             LocalTime now = LocalTime.now();
             LocalDate today = LocalDate.now();
             Log.d(LOG_TAG, "now " + now.toString());
-            //getSchoolLoopHomework();
+
             if ( today.getDayOfWeek() != DayOfWeek.SUNDAY &&
                     today.getDayOfWeek() != DayOfWeek.SATURDAY ) {
                 if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("18:00:00"))) {
@@ -65,7 +67,10 @@ public class SchoolLoopHomeworkGrabber {
                 }
             }
             // Fetch homework every 2 hours between 8am - 6pm on weekdays
-            mHandler.postDelayed( this, 2*60*60*1000);
+            mHandler.postDelayed( this, 60*1000);
+
+            //getSchoolLoopHomework();
+            //mHandler.postDelayed( this, 30*1000);
         }
     }
 
@@ -75,11 +80,11 @@ public class SchoolLoopHomeworkGrabber {
         slc = new SchoolLoopConnector(userName, userPassword, slDomain, this);
         slc.execute();
     }
-
+    */
     public boolean hwTaskAlreadyScheduled(HomeworkFromSchoolloop h, ArrayList<GenericTask> taskList) {
         for ( int i = 0; i < taskList.size(); i++ ) {
             if ( h.hash.equals(taskList.get(i).hash)) {
-                //Log.d(LOG_TAG, "hw " + h.sub +  " desc " + h.hw_desc + " is already scheduled");
+                Log.d(LOG_TAG, "hw " + h.sub +  " desc " + h.hw_desc + " is already scheduled");
                 return true;
             }
         }
@@ -102,16 +107,20 @@ public class SchoolLoopHomeworkGrabber {
                        Integer status,
                        Integer timeNeeded // in minutes
                  */
-                Log.d(LOG_TAG, "hw at index: " + index + " hw:" + h.sub);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                LocalDate dueDate = LocalDate.parse(h.duedate, formatter);
+                Log.d(LOG_TAG, "hw at index: " + index + " hw:" + h.sub);
                 GenericTask newtask = new GenericTask(String.valueOf(System.currentTimeMillis()),
                         LocalDate.now().toString(),
                         LocalDate.parse(h.duedate, formatter).toString(),
                         h.sub, h.hw_desc, h.hash, 2, 120);
-                // Split the task into events, save them to firebase. then save task itself
-                // to firebase. when its done, callback scheduleNextHomework with index+1
-                frd.saveHwTask(newtask, this, index+1);
-                return;
+                // If dueDate is already today, not much to schedule
+                if ( LocalDate.now().isBefore(dueDate) == true ) {
+                    // Split the task into events, save them to firebase. then save task itself
+                    // to firebase. when its done, callback scheduleNextHomework with index+1
+                    frd.saveHwTask(newtask, this, i + 1);
+                    return;
+                }
             }
             //Log.d(LOG_TAG, "desc " + h.sub + " desc:" + h.hw_desc + " is already scheduled");
         }
@@ -131,13 +140,15 @@ public class SchoolLoopHomeworkGrabber {
         userPassword = slPswd;
         slDomain = subDomain;
         //mHandler.removeCallbacks(slThread);
-        slt = new SlThread();//slUser, slPswd, subDomain);
-        slt.run();
+        //slt = new SlThread();//slUser, slPswd, subDomain);
+        //slt.run();
+        slc = new SchoolLoopConnector(userName, userPassword, slDomain, this);
+        slc.execute();
     }
 
     public void stopTimer() {
         Log.d(LOG_TAG, "cancel callbacks");
-        mHandler.removeCallbacks(slt);
+        //mHandler.removeCallbacks(slt);
         if (slc != null)
             slc.cancel(true);
     }

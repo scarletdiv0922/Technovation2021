@@ -1,28 +1,18 @@
 //Month Calendar
 package com.example.technovation2021;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.CalendarView;
-import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,15 +23,88 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class CalendarActivity extends AppCompatActivity {
+    private static Handler mHandler = new Handler();
     ArrayList<Event> evList = new ArrayList<Event>();
     boolean eventsFetched = false;
+    CustomCalendar cv;
     String currentDate= LocalDate.now().toString();
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
 
+    class SlThread implements Runnable {
+        public LocalTime hwFetchedAt = LocalTime.now();
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public boolean over2Hours() {
+            if ( MINUTES.between(hwFetchedAt, LocalTime.now()) >= 120 )
+                return true;
+            return false;
+        }
+
+        public void fetchTodaysEvents() {
+
+        }
+
+        public void playAudioBeforeEvent() {
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void run() {
+            LocalTime now = LocalTime.now();
+            LocalDate today = LocalDate.now();
+            Log.d(LOG_TAG, "now " + now.toString());
+
+            // Fetch homework every 2 hours between 8am - 6pm on weekdays
+            if ( today.getDayOfWeek() != DayOfWeek.SUNDAY &&
+                    today.getDayOfWeek() != DayOfWeek.SATURDAY && over2Hours()) {
+                if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("18:00:00"))) {
+                    Log.d(LOG_TAG, "call getschoolloophomework");
+                    getSchoolLoopHomework();
+                    hwFetchedAt = LocalTime.now();
+                    fetchTodaysEvents();
+                }
+            }
+
+            playAudioBeforeEvent();
+
+            mHandler.postDelayed( this, 5*60*1000);
+            /*
+            getSchoolLoopHomework();
+            mHandler.postDelayed( this, 30*1000);
+             */
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    void getSchoolLoopHomework() {
+        Log.d(LOG_TAG, "get school loop homework");
+        SharedPreferences sharedPref = getSharedPreferences(
+                this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedPref.edit();
+        String sluser = sharedPref.getString("sluser", "invalid");
+        String slpswd = sharedPref.getString("slpswd", "invalid");
+        String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
+        if (sluser.equals("invalid") == false) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                new SchoolLoopHomeworkGrabber(sluser, slpswd, subdomain);
+            }
+        }
+        cv.updateCalendar(LocalDate.now());
+    }
 
     @Override
     public void onBackPressed() {
@@ -58,8 +121,9 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
 
-        CustomCalendar cv = findViewById(R.id.custom_calendar);
+        cv = findViewById(R.id.custom_calendar);
 
+        new SlThread().run();
 
         Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
         PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
@@ -86,7 +150,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
          */
-        cv.updateCalendar(LocalDate.now());
+        //cv.updateCalendar(LocalDate.now());
 
 
         //Query (find) all events for today
@@ -137,7 +201,7 @@ public class CalendarActivity extends AppCompatActivity {
         }
 
         //Loop through the events for the day and set a notification for 10 minutes before the notification start time
-        Log.d("I am here and this is the evList size", "evList= " + evList.size());
+        //Log.d("I am here and this is the evList size", "evList= " + evList.size());
 
     }
 

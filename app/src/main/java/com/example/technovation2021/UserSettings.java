@@ -53,7 +53,7 @@ public class UserSettings extends AppCompatActivity {
     private static final String userKey = "schoolLoopCredentials";
     public static final int minIdLen = 5;
     ProgressBar pbar;
-    SchoolLoopHomeworkGrabber slg;
+    //SchoolLoopHomeworkGrabber slg;
 
     //Button doneBtn = findViewById(R.id.idConfigDone);
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,8 +76,6 @@ public class UserSettings extends AppCompatActivity {
         String sluser2 = sharedPref.getString("sluser", "invalid");
         String slpswd2 = sharedPref.getString("slpswd", "invalid");
         String subdomain2 = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
-
-        slg = new SchoolLoopHomeworkGrabber(sluser2, slpswd2, subdomain2);
 
         /*
         SharedPreferences sharedPref2 = getSharedPreferences(
@@ -146,6 +144,7 @@ public class UserSettings extends AppCompatActivity {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void btnSaveSchoolLoopDetails(View view) {
         //Toast.makeText(UserSettings.this, "done", Toast.LENGTH_SHORT).show();
         if ( errorsInActivity() )
@@ -157,7 +156,7 @@ public class UserSettings extends AppCompatActivity {
         EditText slPswd = findViewById(R.id.schoolloopPswd);
         EditText slDmn = findViewById(R.id.Subdomain);
 
-        sld = new SchoolLoopDetails(slId.getText().toString(), slPswd.getText().toString(), "technovation.org");
+        //sld = new SchoolLoopDetails(slId.getText().toString(), slPswd.getText().toString(), "technovation.org");
         //mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // https://missiontech2021-default-rtdb.firebaseio.com/
@@ -181,6 +180,9 @@ public class UserSettings extends AppCompatActivity {
         //editor.putString("fetchhwat", "15:00"); // 3pm everyday
         editor.commit();
 
+        //slg = new SchoolLoopHomeworkGrabber(slId.getText().toString(),
+        //                                    slPswd.getText().toString(),
+        //                                    slDmn.getText().toString());
         pbar.setVisibility(View.GONE);
         this.finish();
     }
@@ -192,6 +194,6 @@ public class UserSettings extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        slg.stopTimer();
+        //slg.stopTimer();
     }
 }

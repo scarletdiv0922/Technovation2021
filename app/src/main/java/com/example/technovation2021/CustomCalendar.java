@@ -293,6 +293,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 return Color.GREEN;
             if ( e.eventDesc.contains("English") )
                 return Color.MAGENTA;
+            if ( e.eventDesc.contains("Physical") )
+                return Color.GRAY;
             return Color.YELLOW;
         }
 

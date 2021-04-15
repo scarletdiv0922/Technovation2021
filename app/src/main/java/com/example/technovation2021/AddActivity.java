@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
@@ -135,6 +136,13 @@ public class AddActivity extends AppCompatActivity implements
     }
 
     private boolean noDataErrors() {
+        TextView actDesc = findViewById(R.id.idEvDesc);
+
+        if ( actDesc.getText().toString().trim().isEmpty() ||
+                actDesc.getText().toString().trim().length() < 5 ) {
+            actDesc.setError("Description is empty or too short.");
+            return false;
+        }
         return true;
     }
 
