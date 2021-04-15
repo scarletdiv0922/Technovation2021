@@ -150,7 +150,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
          */
-        //cv.updateCalendar(LocalDate.now());
+        cv.updateCalendar(LocalDate.now());
 
 
         //Query (find) all events for today

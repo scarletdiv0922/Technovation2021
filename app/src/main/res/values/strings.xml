@@ -50,7 +50,7 @@
     <string name="textview">TextView</string>
     <string name="new_activity">New Activity</string>
     <string name="saturday">S</string>
-    <string name="sunday">S</string>
+    <string name="sunday">Su</string>
     <string name="monday">M</string>
     <string name="tuesday">T</string>
     <string name="wednesday">W</string>
@@ -87,7 +87,6 @@
     <string name="end_sleep_time">End Time</string>
     <string name="start_dinner_time">Start Time</string>
     <string name="end_dinner_time">End Time</string>
-    <string name="end_time">End Time</string>
     <string name="_10_00_pm">10:00 PM</string>
     <string name="_6_30_am">6:30 AM</string>
     <string name="_7_30_pm">7:30 PM</string>
@@ -149,5 +148,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="end_time">End Time</string>
+    <string name="day">Day</string>
 
 </resources>
