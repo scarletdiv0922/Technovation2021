@@ -198,10 +198,17 @@ public class AddTask extends AppCompatActivity {
             //}
 
 
-
-
             return true;
         }
+
+
+//
+//        if ( LocalDate.now().isBefore(dueDate) == true ) {
+//        // Split the task into events, save them to firebase. then save task itself
+//        // to firebase. when its done, callback scheduleNextHomework with index+1
+//        frd.saveHwTask(newtask, this, i + 1);
+//        return;
+//    }
 
         public void cancelAddActivityClicked (View view){
             finish();

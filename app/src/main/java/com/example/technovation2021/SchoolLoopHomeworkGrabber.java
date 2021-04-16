@@ -91,6 +91,7 @@ public class SchoolLoopHomeworkGrabber {
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void scheduleNextHomework(int index) {
         FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
         for ( int i = index; i < unscheduledHwList.size(); i++ ) {

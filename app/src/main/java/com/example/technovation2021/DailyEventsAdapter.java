@@ -113,7 +113,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
             duration = itemView.findViewById(R.id.idEventDuration);
             evDesc = itemView.findViewById(R.id.idEventDesc);
             notes = itemView.findViewById(R.id.idEventNotes);
-            taskDone = itemView.findViewById(R.id.markTaskCompleted);
+            taskDone = itemView.findViewById(R.id.logo);
         }
     }
 }
