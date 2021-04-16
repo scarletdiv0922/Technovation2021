@@ -69,7 +69,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
         }
         else {
             if ( displayDate.isBefore(LocalDate.now()) == false ) {
-                holder.taskDone.setImageResource(R.drawable.checkbox_unclicked);
+                holder.taskDone.setImageResource(R.drawable.checkbox_clicked);
             }
             else holder.taskDone.setVisibility(View.GONE);
         }

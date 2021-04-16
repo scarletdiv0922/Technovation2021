@@ -44,18 +44,21 @@ public class StudentNotification extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void break_clicked(View view) {
         displayStudentNotification();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void displayStudentNotification() {
         createNotificationChannel();
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "1");
         mBuilder.setContentTitle("Test title");
         mBuilder.setContentText("This is a test text and it should be long");
-        mBuilder.setSmallIcon(R.drawable.next_month);
+        mBuilder.setSmallIcon(R.drawable.largertasklogo);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(this);
         myNotificationManager.notify(1, mBuilder.build());
+        Intent intent = new Intent(this, CalendarActivity.class);
     }
 }

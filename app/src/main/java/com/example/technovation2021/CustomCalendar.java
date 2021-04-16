@@ -66,7 +66,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         // Appears to be sorted by date already! TODO: Double check this
         // If not we need to sort this in CalendarAdapter::getView()!!!
         for (int i = 0; i < evList.size(); i++ ) {
-            Log.d(LOG_TAG, "event " + (i+1) + " " + evList.get(i).print());
+            //Log.d(LOG_TAG, "event " + (i+1) + " " + evList.get(i).print());
         }
         grid.setAdapter(new CalendarAdapter(getContext(), cells, evList));
     }
@@ -286,16 +286,16 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
 
         private int getColor(Event e) {
             if ( e.eventDesc.contains("Math") )
-                return Color.LTGRAY;
+                return R.color.babypink;
             if ( e.eventDesc.contains("History") )
-                return Color.CYAN;
+                return R.color.lavender;
             if ( e.eventDesc.contains("Science") )
-                return Color.GREEN;
+                return R.color.turquoise;
             if ( e.eventDesc.contains("English") )
                 return Color.MAGENTA;
             if ( e.eventDesc.contains("Physical") )
                 return Color.GRAY;
-            return Color.YELLOW;
+            return Color.BLUE;
         }
 
         private void setCalEvent(int evNr, Event e, View view) {
@@ -411,7 +411,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                     if ((ev.type == CalEvent.CAL_EVENT_EXTRACURRICULAR.ordinal()) ||
                             (ev.type == CalEvent.CAL_EVENT_HOMEWORK.ordinal())) {
                         k++;
-                        Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
+                        //Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
                         setCalEvent(k, ev, view);
                     }
                 }

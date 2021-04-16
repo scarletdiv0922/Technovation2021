@@ -8,17 +8,18 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
+    <Button
         android:id="@+id/logo"
-        android:layout_width="190dp"
-        android:layout_height="152dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginLeft="108dp"
-        android:layout_marginBottom="480dp"
+        android:layout_width="184dp"
+        android:layout_height="182dp"
+        android:background="@drawable/largertasklogo"
         android:contentDescription="@string/img_todo"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@drawable/TaskmateLogo" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
 
     <Button
         android:id="@+id/login_button"
@@ -77,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.64" />
+        app:layout_constraintVertical_bias="0.687" />
 
     <EditText
         android:id="@+id/userEmail"
@@ -97,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53" />
+        app:layout_constraintVertical_bias="0.577" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -120,18 +121,17 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="350dp"
         android:fontFamily="@font/bitter_bold"
         android:gravity="center"
         android:text="@string/welcome"
-        android:textColor="@color/navy"
+        android:textColor="#283953"
         android:textSize="65sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.884" />
+        app:layout_constraintVertical_bias="0.451" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

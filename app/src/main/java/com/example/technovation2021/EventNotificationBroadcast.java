@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import static com.example.technovation2021.DailyEventsAdapter.LOG_TAG;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class EventNotificationBroadcast extends BroadcastReceiver {
     ArrayList<Event> evList = new ArrayList<Event>();
     boolean eventsFetched = false;
@@ -58,8 +59,8 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(notifContext, "1");
         mBuilder.setContentTitle("Good things take time");
-        mBuilder.setContentText("'What is not started today is never finished tomorrow.'");
-        mBuilder.setSmallIcon(R.drawable.next_month);
+        mBuilder.setContentText("\"What is not started today is never finished tomorrow.\"");
+        mBuilder.setSmallIcon(R.drawable.largertasklogo);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         mBuilder.setContentIntent(pendingIntent);
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(notifContext);

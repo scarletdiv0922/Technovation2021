@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     android:background="#D6D7F4FF">
 
+
+    <Button
+        android:id="@+id/logo"
+        android:layout_width="229dp"
+        android:layout_height="237dp"
+        android:background="@drawable/largertasklogo"
+        android:contentDescription="@string/img_todo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.202" />
+
     <TextView
         android:id="@+id/emptyRectangle2"
         android:layout_width="180dp"
@@ -23,25 +36,26 @@
 
     <TextView
         android:id="@+id/aboutApp"
-        android:layout_width="169dp"
-        android:layout_height="58dp"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="40dp"
         android:fontFamily="@font/bitter"
         android:gravity="center_horizontal|left"
         android:lineSpacingExtra="1sp"
-        android:text="About "
+        android:text="About Taskmate"
         android:textColor="#283953"
         android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061" />
 
     <TextView
         android:id="@+id/aboutSecond"
@@ -49,14 +63,13 @@
         android:layout_height="340dp"
         android:fontFamily="@font/bitter"
         android:gravity="center"
-        android:text="*App Name* is an app to help students from grades 6-12 all over the world allocate their time wisely and finish their assignments on time, while preventing stress throughout the process. As students ourselves, we know just how stressful planning, scheduling, attending activities, and completing assignments can be, so we created *App Name* to help students like us live a better, healthier, and stress-free lifestyle.  "
+        android:text="Taskmate is an app to help students from grades 6-12 all over the world allocate their time wisely and finish their assignments on time, while preventing stress throughout the process. As students ourselves, we know just how stressful planning, scheduling, attending activities, and completing assignments can be, so we created Taskmate to help students like us live a better, healthier, and stress-free lifestyle.  "
         android:textColor="#283953"
         android:textSize="19sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintVertical_bias="0.933" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

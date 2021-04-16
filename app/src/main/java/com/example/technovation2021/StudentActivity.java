@@ -1,5 +1,6 @@
 package com.example.technovation2021;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -111,11 +112,12 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             }
         });
         tuesday.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 ColorDrawable x3 = (ColorDrawable) tuesday.getBackground();
                 if ( x3.getColor() == Color.WHITE ) {
-                    tuesday.setBackgroundColor( Color.CYAN);
+                    tuesday.setBackgroundColor(Color.CYAN);
                     daysSelected[1] = 1;
                 }
                 else {
@@ -125,11 +127,12 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             }
         });
         wednesday.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 ColorDrawable x4 = (ColorDrawable) wednesday.getBackground();
                 if ( x4.getColor() == Color.WHITE ) {
-                    wednesday.setBackgroundColor( Color.CYAN);
+                    wednesday.setBackgroundColor(Color.CYAN);
                     daysSelected[2] = 1;
                 }
                 else {

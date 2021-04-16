@@ -8,32 +8,37 @@
     android:background="#D6D7F4FF"
     tools:context=".Privacy">
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOGO"
-        android:textSize="37sp"
-        app:layout_constraintBottom_toTopOf="@+id/privacyPolicy"
+    <!--        android:text="    "-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.12"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/privacyScreen"-->
+<!--        app:layout_constraintVertical_bias="0.017" />-->
+
+    <Button
+        android:id="@+id/logo"
+        android:layout_width="191dp"
+        android:layout_height="183dp"
+        android:background="@drawable/largertasklogo"
+        android:contentDescription="@string/img_todo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.743" />
+        app:layout_constraintVertical_bias="0.271" />
 
-    <TextView
+    <Button
         android:id="@+id/emptyRectangle3"
         android:layout_width="195dp"
         android:layout_height="14dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="200dp"
+        android:layout_marginRight="200dp"
         android:background="#6dedd1"
-        android:text="@string/textSpace"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/privacyScreen"
-        app:layout_constraintVertical_bias="0.017" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/include"
@@ -57,15 +62,16 @@
 
     <TextView
         android:id="@+id/privacyPolicy"
-        android:layout_width="341dp"
-        android:layout_height="363dp"
+        android:layout_width="300dp"
+        android:layout_height="320dp"
         android:layout_marginBottom="52dp"
         android:fontFamily="@font/bitter"
-        android:text="Thank you for using *App Name*! Protecting your privacy is important to us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored only on this device, and no one else will be able to view it. The app needs the username and password of your School Loop account to pull assignments and tests to create an automatic schedule. We can not see or share your School Loop information. Once again, your personal information is safe and we will not be able to access them.  "
+        android:text="Thank you for using Taskmate! Protecting your privacy is important to us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored only on this device, and no one else will be able to view it. The app needs the username and password of your School Loop account to pull assignments and tests to create an automatic schedule. We can not see or share your School Loop information. Once again, your personal information is safe and we will not be able to access them.  "
         android:textColor="#283953"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

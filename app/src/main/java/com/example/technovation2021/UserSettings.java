@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -139,6 +140,7 @@ public class UserSettings extends AppCompatActivity {
         // TODO: is atleast 5 characters a sufficient check.
         if ( subdmn.isEmpty() || subdmn.length() < 5 ) {
             sl_subdomain.setError("Schoolloop suddomain is not valid. Please check.");
+            Toast.makeText(UserSettings.this, "URL is too short.", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -180,10 +182,11 @@ public class UserSettings extends AppCompatActivity {
         //editor.putString("fetchhwat", "15:00"); // 3pm everyday
         editor.commit();
 
-        //slg = new SchoolLoopHomeworkGrabber(slId.getText().toString(),
-        //                                    slPswd.getText().toString(),
-        //                                    slDmn.getText().toString());
+        SchoolLoopHomeworkGrabber slg = new SchoolLoopHomeworkGrabber(slId.getText().toString(),
+                                            slPswd.getText().toString(),
+                                            slDmn.getText().toString());
         pbar.setVisibility(View.GONE);
+        // TODO: make this activity wait till the homework is fetched.
         this.finish();
     }
 
