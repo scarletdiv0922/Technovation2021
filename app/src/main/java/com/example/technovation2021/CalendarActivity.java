@@ -2,6 +2,7 @@
 package com.example.technovation2021;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,14 +33,20 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import static java.time.Duration.between;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class CalendarActivity extends AppCompatActivity {
     private static Handler mHandler = new Handler();
     ArrayList<Event> evList = new ArrayList<Event>();
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
+
     boolean eventsFetched = false;
     CustomCalendar cv;
+    LocalDate notifDay = LocalDate.now().plusDays(-1);
     String currentDate= LocalDate.now().toString();
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
@@ -71,7 +79,7 @@ public class CalendarActivity extends AppCompatActivity {
             // Fetch homework every 2 hours between 8am - 6pm on weekdays
             if ( today.getDayOfWeek() != DayOfWeek.SUNDAY &&
                     today.getDayOfWeek() != DayOfWeek.SATURDAY && over2Hours()) {
-                if (LocalTime.parse("08:00:00").isBefore(now) && now.isBefore(LocalTime.parse("18:00:00"))) {
+                if (LocalTime.parse("06:00:00").isBefore(now) && now.isBefore(LocalTime.parse("21:00:00"))) {
                     Log.d(LOG_TAG, "call getschoolloophomework");
                     getSchoolLoopHomework();
                     hwFetchedAt = LocalTime.now();
@@ -80,12 +88,109 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
             playAudioBeforeEvent();
+            scheduleNotifications();
 
-            mHandler.postDelayed( this, 5*60*1000);
+            mHandler.postDelayed( this, 60*60*1000);
             /*
             getSchoolLoopHomework();
             mHandler.postDelayed( this, 30*1000);
              */
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private long getEventTimeFromNow(Event e) {
+        //LocalTime tnow = LocalTime.now();
+        //LocalTime evAt = e.startTime;
+        long x = MINUTES.between(LocalTime.now(), e.startTime);
+        Log.d(LOG_TAG, "event: " + e.eventDesc + " starts in:" + x + "minutes from now");
+        if ( x > 0 ) {
+            return x * 60 * 1000;
+        }
+        return 0;
+    }
+
+    private void scheduleNotificationForEvent (Notification notification, int notId, long delay) {
+        Intent notificationIntent = new Intent( this, EventNotificationBroadcast. class ) ;
+        notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION_ID , notId ) ;
+        notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        long notifyAt = SystemClock. elapsedRealtime () + delay ;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , notifyAt , pendingIntent) ;
+    }
+
+    private Notification getNotification (Event e) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
+        builder.setContentTitle( "TaskMate" );
+        Log.d(LOG_TAG, "Scheduling notification for:" + e.eventDesc);
+        builder.setContentText( e.eventDesc ) ;
+        builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
+        builder.setAutoCancel( true ) ;
+        builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+        builder.setSmallIcon(R.drawable.checkbox_clicked);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        return builder.build() ;
+    }
+
+    private void scheduleNotifications() {
+        // clock turned into new day. set up notifications for this day.
+        if ( LocalDate.now().equals(notifDay) == false ) {
+            notifDay = LocalDate.now();
+            Log.d(LOG_TAG, "Scheduling notifications for: " + notifDay.toString());
+            /*
+
+            Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
+            PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
+
+            AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+            long currentTime = System.currentTimeMillis();
+            long fiveSeconds = 1000*5;
+
+            notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
+                    currentTime+fiveSeconds,
+                    notifPendingIntent);
+
+             */
+
+            //Query (find) all events for today
+            FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
+            try {
+                DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
+                String userId = mAuthEv.getCurrentUser().getUid();
+                Query eventList1 = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
+                        startAt(notifDay.toString()).endAt(notifDay.toString());
+                eventList1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            evList.add(ds.getValue(Event.class));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                int i = 1;
+                Log.d(LOG_TAG, "Events for today: " + evList.size());
+                for ( Event e : evList ) {
+                    if ( e.type == 2 || e.type == 3 ) {
+                        long delay = getEventTimeFromNow(e);
+                        if ( delay > 0 ) {
+                            scheduleNotificationForEvent(getNotification(e), i, delay);
+                            i++;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -125,84 +230,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         new SlThread().run();
 
-        Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
-        PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
-
-        AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        long currentTime = System.currentTimeMillis();
-        long fiveSeconds = 1000*5;
-
-        notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
-                currentTime+fiveSeconds,
-                notifPendingIntent);
-
-        //cv.setContext(CalendarActivity.this);
-        Log.d("CalendarXX", "call custom calendar");
-        /* Below handler works but may not be needed.
-        cv.setEventHandler(new CustomCalendar.EventHandler()
-        {
-            @Override
-            public void onDayLongPress(LocalDate date)
-            {
-                // Expand events of day.
-                Log.d(LOG_TAG, "show all events for:" + date.toString());
-            }
-        });
-         */
         cv.updateCalendar(LocalDate.now());
-
-
-        //Query (find) all events for today
-        FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
-        Log.d(LOG_TAG, " 1 before try");
-
-        try {
-            DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
-            String userId = mAuthEv.getCurrentUser().getUid();
-            Log.d(LOG_TAG, " 2 after getting user id");
-
-            Log.d(LOG_TAG, "userId= "+userId);
-
-
-           /* Query eventList = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
-                    startAt(currentDate).endAt("2021-04-10");
-           */
-
-            Query eventList1 = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
-                    startAt("2021-04-08").endAt("2021-04-10");
-
-            Log.d(LOG_TAG, " 3 after query");
-
-            //Query eventList1 = mDatabaseEv.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
-            eventList1.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        evList.add(ds.getValue(Event.class));
-                        Log.d("onDataChange", "evList size= "+ evList.size());
-                    }
-                    eventsFetched = true;
-                    Log.d(LOG_TAG, "I fetched events");
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            Log.d(LOG_TAG, " data fetch done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-
-        }
-
-        //Loop through the events for the day and set a notification for 10 minutes before the notification start time
-        //Log.d("I am here and this is the evList size", "evList= " + evList.size());
-
     }
 
     @Override
