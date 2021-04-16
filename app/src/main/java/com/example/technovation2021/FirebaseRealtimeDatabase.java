@@ -79,7 +79,7 @@ public class FirebaseRealtimeDatabase {
         Iterator localIter = intList.iterator();
         while (localIter.hasNext()) {
             CalInterval e = (CalInterval) localIter.next();
-            Log.d(LOG_TAG, "Interval: " + e.t1.toString() + " duration: " + e.duration);
+            //Log.d(LOG_TAG, "Interval: " + e.t1.toString() + " duration: " + e.duration);
         }
     }
 
@@ -171,9 +171,6 @@ public class FirebaseRealtimeDatabase {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int findFreeSlot(int timeNeeded) {
-        //for(CalInterval timeSlot: intList){
-        //if ( timeSlot.t1)
-        //}
         Log.d(LOG_TAG, "findFreeSlot of: " + timeNeeded + " busySlots: " + intList.size());
         for (int i = 0; i < (intList.size() - 1); i++) {
             CalInterval i1 = intList.get(i);
@@ -194,17 +191,6 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
-        /*
-            String eventDesc,
-            String date,
-            String startTime,
-            Integer chunkNumber,
-            Integer totalChunks,
-            Integer duration,
-            Integer type,
-            String taskId,
-            String notes
-         */
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
         Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
                 1, 1, GenericTask.MIN_BREAK_TIME, CalEvent.CAL_EVENT_BREAK.ordinal(),
@@ -647,8 +633,14 @@ public class FirebaseRealtimeDatabase {
                 // Save the task in "taskList"
                 pushHomeworkTask(taskToBeScheduled);
 
-                SchoolLoopHomeworkGrabber c = (SchoolLoopHomeworkGrabber) caller;
-                c.scheduleNextHomework(nextIndex);
+                if ( nextIndex != -1 ) { /* called from SchoolLoop scheduler */
+                    SchoolLoopHomeworkGrabber c = (SchoolLoopHomeworkGrabber) caller;
+                    c.scheduleNextHomework(nextIndex);
+                }
+                else { /* called from AddTask screen */
+                    AddTask c = (AddTask) caller;
+                    c.taskAddedToCalendar();
+                }
             }
         }
     }

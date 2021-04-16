@@ -66,7 +66,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         // Appears to be sorted by date already! TODO: Double check this
         // If not we need to sort this in CalendarAdapter::getView()!!!
         for (int i = 0; i < evList.size(); i++ ) {
-            Log.d(LOG_TAG, "event " + (i+1) + " " + evList.get(i).print());
+            //Log.d(LOG_TAG, "event " + (i+1) + " " + evList.get(i).print());
         }
         grid.setAdapter(new CalendarAdapter(getContext(), cells, evList));
     }
@@ -411,7 +411,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                     if ((ev.type == CalEvent.CAL_EVENT_EXTRACURRICULAR.ordinal()) ||
                             (ev.type == CalEvent.CAL_EVENT_HOMEWORK.ordinal())) {
                         k++;
-                        Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
+                        //Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
                         setCalEvent(k, ev, view);
                     }
                 }
