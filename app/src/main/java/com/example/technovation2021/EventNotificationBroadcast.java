@@ -1,5 +1,6 @@
 package com.example.technovation2021;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,28 +8,35 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.view.View;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.annotation.NonNull;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static com.example.technovation2021.DailyEventsAdapter.LOG_TAG;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class EventNotificationBroadcast extends BroadcastReceiver {
+
+    public static String NOTIFICATION_ID = "notification-id" ;
+    public static String NOTIFICATION = "notification" ;
+
+    public void onReceive (Context context , Intent intent) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            int importance = NotificationManager. IMPORTANCE_HIGH ;
+            NotificationChannel notificationChannel = new NotificationChannel( "TaskMate" , "NOTIFICATION_CHANNEL_NAME" , importance) ;
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(notificationChannel) ;
+        }
+        int id = intent.getIntExtra( NOTIFICATION_ID , 0 ) ;
+        assert notificationManager != null;
+        notificationManager.notify(id , notification) ;
+    }
+
+    /*
     ArrayList<Event> evList = new ArrayList<Event>();
     boolean eventsFetched = false;
     String currentDate= LocalDate.now().toString();
@@ -66,6 +74,8 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(notifContext);
         myNotificationManager.notify(1, mBuilder.build());
     }
+
+     */
 }
 
 
