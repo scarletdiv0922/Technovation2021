@@ -150,5 +150,10 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="end_time">End Time</string>
     <string name="day">Day</string>
+    <string name="school_loop">School Loop</string>
+    <string name="add_activity">Add Activity</string>
+    <string name="add_task">Add Task</string>
+    <string name="about">About</string>
+    <string name="privacy">Privacy</string>
 
 </resources>

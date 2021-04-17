@@ -24,6 +24,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 interface EventsFetchedListener {
     void onEventsFetchDone(ArrayList<Event> eventsScheduled);
@@ -285,17 +286,19 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         }
 
         private int getColor(Event e) {
-            if ( e.eventDesc.contains("Math") )
-                return Color.MAGENTA;
+            if ( e.eventDesc.contains("Math") ) {
+                //Log.d(LOG_TAG, "go into math" + e.eventDesc);
+                return Color.parseColor("#FFD8E8");
+            }
             if ( e.eventDesc.contains("History") )
-                return R.color.lavender;
+                return Color.parseColor("#F8E791");
             if ( e.eventDesc.contains("Science") )
-                return R.color.turquoise;
+                return Color.parseColor("#97FF94");
             if ( e.eventDesc.contains("English") )
-                return Color.MAGENTA;
+                return Color.parseColor("#FDA366");
             if ( e.eventDesc.contains("Physical") )
-                return Color.GRAY;
-            return Color.CYAN;
+                return Color.parseColor("#4DFFC6");
+            return Color.parseColor("#B0ADFF");
         }
 
         private void setCalEvent(int evNr, Event e, View view) {
@@ -314,8 +317,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             if ( tv != null ) {
                 tv.setBackgroundColor(getColor(e));
                 String d = e.eventDesc;
-                if ( d.length() > 8 )
-                    d = d.substring(0,8);
+                if ( d.length() > 6 )
+                    d = d.substring(0,6);
                 tv.setText(d);
             }
         }

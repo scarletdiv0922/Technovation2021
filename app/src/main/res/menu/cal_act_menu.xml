@@ -4,19 +4,22 @@
 
     <item
         android:id="@+id/settingMenu"
-        android:title="School Loop" />
+        android:title="@string/school_loop" />
 
-    <item android:title="Add Activity"
+    <item android:title="@string/add_activity"
         android:id="@+id/studentActivity" />
 
     <item
-        android:title="Add Task"
+        android:title="@string/add_task"
         android:id="@+id/addTask" />
 
     <item
-        android:title="About"
-        android:id="@+id/aboutPage" />
-    <item
         android:id="@+id/privacyScreen"
-        android:title="Privacy" />
+        android:title="@string/privacy" />
+
+    <item
+        android:title="@string/about"
+        android:id="@+id/aboutPage" />
+
 </menu>
+

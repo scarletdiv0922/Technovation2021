@@ -5,17 +5,20 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="navy">#4B4E6D</color>
-    <color name="lightBlue">#C7DCFC</color>
-    <color name="lime">#C4FFB2</color>
+    <color name="lightBlue">#C7DCFC</color>e
+    <color name="lime">#FFFEB6</color>
 
     <color name="today">#4b82ff</color>
     <color name="greyed_out">#c7c7c7</color>
 
-    <color name = "lavender">#f3d8ff</color>
+    <color name = "turquoise">#4DFFC6</color>
 
     <color name = "babypink">#ffd8e8</color>
     <color name = "gold">#F8E791</color>
-    <color name = "turquoise">#6DEDD1</color>
+    <color name = "green">#97FF94</color>
+    <color name = "orange">#FDA366</color>
+    <color name = "purple">#B0ADFF</color>
+
 
 
 
