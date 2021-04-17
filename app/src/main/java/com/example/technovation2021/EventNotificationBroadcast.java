@@ -13,17 +13,21 @@ import android.util.Log;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class EventNotificationBroadcast extends BroadcastReceiver {
 
+    /*
     public static String NOTIFICATION_ID = "notification-id" ;
     public static String NOTIFICATION = "notification" ;
 
     public void onReceive (Context context , Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        Log.d("NotifBroadcast", "received notification intent");
         Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             int importance = NotificationManager. IMPORTANCE_HIGH ;
@@ -36,9 +40,9 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
         notificationManager.notify(id , notification) ;
     }
 
-    /*
-    ArrayList<Event> evList = new ArrayList<Event>();
-    boolean eventsFetched = false;
+     */
+
+
     String currentDate= LocalDate.now().toString();
 
     public void onReceive(Context notifContext, Intent intent) {
@@ -58,24 +62,20 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
         Log.d("Current Date", "currentdate= "+currentDate);
         notifIntent.putExtra("EventsForDay", currentDate);
 
-
-       // eventHandler.onDayLongPress((LocalDate)view.getItemAtPosition(position));
-
         //notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(notifContext, 0, notifIntent, 0);
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(notifContext, "1");
-        mBuilder.setContentTitle("Good things take time");
-        mBuilder.setContentText("\"What is not started today is never finished tomorrow.\"");
-        mBuilder.setSmallIcon(R.drawable.largertasklogo);
+        mBuilder.setContentTitle("TaskMate: " + intent.getStringExtra("EventDesc") + " is coming up");
+        //mBuilder.setContentText("'What is not started today is never finished tomorrow.'");
+        mBuilder.setContentText("It takes both a plan and a schedule to get things done. -- Peter Turla");
+        mBuilder.setSmallIcon(R.drawable.next_month);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         mBuilder.setContentIntent(pendingIntent);
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(notifContext);
         myNotificationManager.notify(1, mBuilder.build());
     }
-
-     */
 }
 
 

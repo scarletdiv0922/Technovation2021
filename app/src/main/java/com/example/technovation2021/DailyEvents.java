@@ -153,11 +153,11 @@ public class DailyEvents extends AppCompatActivity {
                 /* show events fetched */
                 Log.d(LOG_TAG, "got " + evList.size());
 
-
                 filteredList = new ArrayList<Event>();
                 for (int i =0;i < evList.size(); i++) {
                     Log.d(LOG_TAG, "ev :" + i + " desc:" + evList.get(i).eventDesc + " start:" + evList.get(i).startTime + " day:" + evList.get(i).date.toString());
                     if ( evList.get(i).type != 4 ) {
+                        Log.d(LOG_TAG, "add " + evList.get(i).eventDesc + " to display list");
                         filteredList.add(evList.get(i));
                     }
                 }

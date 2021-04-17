@@ -313,7 +313,10 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             }
             if ( tv != null ) {
                 tv.setBackgroundColor(getColor(e));
-                tv.setText(e.eventDesc.substring(0, 5));
+                String d = e.eventDesc;
+                if ( d.length() > 8 )
+                    d = d.substring(0,8);
+                tv.setText(d);
             }
         }
 
@@ -407,7 +410,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 ev2.setText("");
                 ev3.setText("");
                 for (Event ev : holder.eventsForDay) {
-                    Log.d("CALDISPLAY", "ev type:" + ev.type + " desc:" + ev.eventDesc);
+                    //Log.d("CALDISPLAY", "ev type:" + ev.type + " desc:" + ev.eventDesc);
                     if ((ev.type == CalEvent.CAL_EVENT_EXTRACURRICULAR.ordinal()) ||
                             (ev.type == CalEvent.CAL_EVENT_HOMEWORK.ordinal())) {
                         k++;

@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             tv.setText("taskmate@gmail.com");
             pswd.setText("taskmate");
+
         }
 
         // When the Login and Sign Up buttons are clicked, take the user to CalendarActivity
