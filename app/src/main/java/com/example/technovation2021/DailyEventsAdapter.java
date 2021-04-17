@@ -57,7 +57,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DailyEventsAdapter.CalViewHolder holder, final int position) {
-        //Log.d(LOG_TAG, "Show event number: " + position);
+        Log.d(LOG_TAG, "Show event number: " + position);
         DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("KK:mm a");
         holder.startTime.setText(evList.get(position).startTime.format(dateFormat));
         //holder.duration.setText(evList.get(position).duration.toString());
@@ -95,7 +95,7 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
 
     @Override
     public int getItemCount() {
-        //Log.d(LOG_TAG, "evlist size: " + evList.size());
+        Log.d(LOG_TAG, "daily ev list size: " + evList.size());
         return evList.size();
     }
 

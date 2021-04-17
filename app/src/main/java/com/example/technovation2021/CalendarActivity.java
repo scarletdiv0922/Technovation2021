@@ -46,7 +46,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     boolean eventsFetched = false;
     CustomCalendar cv;
-    LocalDate notifDay = LocalDate.now().plusDays(-1);
     String currentDate= LocalDate.now().toString();
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
@@ -59,14 +58,6 @@ public class CalendarActivity extends AppCompatActivity {
             if ( MINUTES.between(hwFetchedAt, LocalTime.now()) >= 120 )
                 return true;
             return false;
-        }
-
-        public void fetchTodaysEvents() {
-
-        }
-
-        public void playAudioBeforeEvent() {
-
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,14 +74,13 @@ public class CalendarActivity extends AppCompatActivity {
                     Log.d(LOG_TAG, "call getschoolloophomework");
                     getSchoolLoopHomework();
                     hwFetchedAt = LocalTime.now();
-                    fetchTodaysEvents();
                 }
             }
 
-            playAudioBeforeEvent();
             scheduleNotifications();
 
-            mHandler.postDelayed( this, 60*60*1000);
+            // Every 5 mins.
+            mHandler.postDelayed( this, 5*60*1000);
             /*
             getSchoolLoopHomework();
             mHandler.postDelayed( this, 30*1000);
@@ -104,19 +94,33 @@ public class CalendarActivity extends AppCompatActivity {
         //LocalTime tnow = LocalTime.now();
         //LocalTime evAt = e.startTime;
         long x = MINUTES.between(LocalTime.now(), e.startTime);
-        Log.d(LOG_TAG, "event: " + e.eventDesc + " starts in:" + x + "minutes from now");
-        if ( x > 0 ) {
+        Log.d(LOG_TAG, "event: " + e.eventDesc + " starts in:" + x + " minutes from now");
+        if ( x >= 0 ) {
             return x * 60 * 1000;
         }
-        return 0;
+        return -1;
     }
 
+    private void scheduleNotificationForEvent(Event e, long delay) {
+        Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
+        notifIntent.putExtra("EventDesc", e.eventDesc);
+        PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
+
+        Log.d(LOG_TAG, "schedule notification for " + e.eventDesc);
+        AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long currentTime = System.currentTimeMillis();
+        notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
+                currentTime+delay,
+                notifPendingIntent);
+    }
+    /*
     private void scheduleNotificationForEvent (Notification notification, int notId, long delay) {
         Intent notificationIntent = new Intent( this, EventNotificationBroadcast. class ) ;
         notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION_ID , notId ) ;
         notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION , notification) ;
         PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
-        long notifyAt = SystemClock. elapsedRealtime () + delay ;
+        Log.d(LOG_TAG, "new notification set for: " + delay/60000 + "mins from now");
+        long notifyAt = SystemClock. elapsedRealtime () + 5000;//delay ;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
         assert alarmManager != null;
         alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , notifyAt , pendingIntent) ;
@@ -135,62 +139,56 @@ public class CalendarActivity extends AppCompatActivity {
         return builder.build() ;
     }
 
+     */
+
     private void scheduleNotifications() {
-        // clock turned into new day. set up notifications for this day.
-        if ( LocalDate.now().equals(notifDay) == false ) {
-            notifDay = LocalDate.now();
-            Log.d(LOG_TAG, "Scheduling notifications for: " + notifDay.toString());
-            /*
+        Log.d(LOG_TAG, "Scheduling notifications");
 
-            Intent notifIntent = new Intent (CalendarActivity.this, EventNotificationBroadcast.class);
-            PendingIntent notifPendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, notifIntent, 0);
+        //Query (find) all events for today
+        FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        //userId = mAuth.getCurrentUser().getUid();
+        try {
+            DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
+            String userId = mAuthEv.getCurrentUser().getUid();
+            Query eventList1 = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
+                    startAt(LocalDate.now().toString()).endAt(LocalDate.now().toString());
 
-            AlarmManager notifAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            eventList1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int i = 1;
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        //evList.add(ds.getValue(Event.class));
+                        Event e = ds.getValue(Event.class);
+                        Log.d(LOG_TAG, "got event:" + e.eventDesc + " type:" + e.type + " start:" + e.date.toString());
+                        //Log.d(LOG_TAG, "Events for today: " + evList.size());
+                        //for ( Event e : evList ) {
+                            if ( (e.type == 2 || e.type == 3)) {
+                                long delay = getEventTimeFromNow(e);
+                                //scheduleNotificationForEvent(getNotification(e), i, delay);
 
-            long currentTime = System.currentTimeMillis();
-            long fiveSeconds = 1000*5;
-
-            notifAlarmManager.set(AlarmManager.RTC_WAKEUP,
-                    currentTime+fiveSeconds,
-                    notifPendingIntent);
-
-             */
-
-            //Query (find) all events for today
-            FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
-            try {
-                DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
-                String userId = mAuthEv.getCurrentUser().getUid();
-                Query eventList1 = mDatabaseEv.child(userId).child("eventList").orderByChild("date").
-                        startAt(notifDay.toString()).endAt(notifDay.toString());
-                eventList1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            evList.add(ds.getValue(Event.class));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                int i = 1;
-                Log.d(LOG_TAG, "Events for today: " + evList.size());
-                for ( Event e : evList ) {
-                    if ( e.type == 2 || e.type == 3 ) {
-                        long delay = getEventTimeFromNow(e);
-                        if ( delay > 0 ) {
-                            scheduleNotificationForEvent(getNotification(e), i, delay);
-                            i++;
-                        }
+                                // TODO: scheduling notification only for an event that is coming up
+                                // TODO: in 5 mins.
+                                Log.d(LOG_TAG, "delay: " + delay);
+                                if ( delay >= 0 && delay < 300000 ) {
+                                    scheduleNotificationForEvent(e, delay);
+                                    i++;
+                                }
+                            }
+                        //}
                     }
                 }
-            }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
         }
     }
 
@@ -276,6 +274,13 @@ public class CalendarActivity extends AppCompatActivity {
                 return true;
             }
         return super.onOptionsItemSelected(item);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        cv.updateCalendar(LocalDate.now());
     }
 }
 

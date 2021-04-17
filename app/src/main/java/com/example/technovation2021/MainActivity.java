@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
             EditText tv = findViewById(R.id.userEmail);
             EditText pswd = findViewById(R.id.userPassword);
 
-            //tv.setText("taskmate@gmail.com");
-            //pswd.setText("taskmate");
+            tv.setText("techno@gmail.com");
+            pswd.setText("techno");
         }
 
         // When the Login and Sign Up buttons are clicked, take the user to CalendarActivity
