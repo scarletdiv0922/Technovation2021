@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/settingMenu"
-        android:title="Settings" />
+        android:title="School Loop" />
 
     <item android:title="Add Activity"
         android:id="@+id/studentActivity" />

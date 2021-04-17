@@ -286,7 +286,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
 
         private int getColor(Event e) {
             if ( e.eventDesc.contains("Math") )
-                return R.color.babypink;
+                return Color.MAGENTA;
             if ( e.eventDesc.contains("History") )
                 return R.color.lavender;
             if ( e.eventDesc.contains("Science") )
@@ -295,7 +295,7 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 return Color.MAGENTA;
             if ( e.eventDesc.contains("Physical") )
                 return Color.GRAY;
-            return Color.BLUE;
+            return Color.CYAN;
         }
 
         private void setCalEvent(int evNr, Event e, View view) {

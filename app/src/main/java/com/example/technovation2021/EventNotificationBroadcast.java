@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
+//@RequiresApi(api = Build.VERSION_CODES.O)
 public class EventNotificationBroadcast extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id" ;
