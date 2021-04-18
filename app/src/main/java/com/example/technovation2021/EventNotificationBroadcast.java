@@ -68,9 +68,42 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(notifContext, "1");
         mBuilder.setContentTitle("TaskMate: " + intent.getStringExtra("EventDesc") + " is coming up");
-        //mBuilder.setContentText("'What is not started today is never finished tomorrow.'");
-        mBuilder.setContentText("It takes both a plan and a schedule to get things done. -- Peter Turla");
-        mBuilder.setSmallIcon(R.drawable.next_month);
+//        mBuilder.setContentText("\"It takes both a plan and a schedule to get things done.\" -- Peter Turla");
+        /*
+"\"The key is not to prioritize what's on your schedule, but to schedule your priorities.\" -- Stephen Covy"
+A schedule defends from chaos and whim. A net for catching days. -- Annie Dillard
+Good things take time.
+You can totally do this.
+Dreams don't work unless you do.
+A mistake is success in progress.
+Passion + Consistency = Success
+Life's a journey, not a race.
+Don't wait for opportunities. Create them.
+
+
+for (quote == 0; quote < 10; quote ++){
+    if (quote == 0) {
+        mBuilder.setContentText("\"It takes both a plan and a schedule to get things done.\" -- Peter Turla");
+    }
+
+         */
+
+String[] quotes = new String[] {"\"It takes both a plan and a schedule to get things done.\"",
+        "\"A schedule defends from chaos and whim. A net for catching days.\"",
+        "\"Good things take time.\"",
+        "\"You can totally do this.\"",
+        "\"Dreams don't work unless you do.\"",
+        "\"A mistake is success in progress.\"",
+        "\"Passion + Consistency = Success\"",
+        "\"Life's a journey, not a race.\"",};
+String randomQuote = quotes[(int) (Math.random() * quotes.length)];
+mBuilder.setContentText(randomQuote);
+
+
+
+
+
+        mBuilder.setSmallIcon(R.drawable.tm5);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
         mBuilder.setContentIntent(pendingIntent);
         NotificationManagerCompat myNotificationManager= NotificationManagerCompat.from(notifContext);

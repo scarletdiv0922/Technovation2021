@@ -132,16 +132,15 @@ public class AddTask extends AppCompatActivity {
 
 //TODO: Remove comment from line 123-137
 
-            if (TextUtils.isEmpty(taskName.getText().toString()) ||
-                    taskName.getText().toString().length() < 5 ) {
-                taskName.setError("Task name is too short.");
-                Toast.makeText(AddTask.this, "Task name is too short.", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(taskName.getText().toString())) {
+                taskName.setError("Task name cannot be empty");
+                Toast.makeText(AddTask.this, "Task name cannot be empty", Toast.LENGTH_SHORT).show();
                 return false;
             }
             taskName.setError(null);
 
             if (TextUtils.isEmpty(taskSDate.getText().toString())) {
-//                taskSDate.setError("Please input a date");
+                taskSDate.setError("Please input a date");
                 Toast.makeText(AddTask.this, "Please input a date.", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -152,7 +151,7 @@ public class AddTask extends AppCompatActivity {
             }
 
             if (TextUtils.isEmpty(taskDDate.getText().toString())) {
-//                taskDDate.setError("Please input a date");
+                taskDDate.setError("Please input a date");
                 Toast.makeText(AddTask.this, "Please input a date.", Toast.LENGTH_SHORT).show();
                 return false;
             }

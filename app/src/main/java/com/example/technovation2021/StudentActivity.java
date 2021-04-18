@@ -357,10 +357,9 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
 
         // Do sanity checks to make sure data is good!
-        if (TextUtils.isEmpty(actName.getText().toString()) ||
-            actName.getText().toString().length() < 5) {
-            actName.setError("Too short description.");
-            Toast.makeText(StudentActivity.this, "Description is too short.", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(actName.getText().toString())) {
+            actName.setError("Name cannot be empty.");
+            Toast.makeText(StudentActivity.this, "Name cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

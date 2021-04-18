@@ -296,8 +296,12 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 return Color.parseColor("#97FF94");
             if ( e.eventDesc.contains("English") )
                 return Color.parseColor("#FDA366");
-            if ( e.eventDesc.contains("Physical") )
+            if ( e.eventDesc.contains("Physics") )
                 return Color.parseColor("#4DFFC6");
+            if ( e.eventDesc.contains("Language") )
+                return Color.parseColor("#FF7272");
+            if ( e.eventDesc.contains("Econ") )
+                return Color.parseColor("#FFCEFF72");
             return Color.parseColor("#B0ADFF");
         }
 
