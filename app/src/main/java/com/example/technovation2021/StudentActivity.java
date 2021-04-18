@@ -384,6 +384,7 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
         if ( invalidStartTime(actSDate.getText().toString(), actSTime.getText().toString()) == true ) {
             actSTime.setError("Start time has already passed.");
+            Toast.makeText(StudentActivity.this, "Start time has already passed.", Toast.LENGTH_LONG).show();
             return false;
         }
         actSTime.setError(null);
