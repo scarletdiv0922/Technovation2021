@@ -131,7 +131,6 @@
     <string name="max_sitting">Max Sitting</string>
     <string name="ideal_sitting">Ideal Sitting</string>
     <string name="due_date">Due Date</string>
-    <string name="add_task">Add Task</string>
     <string name="break_notif">Break</string>
     <string name="notifications">Notifications</string>
     <string name="schoolloop_com">.schoolloop.com</string>
@@ -151,7 +150,6 @@
     <string name="end_time">End Time</string>
     <string name="day">Day</string>
     <string name="school_loop">School Loop</string>
-    <string name="add_activity">Add Activity</string>
     <string name="add_task">Add Task</string>
     <string name="about">About</string>
     <string name="privacy">Privacy</string>
