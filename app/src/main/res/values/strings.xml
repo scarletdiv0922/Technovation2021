@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Technovation2021</string>
+    <string name="app_name">Taskmate</string>
     <string name="sign_up">Sign Up</string>
     <string name="welcome">Welcome!</string>
     <string name="login">Login</string>
@@ -150,6 +150,7 @@
     <string name="day">Day</string>
     <string name="school_loop">School Loop</string>
     <string name="add_task">Add Task</string>
+    <string name="add_activity">Add Activity</string>
     <string name="about">About</string>
     <string name="privacy">Privacy</string>
 
