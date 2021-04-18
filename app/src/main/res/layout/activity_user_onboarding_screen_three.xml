@@ -18,7 +18,7 @@
         android:fontFamily="@font/bitter"
         android:onClick="continue3Clicked"
         android:shadowColor="#d7f4ffff"
-        android:text="Next"
+        android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="#283953"
         android:textColorHint="#d7f4ffff"

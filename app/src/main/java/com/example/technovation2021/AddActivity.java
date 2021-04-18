@@ -27,6 +27,7 @@ public class AddActivity extends AppCompatActivity implements
     private Spinner evFrequency;
     private Spinner hwPrepTimes;
     private SwitchCompat hwSwitch;
+    TextView startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class AddActivity extends AppCompatActivity implements
         evFrequency = findViewById(R.id.event_frequency);
         hwPrepTimes = findViewById(R.id.idHomeworkHours);
         hwSwitch = findViewById(R.id.idSchoolTaskSwitch);
+        startTime = findViewById(R.id.idStartTime);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.event_duration_times, android.R.layout.simple_spinner_item);
@@ -99,19 +101,12 @@ public class AddActivity extends AppCompatActivity implements
         }
     }
 
-//
-//    public void startTimeClicked (View view) {
-//        DialogFragment newFragment = new TimePickerFragment(R.id.idStartTime);
-//        newFragment.show(getSupportFragmentManager(), "datePicker");
-//    }
 
     public void startTimeClicked(View view) {
-        /*
-        DialogFragment newFragment = new TimePickerFragment();
->>>>>>> f178e97dc7f54d584bb1af0fded323e1f0fcd727
+
+        DialogFragment newFragment = new TimePickerFragment(R.id.idStartTime);
         newFragment.show(getSupportFragmentManager(), "timePicker");
-        Log.d(LOG_TAG, "start time clicked");
-         */
+
     }
 
     public void startDateClicked(View view) {
@@ -128,7 +123,6 @@ public class AddActivity extends AppCompatActivity implements
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addToCalendarClicked(View view) {
         if ( noDataErrors() ) {
-
             Intent intent = new Intent(AddActivity.this, CalendarActivity.class);
             startActivity(intent);
 
@@ -137,7 +131,6 @@ public class AddActivity extends AppCompatActivity implements
 
     private boolean noDataErrors() {
         TextView actDesc = findViewById(R.id.idEvDesc);
-
         if ( actDesc.getText().toString().trim().isEmpty() ||
                 actDesc.getText().toString().trim().length() < 5 ) {
             actDesc.setError("Description is empty or too short.");
@@ -147,7 +140,8 @@ public class AddActivity extends AppCompatActivity implements
     }
 
     public void cancelAddActivityClicked(View view) {
-        //super.onBackPressed();
+        Intent intent = new Intent(AddActivity.this, CalendarActivity.class);
+        startActivity(intent);
         finish();
     }
 }
