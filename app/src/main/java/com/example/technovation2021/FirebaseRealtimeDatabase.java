@@ -157,9 +157,9 @@ public class FirebaseRealtimeDatabase {
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
         DatabaseReference newPostRef = newref.push();
         Log.d(LOG_TAG, "Adding break event at: " + tm.toString() + " on: " + d.toString());
-        Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
+        Event breakEvent = new Event("Break!", d.toString(), tm.toString(),
                 1, 1, GenericTask.MIN_BREAK_TIME, CalEvent.CAL_EVENT_BREAK.ordinal(),
-                        "BREAKTASK", "Relax. Play some music or read a book or play an instrument!");
+                        "BREAKTASK", "Relax! Play some music, read a book, or go for a walk!");
         newPostRef.setValue(breakEvent);
         return 0;
 

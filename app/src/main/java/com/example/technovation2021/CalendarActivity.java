@@ -160,7 +160,7 @@ public class CalendarActivity extends AppCompatActivity {
         //SharedPreferences.Editor editor = sharedPref.edit();
         String sluser = sharedPref.getString("sluser", "invalid");
         String slpswd = sharedPref.getString("slpswd", "invalid");
-        String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
+        String subdomain = sharedPref.getString("slsubdomain", "invalid");
         if (sluser.equals("invalid") == false) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 new SchoolLoopHomeworkGrabber(sluser, slpswd, subdomain);

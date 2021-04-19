@@ -76,18 +76,19 @@ public class UserSettings extends AppCompatActivity {
                 this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         //SharedPreferences.Editor editor = sharedPref.edit();
         String sluser2 = sharedPref.getString("sluser", "invalid");
-        String slpswd2 = sharedPref.getString("slpswd", "invalid");
-        String subdomain2 = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
+        String slpswd2 = sharedPref.getString("slpswd", "");
+        String subdomain2 = sharedPref.getString("slsubdomain", "");
 
         EditText slId = findViewById(R.id.schoolloopId);
         EditText slPswd = findViewById(R.id.schoolloopPswd);
         EditText slDmn = findViewById(R.id.Subdomain);
 
-
-        slId.setText(sluser2);
-        slPswd.setText(slpswd2);
-        slDmn.setText(subdomain2);
-
+        // user has already given their schoolloop id/password. show them.
+        if ( false == sluser2.equals("invalid") ) {
+            slId.setText(sluser2);
+            slPswd.setText(slpswd2);
+            slDmn.setText(subdomain2);
+        }
     }
 
     private boolean errorsInActivity() {
