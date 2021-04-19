@@ -71,6 +71,23 @@ public class AddTask extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean invalidEndDate(String inpstartDate, String inpendDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        try {
+            LocalDate startDate = LocalDate.parse(inpstartDate, formatter);
+            LocalDate endDate = LocalDate.parse(inpendDate, formatter);
+//            Log.d(LOG_TAG, "input date:" + inputDate.toString());
+//            LocalDate today = LocalDate.now();
+            return endDate.isBefore(startDate) == true;
+            //Log.d(LOG_TAG, "date check: " + chk + "date converted: " + inputDate.toString());
+            //return chk;
+        } catch (Exception e) {
+            //Log.d(LOG_TAG, "input date:" + dateInp + "exception:" + e.toString());
+        }
+        return true;
+    }
+
     // Convert date in "MM/DD/YYYY" format to "yyyy-MM-dd"
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String dateToStr(String d) {
@@ -142,21 +159,26 @@ public class AddTask extends AppCompatActivity {
             }
 
             if ( invalidStartDate(taskDDate.getText().toString()) == true ) {
-                Toast.makeText(AddTask.this, "End date cannot be earlier than today.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddTask.this, "Due date cannot be earlier than today.", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
-            SimpleDateFormat s1 = new SimpleDateFormat("mm/dd/yyyy");
-            try {
-                Date tSDate = s1.parse(taskSDate.getText().toString());
-                Date tDDate = s1.parse(taskDDate.getText().toString());
-                if (tDDate.compareTo(tSDate) < 0) {
-                    Toast.makeText(AddTask.this, "Due date can not be before start date. ", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            } catch (Exception e) {
-
+            if ( invalidEndDate(taskSDate.getText().toString(), taskDDate.getText().toString()) == true ) {
+                Toast.makeText(AddTask.this, "Due date cannot be earlier than start date.", Toast.LENGTH_SHORT).show();
+                return false;
             }
+
+//            SimpleDateFormat s1 = new SimpleDateFormat("mm/dd/yyyy");
+//            try {
+//                Date tSDate = s1.parse(taskSDate.getText().toString());
+//                Date tDDate = s1.parse(taskDDate.getText().toString());
+//                if (tDDate.compareTo(tSDate) < 0) {
+//                    Toast.makeText(AddTask.this, "Due date can not be before start date. ", Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//            } catch (Exception e) {
+//
+//            }
             return true;
         }
 

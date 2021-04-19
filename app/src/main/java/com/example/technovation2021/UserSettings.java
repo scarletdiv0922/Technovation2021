@@ -117,7 +117,7 @@ public class UserSettings extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void btnSaveSchoolLoopDetails(View view) {
-        Toast.makeText(UserSettings.this, "done", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UserSettings.this, "done", Toast.LENGTH_SHORT).show();
         if ( errorsInActivity() )
             return;
 
