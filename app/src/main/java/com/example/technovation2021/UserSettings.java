@@ -17,9 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Helper;
 
 @IgnoreExtraProperties
 class SchoolLoopDetails implements Serializable {
@@ -46,6 +49,7 @@ class SchoolLoopDetails implements Serializable {
 };
 
 public class UserSettings extends AppCompatActivity {
+    private static final String LOG_TAG = "User Settings";
     private DatabaseReference mDatabase;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
@@ -134,10 +138,30 @@ public class UserSettings extends AppCompatActivity {
         SchoolLoopHomeworkGrabber slg = new SchoolLoopHomeworkGrabber(slId.getText().toString(),
                                             slPswd.getText().toString(),
                                             slDmn.getText().toString());
+
+        Timer timer = new Timer();
+        TimerTask task = new MyTimerTask(this);
+
+        timer.schedule(task, 3000);
+        Log.d(LOG_TAG, "Wait for timer to finish");
         pbar.setVisibility(View.GONE);
-        this.finish();
+        // TODO: make this activity wait till the homework is fetched.
+        Toast.makeText(UserSettings.this, "Pulling homework from School Loop...", Toast.LENGTH_LONG).show();
+        //this.finish();
     }
 
+    class MyTimerTask extends TimerTask {
+        AppCompatActivity context;
+        public MyTimerTask(AppCompatActivity c) {
+            context = c;
+        }
+        @Override
+        public void run() {
+            //Log.d(LOG_TAG, "inside timer handler");
+            //context.pbar.setVisibility(View.GONE);
+            context.finish();
+        }
+    }
     public void cancelConfigTouched(View view) {
         this.finish();
     }

@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.userEmail);
 
         Log.d(LOG_TAG, "Forgot Password is clicked.");
+        if ( email.getText().toString().trim().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Email is empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -160,7 +164,9 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(LOG_TAG, "Email sent.");
                             Toast.makeText(MainActivity.this, "An email to reset your password has been sent.", Toast.LENGTH_LONG).show();
-
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Email is not registered.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
