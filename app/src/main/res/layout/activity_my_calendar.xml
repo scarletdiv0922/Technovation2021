@@ -123,15 +123,6 @@
                 android:text="@string/sat"/>
         </LinearLayout>
 
-        <!-- days view -->
-        <!--
-        <GridView
-            android:id="@+id/calendar_grid"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:numColumns="7"></GridView>
-            -->
-
         <GridView
             android:id="@+id/calendar_grid"
             android:layout_width="fill_parent"

@@ -32,7 +32,7 @@ public class GenericTask implements Serializable {
                        String notes,
                        String hash,
                        Integer status,
-                       Integer timeNeeded /* in minutes */
+                       Integer timeNeeded
                        ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -61,16 +61,7 @@ public class GenericTask implements Serializable {
     public String print() {
         return hash + " " + startDate.toString() + " " + desc + " " + notes;
     }
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private LocalDate strToDate(String dateStr) {
-        return LocalDate.of(
-                Integer.parseInt(dateStr.split("-")[0]), // year
-                Integer.parseInt(dateStr.split("-")[1]), // month
-                Integer.parseInt(dateStr.split("-")[2]));
-    }
 
-     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setDueDate(String dueDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -83,10 +74,8 @@ public class GenericTask implements Serializable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setStartDate(String startDate) {
-        // TODO: change this to start date from UI.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.startDate = LocalDate.parse(startDate, formatter);
-        //this.startDate = LocalDate.now();
     }
 
     public String getDesc() {

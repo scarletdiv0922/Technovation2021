@@ -15,21 +15,11 @@ import androidx.annotation.RequiresApi;
 public class GenericActivity implements Serializable, Comparable {
     LocalDate startDate;
     LocalDate endDate;
-    // When does the activity start.
     LocalTime startTime;
-    // Convert end time to 'duration'.
     int duration;
-    // 1 - One time. check that startDate is later than today
-    // 2 - Weekly on same day as start day
-    // 3 - Once every 2 weeks on same day as start day
-    // 4 - Same day every month
-    // 5 - all weekdays
-    // 6 - once an year on same date as start date.
-    // 7 - repeats everyday (like dinner, sleep)
-    int   repeats;
-    String    desc;
-    // set activityId to some unique number or string. choosing this as system time for now
-    int      activityId;
+    int repeats;
+    String desc;
+    int activityId;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public GenericActivity(String startDate,
@@ -80,10 +70,12 @@ public class GenericActivity implements Serializable, Comparable {
         this.startDate = LocalDate.parse(startDate);//strToDate(startDate);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getEndDate() {
         return dateToString(endDate);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setEndDate(String endDate) {
         this.endDate = strToDate(endDate);
     }
@@ -136,6 +128,7 @@ public class GenericActivity implements Serializable, Comparable {
         this.desc = desc;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String print() {
         return "desc " + getDesc() + " starttime " + getStartDate() + " repeats " + repeats + " enddate " + getEndDate() +
                 " duration " + duration + " activityId " + activityId;

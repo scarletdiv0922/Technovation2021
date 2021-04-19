@@ -57,12 +57,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
 
 
     public void onEventsFetchDone(ArrayList<Event> evList) {
-        //updateCalendar(evList);
         Log.d(LOG_TAG, "time to render events " + evList.size() + " datesArraysize: " + cells.size());
-        // Appears to be sorted by date already! TODO: Double check this
-        // If not we need to sort this in CalendarAdapter::getView()!!!
         for (int i = 0; i < evList.size(); i++ ) {
-            //Log.d(LOG_TAG, "event " + (i+1) + " " + evList.get(i).print());
         }
         grid.setAdapter(new CalendarAdapter(getContext(), cells, evList));
     }
@@ -151,15 +147,12 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         while (cells.size() < DAYS_COUNT)
         {
             cells.add(fromDay);
-            //Log.d(LOG_TAG, "updateCal: show day: " + fromDay.toString());
             fromDay = fromDay.plusDays(1);
         }
 
         header.setBackgroundColor(Color.WHITE);
 
         FirebaseRealtimeDatabase frb = new FirebaseRealtimeDatabase();
-        //Log.d(LOG_TAG, "updatecal " + fromDate.toString() + " TO " + fromDate.plusDays(DAYS_COUNT-1).toString());
-        // TODO: do we really need to fill and use 'cells'?
         frb.getEvents(fromDay.plusDays(-DAYS_COUNT), fromDay,this);
     }
 
@@ -183,10 +176,8 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
         }
 
         private int getColor(Event e) {
-            if ( e.eventDesc.contains("Math") ) {
-                //Log.d(LOG_TAG, "go into math" + e.eventDesc);
+            if ( e.eventDesc.contains("Math") )
                 return Color.parseColor("#FFD8E8");
-            }
             if ( e.eventDesc.contains("History") )
                 return Color.parseColor("#F8E791");
             if ( e.eventDesc.contains("Science") )
@@ -230,11 +221,9 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
             LocalDate day = getItem(position);
             ViewHolder holder = null;
 
-            //Log.d("cal render", "create new view: " + position);
             // inflate item if it does not exist yet
             if (view == null) {
                 holder = new ViewHolder();
-                //holder.day = day;
                 LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
                 holder.date = day;
@@ -259,19 +248,12 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                         Log.d(LOG_TAG, "on long press. show:" + v.date.toString() + " eventList Size:" + v.eventsForDay.size());
                         Intent intent = new Intent(calContext, DailyEvents.class);
                         intent.putExtra("EventsForDay", v.date.toString());
-                        // Log.d("v.date description", "v.date= "+v.date.toString());
-
-                        //Bundle args = new Bundle();
-                        //args.putParcelableArrayList("EventList", v.eventsForDay);
-                        //intent.putExtra("BUNDLE",args);
-
                         calContext.startActivity(intent);
                     }
                     return false;
                 }
             });
 
-            //Log.d(LOG_TAG, "getView show date: " + day.toString() + " showingMo:" + showingMonth);
             TextView tvDate = view.findViewById(R.id.calDate);
             tvDate.setText(String.valueOf(day.getDayOfMonth()));
             if ( displayMonth == day.getMonthValue() ) {
@@ -285,18 +267,11 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 tvDate.setTextColor(Color.GREEN);
             }
 
-            // TODO: If the firebase returned event list is already sorted, then we can just
-            // TODO: traverse eventList with an index to pick all events for a certain day.
             if (eventList != null)
             {
                 for (Event eventDate : eventList)
                 {
                     if ( eventDate.date.equals(day) ) {
-
-                        //TextView ev1 = view.findViewById(R.id.calEvent1);
-                        //ev1.setText("Event1");
-                        //Log.d(LOG_TAG, "Have events for: " + day.toString());
-                        //daysEvents.add(eventDate);
                         holder.eventsForDay.add(eventDate);
                     }
                 }
@@ -309,11 +284,9 @@ public class CustomCalendar extends LinearLayout implements EventsFetchedListene
                 ev2.setText("");
                 ev3.setText("");
                 for (Event ev : holder.eventsForDay) {
-                    //Log.d("CALDISPLAY", "ev type:" + ev.type + " desc:" + ev.eventDesc);
                     if ((ev.type == CalEvent.CAL_EVENT_EXTRACURRICULAR.ordinal()) ||
                             (ev.type == CalEvent.CAL_EVENT_HOMEWORK.ordinal())) {
                         k++;
-                        //Log.d("CALDISPLAY22", "ev type:" + ev.type + " desc:" + ev.eventDesc);
                         setCalEvent(k, ev, view);
                     }
                 }

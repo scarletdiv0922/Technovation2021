@@ -60,7 +60,6 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
         Log.d(LOG_TAG, "Show event number: " + position);
         DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("KK:mm a");
         holder.startTime.setText(evList.get(position).startTime.format(dateFormat));
-        //holder.duration.setText(evList.get(position).duration.toString());
         holder.duration.setText(durationFormat(evList.get(position).duration));
         holder.evDesc.setText(evList.get(position).eventDesc);
         holder.notes.setText(evList.get(position).notes);
@@ -84,7 +83,6 @@ public class DailyEventsAdapter extends RecyclerView.Adapter<DailyEventsAdapter.
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                //Log.d("TASKDONE", "have user input " + whichButton);
                                 FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
                                 frd.clearEvents(evList.get(position));
                             }})

@@ -31,20 +31,6 @@ enum EventFrequency {
     EVENT_FREQUENCY_WEEKEND
 }
 
-/*
-class UserSettings implements Serializable {
-    String passwordHint;
-
-    public String getPasswordHint() {
-        return passwordHint;
-    }
-
-    public UserSettings(String pswdHint) {
-        this.passwordHint = pswdHint;
-    }
-}
- */
-
 public class FirebaseRealtimeDatabase {
     private static final String LOG_TAG = FirebaseRealtimeDatabase.class.getSimpleName();
     private FirebaseAuth mAuth;
@@ -83,23 +69,12 @@ public class FirebaseRealtimeDatabase {
         }
     }
 
-    /*
-    public int savePasswordHint(String hint) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth.getCurrentUser().
-        userId = mAuth.getCurrentUser().getUid();
-        DatabaseReference newref = mDatabase.child(userId).child("userSettings");
-    }
-
-     */
-
     public int saveActivity(GenericActivity e) {
         Log.d(LOG_TAG, "saveActivity " + e.getDesc());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("activityList");
         DatabaseReference newPostRef = newref.push();
-        // TODO: check for success/failure.
         newPostRef.setValue(e);
         return 0;
     }
@@ -107,13 +82,6 @@ public class FirebaseRealtimeDatabase {
     // split task into events. save events and task to firebase.
     // events go into "eventList" and task goes into "taskList"
     public int saveHwTask(GenericTask t, Object caller, int nextIndex) {
-        Log.d(LOG_TAG, "saveTask called");
-
-        //ArrayList<GenericActivity> activities = new ArrayList<GenericActivity>();
-        //getAllActivities();
-        //Log.d(LOG_TAG, "iter size " + activities.size());
-
-        //t.timeToFinishTheTask();
         new AddTaskAndSchedule(t, caller, nextIndex).execute();
         return 0;
     }
@@ -124,7 +92,6 @@ public class FirebaseRealtimeDatabase {
         LocalDateTime e = d2.atStartOfDay();
         Duration dn = Duration.between(b, e);
         // days between from and to
-        Log.d(LOG_TAG, "is2Weeks " + dn.toDays() + " days");
         if ((dn.toDays() % 14) == 0) {
             return true;
         }
@@ -156,14 +123,12 @@ public class FirebaseRealtimeDatabase {
             GenericActivity a = (GenericActivity) obj;
             i.t1 = a.startTime;
             i.duration = a.duration;
-            Log.d(LOG_TAG, a.desc + " busy from " + a.getStartTime());
         }
         //if( Event.class.isInstance(obj) ) {
         if (type == 2) {
             Event e = (Event) obj;
             i.t1 = e.startTime;
             i.duration = e.duration;
-            Log.d(LOG_TAG, e.eventDesc + " event busy from " + e.getStartTime());
         }
         intList.add(i);
         Log.d(LOG_TAG, "added to intList " + intList.size());
@@ -195,9 +160,9 @@ public class FirebaseRealtimeDatabase {
         Event breakEvent = new Event("Break time", d.toString(), tm.toString(),
                 1, 1, GenericTask.MIN_BREAK_TIME, CalEvent.CAL_EVENT_BREAK.ordinal(),
                         "BREAKTASK", "Relax. Play some music or read a book or play an instrument!");
-        // TODO: check for success/failure.
         newPostRef.setValue(breakEvent);
-        return 0; // TODO: check return value
+        return 0;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -209,15 +174,13 @@ public class FirebaseRealtimeDatabase {
         DatabaseReference newPostRef = newref.push();
         Event ev1 = new Event("DND", curDate.toString(), "00:01", 1,1, 9*60, 4,
                             "DNDEVENT", "DNDEVENT");
-        // TODO: check for success/failure.
         newPostRef.setValue(ev1);
 
         Event ev2 = new Event("DND", curDate.toString(), "21:00", 1,1, 3*60, 4,
                 "DNDEVENT", "DNDEVENT");
-        // TODO: check for success/failure.
         newPostRef.setValue(ev2);
 
-        return 0; // TODO: check return value
+        return 0;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -229,9 +192,8 @@ public class FirebaseRealtimeDatabase {
         DatabaseReference newPostRef = newref.push();
         Event workEvent = new Event(tsk.desc, localDate.toString(), tm.toString(), slotNr, totSlots, duration, 2,
                 tsk.taskId, tsk.notes);
-        // TODO: check for success/failure.
         newPostRef.setValue(workEvent);
-        return 0; // TODO: check return value
+        return 0;
     }
 
     // Class to return master taskList from firebase
@@ -242,9 +204,6 @@ public class FirebaseRealtimeDatabase {
         ArrayList<GenericTask> dbTaskList;
         Object caller;
 
-        // TODO: For now get all tasks from fb. In theory app could only fetch tasks that
-        //       were posted from oldest homework posted date in the schoolloop to the
-        //       farthest due date in homework.
         public GetTasksForRange(LocalDate from, LocalDate to, Object _caller) {
             fDate = from;
             tDate = to;
@@ -261,11 +220,6 @@ public class FirebaseRealtimeDatabase {
             try {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
                 userId = mAuth.getCurrentUser().getUid();
-                //Query eventList = mDatabase.child(userId).child("taskList");//.orderByChild("date");
-                        //.startAt(fDate.toString()).endAt(tDate.toString());
-
-                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
                 DatabaseReference newref = mDatabase.child(userId).child("taskList");
 
                 newref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -275,13 +229,6 @@ public class FirebaseRealtimeDatabase {
                         Log.e(LOG_TAG ,"taskCount: "+snapshot.getChildrenCount());
                         for (DataSnapshot ds : snapshot.getChildren()) {
                             Log.d(LOG_TAG, "add task to list");
-                            //GenericTask gt = ds.getValue(GenericTask.class);
-                            //Log.d(LOG_TAG, "print task: " + gt.print());
-                            dbTaskList.add(ds.getValue(GenericTask.class));
-                            //arrList.add(e);
-                            //Event e = ds.getValue(Event.class);
-
-                            //Log.d("async task", "11 arrList size " + arrList.size());
                         }
                         evtFetchDone = true;
                     }
@@ -345,21 +292,12 @@ public class FirebaseRealtimeDatabase {
                 Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
                         startAt(fDate.toString()).endAt(tDate.toString());
 
-                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
                 eventList.addListenerForSingleValueEvent(new ValueEventListener() {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            //Log.d(LOG_TAG, "add activitiy to list");
-                            //arrList.add(ds.getValue(GenericActivity.class));
-                            //GenericActivity e = new GenericActivity();
                             calEvntList.add(ds.getValue(Event.class));
-                            //arrList.add(e);
-                            //Event e = ds.getValue(Event.class);
-                            //Log.d(LOG_TAG, "Printing EventList for display: " + e.print());
-                            //Log.d("async task", "11 arrList size " + arrList.size());
                         }
                         evtFetchDone = true;
                         Log.d(LOG_TAG, "true- evList size= "+calEvntList.size());
@@ -388,7 +326,6 @@ public class FirebaseRealtimeDatabase {
         protected void onPostExecute(Integer result) {
 
             super.onPostExecute(result);
-            // TODO: Check result
             if (result == 0) {
                 Log.d(LOG_TAG, "total event list: " + calEvntList.size());
                 CustomCalendar c = (CustomCalendar) caller;
@@ -398,18 +335,12 @@ public class FirebaseRealtimeDatabase {
     }
 
     class AddTaskAndSchedule extends AsyncTask<Void, Void, Integer> {
-        //String uname, password, subdomain;
-        //boolean actFetchDone;
         boolean evtFetchDone;
         GenericTask taskToBeScheduled;
         Object caller;
         int nextIndex;
 
         public AddTaskAndSchedule(GenericTask t, Object _caller, int nextIdx) {
-            //uname = username;
-            //password = pswd;
-            //subdomain = sub_dmn;
-            //actFetchDone = false;
             evtFetchDone = false;
             taskToBeScheduled = t;
             caller = _caller;
@@ -424,7 +355,6 @@ public class FirebaseRealtimeDatabase {
             try {
                 mDatabase = FirebaseDatabase.getInstance().getReference();
                 userId = mAuth.getCurrentUser().getUid();
-                //DatabaseReference newref = mDatabase.child(userId).child("activityList");
                 String taskStartDate, taskEndDate;
                 taskStartDate = taskToBeScheduled.getStartDate().toString();
                 taskEndDate = taskToBeScheduled.getDueDate().toString();
@@ -432,20 +362,11 @@ public class FirebaseRealtimeDatabase {
                 Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
                         startAt(taskStartDate).endAt(taskEndDate);
 
-                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
                 eventList.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            //Log.d(LOG_TAG, "add activitiy to list");
-                            //arrList.add(ds.getValue(GenericActivity.class));
-                            //GenericActivity e = new GenericActivity();
                             evtList.add(ds.getValue(Event.class));
-                            //arrList.add(e);
-                            //Event e = ds.getValue(Event.class);
-                            //Log.d(LOG_TAG, "Orderbykey " + e.print());
-                            //Log.d("async task", "11 arrList size " + arrList.size());
                         }
                         evtFetchDone = true;
                     }
@@ -456,38 +377,6 @@ public class FirebaseRealtimeDatabase {
                     }
                 });
 
-                /*
-                newref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(LOG_TAG, "getAllActivities123");
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            //Log.d(LOG_TAG, "add activitiy to list");
-                            arrList.add(ds.getValue(GenericActivity.class));
-                            //GenericActivity e = new GenericActivity();
-                            //e = (GenericActivity)ds.getValue(GenericActivity.class);
-                            //arrList.add(e);
-                            //Event e = ds.getValue(Event.class);
-                            //Log.d(LOG_TAG, e.print());
-                            //Log.d("async task", "11 arrList size " + arrList.size());
-                        }
-                        Log.d("async task", "AddTaskAndSchedule arrList size " + arrList.size());
-                        actFetchDone = true;
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Getting Post failed, log a message
-                        Log.w(LOG_TAG, "loadPost:onCancelled", databaseError.toException());
-                        // ...
-                    }
-                });
-                Log.d(LOG_TAG, "Wait for data fetch");
-                while ((actFetchDone == false) || (evtFetchDone == false))
-                    Thread.yield();
-
-                 */
                 Log.d(LOG_TAG, "Wait for data fetch");
                 while (evtFetchDone == false)
                     Thread.yield();
@@ -506,23 +395,6 @@ public class FirebaseRealtimeDatabase {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
-
-            /*
-                1. Get all activities from activityList
-                2. time needed to do the task.
-                   x = (dueDate - startDate - 1).
-                   if ( x == 1 ) totalTimeNeeded = 30m
-                   if ( x == 2 ) totalTimeNeeded = 40m
-                   if ( x == 3 ) 50m
-                   if ( x == 4 ) 60m
-                   perDayTaskTime = totalTimeNeeded / x
-                   [[15min break Task + perDayTaskTime]]
-                 from start_date to start_date+x {
-
-                    // walk all activity and already scheduled events to figure out free slots
-                    // then schedule an event in a slot and add this new event to the day.
-                 }
-             */
 
             int minTimeSlot = taskToBeScheduled.timeToFinishTheTask() / taskToBeScheduled.nrDaysToDue();
             int timeToFin = taskToBeScheduled.timeToFinishTheTask();
@@ -571,7 +443,6 @@ public class FirebaseRealtimeDatabase {
                 // Get all events that were already scheduled for this day and mark those
                 // slots as busy.
                 Iterator evIter = evtList.iterator();
-                //curDate = taskToBeScheduled.startDate;
                 while (evIter.hasNext()) {
                     Event e = (Event) evIter.next();
                     if (e.date.equals(curDate)) {
@@ -579,8 +450,6 @@ public class FirebaseRealtimeDatabase {
                     }
                 }
 
-                // sleep from 9am-9pm if no other events on that day.
-                // TODO: we shouldn't run into this if any activity falls on weekend
                 if (intList.size() == 0) {
                     CalInterval he1 = new CalInterval();
                     CalInterval he2 = new CalInterval();
@@ -595,12 +464,6 @@ public class FirebaseRealtimeDatabase {
 
                 // Sort the time interval.
                 Collections.sort(intList);
-
-                // 0830 - 420
-                //           0830+420+45 != 1830
-                //
-                // 1830 - 60
-                // 2000 - 480
                 printIntList();
                 // Find a slot thats free.
                 int freeSlotIndex = findFreeSlot(GenericTask.MIN_BREAK_TIME + timeScheduled);
@@ -608,32 +471,25 @@ public class FirebaseRealtimeDatabase {
                     CalInterval i = intList.get(freeSlotIndex);
                     // Schedule Break Event.
                     LocalTime breakAt = i.t1.plusMinutes(i.duration);
-                    Log.d(LOG_TAG, "time of break " + i.t1.toString());
                     addBreakEvent(breakAt, curDate, taskToBeScheduled.taskId);
                     // Schedule Hw Event.
                     LocalTime hwAt = i.t1.plusMinutes(i.duration + GenericTask.MIN_BREAK_TIME);
-                    Log.d(LOG_TAG, "time of hw " + i.t1.toString());
                     addEvent(hwAt, timeScheduled, taskToBeScheduled, curDate, slotNr, totalSlotsNeeded);
                     slotNr++;
                     timeToFin -= timeScheduled;
-                    Log.d(LOG_TAG, "free slot found after: " + i.t1.toString() + " scheduled: " + timeScheduled + " need to schedule: " + timeToFin + " more mins");
                 } else {
-                    Log.d(LOG_TAG, "COULDN'T FIND A FREE SLOT ON: " + curDate.toString());
                 }
                 // Insert an Event for this day at that free slot.
                 curDate = curDate.plusDays(1);
                 daysToDueDate--;
-                Log.d(LOG_TAG, "get all activities and events for " + curDate.toString());
             }
             if (timeToFin > 0) {
-                Log.d(LOG_TAG, "COULD NOT SCHEDULE!!!");
             } else {
-                Log.d(LOG_TAG, "Event scheduled successfully!!!");
 
                 // Save the task in "taskList"
                 pushHomeworkTask(taskToBeScheduled);
 
-                if ( nextIndex != -1 ) { /* called from SchoolLoop scheduler */
+                if ( nextIndex != -1 ) {
                     SchoolLoopHomeworkGrabber c = (SchoolLoopHomeworkGrabber) caller;
                     c.scheduleNextHomework(nextIndex);
                 }
@@ -653,9 +509,7 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("taskList");
         DatabaseReference newPostRef = newref.push();
-        // TODO: check for success/failure.
         newPostRef.setValue(t);
-        Log.d(LOG_TAG, "task saved to firebase");
         return 0;
     }
 
@@ -697,7 +551,6 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("eventList");
 
-        // TODO: change this to reasonable value. even though it works, 365 may be too large.
         for (int i = 1; i <= 365; i++) {
             if ( (freq == EventFrequency.EVENT_FREQUENCY_EVERYDAY) ||
                     ((freq == EventFrequency.EVENT_FREQUENCY_WEEKEND) && dayIsWeekend(today)) ||
@@ -714,7 +567,6 @@ public class FirebaseRealtimeDatabase {
         return 0;
     }
 
-    // TODO: The activity screen needs to be redesigned or made more simple
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int createExtraCurricularActivity(String startTime, String endTime, String startDate, String desc,
                                              int[] daysOfEvent, long recurs, String actNotes) {
@@ -733,7 +585,6 @@ public class FirebaseRealtimeDatabase {
             Log.d(LOG_TAG, "Start scheduling in week starting:" + startDay.toString());
         }
         LocalDate scheduleWeek = startDay;
-        // TODO: for now schedule all activities for an year.
         int nrWeeks;
         switch ((int) recurs) {
             case 0:
@@ -769,15 +620,12 @@ public class FirebaseRealtimeDatabase {
             switch ((int) recurs) {
                 case 1:
                     scheduleWeek = scheduleWeek.plusDays(7);
-                    Log.d(LOG_TAG, "scheduling for week starting: " + scheduleWeek.toString());
                     break;
                 case 2:
                     scheduleWeek = scheduleWeek.plusDays(14);
-                    Log.d(LOG_TAG, "scheduling for 2 weeks. starting: " + scheduleWeek.toString());
                     break;
                 case 3:
                     scheduleWeek = scheduleWeek.plusMonths(1);
-                    Log.d(LOG_TAG, "scheduling for a month starting: " + scheduleWeek.toString());
                 default:
                     break;
             }
@@ -787,7 +635,6 @@ public class FirebaseRealtimeDatabase {
     //school
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int createWeekdayEvent(String eventStart, String eventEnd, String desc) {
-        Log.d(LOG_TAG, "createWeekdayEvent: " + eventStart + " to:" + eventEnd);
         createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_WEEKDAY);
         return 0;
     }
@@ -796,7 +643,6 @@ public class FirebaseRealtimeDatabase {
     ///save dinner time inputs to firebase
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int createEverydayEvent(String eventStart, String eventEnd, String desc) {
-        Log.d(LOG_TAG, "createEverydayEvent: " + eventStart + " to:" + eventEnd);
         createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_EVERYDAY);
         return 0;
     }
@@ -804,7 +650,6 @@ public class FirebaseRealtimeDatabase {
     //save weekend free hours to firebase
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int createWeekendEvent(String eventStart, String eventEnd, String desc) {
-        Log.d(LOG_TAG, "createWeekendEvent: " + eventStart + " to:" + eventEnd);
         createEventWithFreq(eventStart, eventEnd, desc, EventFrequency.EVENT_FREQUENCY_WEEKEND);
         return 0;
     }
@@ -814,7 +659,6 @@ public class FirebaseRealtimeDatabase {
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child(key);
         DatabaseReference newPostRef = newref.push();
-        // TODO: check for success/failure.
         newPostRef.setValue(e);
         return 0;
     }
@@ -829,27 +673,6 @@ public class FirebaseRealtimeDatabase {
     }
 
     public void getAllActivities() {
-//            String key = ""
-//        }
-        /*
-        Firebase ref = new Firebase(FIREBASE_URL);
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-            <YourClass> post = postSnapshot.getValue(<YourClass>.class);
-                    Log.e("Get Data", post.<YourMethod>());
-                }
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Log.e("The read failed: " ,firebaseError.getMessage());
-            }
-        });
-
-         */
         mDatabase = FirebaseDatabase.getInstance().getReference();
         userId = mAuth.getCurrentUser().getUid();
         DatabaseReference newref = mDatabase.child(userId).child("activityList");
@@ -858,31 +681,19 @@ public class FirebaseRealtimeDatabase {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(LOG_TAG, "getAllActivities");
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-
-                    //arrList.add(ds.getValue(GenericActivity.class));
                     GenericActivity e = ds.getValue(GenericActivity.class);
-                    //Log.d(LOG_TAG, "add" + e.getDesc() +" to list");
-                    //arrList.add(e);
-                    //Event e = ds.getValue(Event.class);
                     Log.d(LOG_TAG, e.print());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(LOG_TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
             }
         });
     }
 
 }
-//
-//        public int deleteEvent () {
-//            return 0;
 
 
 

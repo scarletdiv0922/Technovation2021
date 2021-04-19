@@ -54,8 +54,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
     ProgressBar pbar;
     Button continueButton;
 
-//    ProgressBar pbar;
-
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -106,8 +104,8 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
         Log.d(LOG_TAG, "start sleep time clicked");
     }
-    //    time picker for end sleep time
 
+    //    time picker for end sleep time
     public void endSleepTimeClicked(View view) {
         DialogFragment newFragment = new TimePickerFragment(R.id.endSleepTime);
         newFragment.show(getSupportFragmentManager(), "timePicker");
@@ -257,11 +255,6 @@ public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
                 Toast.makeText(UserInfo.this, "End school time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
-//            if (time2IsAfterTime1(startSleep.getText().toString(), endSleep.getText().toString()) == false) {
-//                Toast.makeText(UserInfo.this, "End sleep time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
 
             if (time2IsAfterTime1(endDinner.getText().toString(), startDinner.getText().toString()) == false) {
                 Toast.makeText(UserInfo.this, "End dinner time cannot be earlier than start time.", Toast.LENGTH_SHORT).show();

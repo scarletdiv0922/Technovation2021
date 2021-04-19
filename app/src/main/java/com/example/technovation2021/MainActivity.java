@@ -44,25 +44,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Declare objects
     Button loginButton;
     Button signUpButton;
     ProgressBar pbar;
     EditText passwordHint;
     Button forgotPassword;
-    //ArrayList<itemModel> arrayList;
-    // References (firebase signin): https://www.youtube.com/watch?v=TwHmrZxiPA8
 
-    // TODO: Add progress bar icon
-    // TODO: Change "Welcome!" string font
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
-    // TODO: make validating email and password a method by itself
-    // TODO: Make custom Toast() message using BuildConfig.DEBUG
-
 
     @Override
     protected void onResume() {
@@ -89,10 +80,6 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG) {
             EditText tv = findViewById(R.id.userEmail);
             EditText pswd = findViewById(R.id.userPassword);
-
-            //tv.setText("taskmate@gmail.com");
-            //pswd.setText("taskmate");
-
         }
 
         // When the Login and Sign Up buttons are clicked, take the user to CalendarActivity
@@ -104,13 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // Do sanity checks to make sure data is good!
                 if (TextUtils.isEmpty(email.getText().toString().trim())) {
-                    //Toast.makeText(MainActivity.this, "Email cannot be empty.",
-                    //Toast.LENGTH_SHORT).show();
                     email.setError("Email cannot be empty.");
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-                    // TODO: Change these toast message to field.setError()
                     Toast.makeText(MainActivity.this, "Email address is not valid.",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -121,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                // TODO: Make password length a constant variable
                 if (pswd.length() < 5) {
                     Toast.makeText(MainActivity.this, "Password is too short.",
                             Toast.LENGTH_SHORT).show();
@@ -129,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 pbar.setVisibility(View.VISIBLE);
-                // TODO: disable login button if a login is already in progress? first login is taking quite a bit of time.
-                // TODO: check on firebase authentication private key configuring in app.
                 mAuth.signInWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -140,11 +121,9 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
                             startActivity(intent);
                         } else {
-                            //Toast.makeText(MainActivity.this, "User has not signed up.", Toast.LENGTH_SHORT).show();
                             String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                             switch (errorCode) {
                                 case "ERROR_USER_NOT_FOUND":
-                                    //email.setError("User not registered!");
                                     Toast.makeText(MainActivity.this, "User is not registered.", Toast.LENGTH_LONG).show();
                                     break;
                                 case "ERROR_WRONG_PASSWORD":
@@ -166,16 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        forgotPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "Hint:" + passwordHint, Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
     }
-    //
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void forgotPasswordClicked(View view) {
         EditText email = findViewById(R.id.userEmail);
@@ -201,23 +172,3 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 }
-
-//        Intent intent = new Intent(MainActivity.this, UserInfo.class);
-//        startActivity(intent);
-
-        /*
-        FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-        frd.getAllActivities("activityList");
-         */
-
-        /*
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = sharedPref.edit();
-        String sluser = sharedPref.getString("sluser", "invalid");
-        String slpswd = sharedPref.getString("slpswd", "invalid");
-        String subdomain = sharedPref.getString("slsubdomain", "hjh-fusd-ca");
-        //Log.d(LOG_TAG, sluser+slpswd+subdomain);
-        new HTTPReqTask(sluser, slpswd, subdomain).execute();
-         */
-

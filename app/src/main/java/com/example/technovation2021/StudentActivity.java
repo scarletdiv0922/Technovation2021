@@ -26,16 +26,12 @@ import androidx.fragment.app.DialogFragment;
 public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends AppCompatActivity  {
 
     private static final String LOG_TAG = StudentActivity.class.getSimpleName();
-    //private Spinner evDuration;
     private Spinner actFrequency; //How frequent the activity is (eg: Never, 1 week, 2 weeks, Month)
     private EditText actName; //Name of Activity
     private TextView actSDate; //Start Date of Activity
     private TextView actSTime; //Time the activity starts
     private TextView actETime; //Time the activity ends
     private TextView actNote;
-    // private Spinner hwPrepTimes; //TODO: Delete
-    // private SwitchCompat hwSwitch; //TODO: Delete
-    //public EditText activityDes;
     public Button sunday;
     public Button monday;
     public Button tuesday;
@@ -44,7 +40,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     public Button friday, saturday;
     Spinner rec;
     private int [] daysSelected = new int[7];
-    //private Spinner evFrequency;
 
 
     @Override
@@ -52,15 +47,8 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_activity);
 
-        // evDuration = findViewById(R.id.event_duration_times); //TODO: Delete
-        //hwPrepTimes = findViewById(R.id.idHomeworkHours); //TODO: Delete
-        //hwSwitch = findViewById(R.id.idSchoolTaskSwitch); //TODO: Delete
         actName = findViewById(R.id.idActName);
-        //actSDate = findViewById(R.id.idActStartDate);
-        //actSTime = findViewById(R.id.idActStartTime);
-        //actETime = findViewById(R.id.idActEndTime);
         actFrequency = findViewById(R.id.idActRecurrence);
-        //evFrequency = findViewById(R.id.event_frequency);
         rec = findViewById(R.id.idActRecurrence);
         actNote = findViewById(R.id.idActivityNote);
 
@@ -195,74 +183,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
     }
 
-/*
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.event_duration_times, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        evDuration.setAdapter(adapter);
-
-*/
-//        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-//                R.array.event_frequency, android.R.layout.simple_spinner_item);
-//        // Specify the layout to use when the list of choices appears
-//        adapter2.setDropDownViewResource(simple_spinner_dropdown_item);
-//        // Apply the adapter to the spinner
-//        actFrequency.setAdapter(adapter2);
-/*
-        ArrayAdapter<CharSequence> hwSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.hw_hours, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        hwPrepTimes.setAdapter(hwSpinnerAdapter);
-
-        hwSwitch.setOnCheckedChangeListener(this);
-        */
-
-
-
-
-    /*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        hideHomeworkData();
-        hwSwitch.setChecked(false);
-    }
-
-    public void getHomeworkData() {
-        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.VISIBLE);
-        findViewById(R.id.idHomeworkHours).setVisibility(View.VISIBLE);
-        findViewById(R.id.idTxtSubmitBy).setVisibility(View.VISIBLE);
-        findViewById(R.id.idSubmissionDate).setVisibility(View.VISIBLE);
-    }
-
-    public void hideHomeworkData() {
-        findViewById(R.id.idTxtHomeworkHours).setVisibility(View.GONE);
-        findViewById(R.id.idHomeworkHours).setVisibility(View.GONE);
-        findViewById(R.id.idTxtSubmitBy).setVisibility(View.GONE);
-        findViewById(R.id.idSubmissionDate).setVisibility(View.GONE);
-    }
- */
-//    @Override
-//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-       /* switch (buttonView.getId()) {
-            case R.id.idSchoolTaskSwitch:
-                Log.d("switch_compat", isChecked + "");
-                if ( isChecked ) {
-                    getHomeworkData();
-                }
-                else {
-                    hideHomeworkData();
-                }
-                break;
-        }
-        */
-//    }
-
-
     public void startTimeClicked(View view) {
         DialogFragment newFragmentSTime = new TimePickerFragment(R.id.idActStartTime);
         newFragmentSTime.show(getSupportFragmentManager(), "timePicker");
@@ -304,8 +224,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             Log.d(LOG_TAG, "input date:" + inputDate.toString());
             LocalDate today = LocalDate.now();
             return inputDate.isBefore(today) == true;
-            //Log.d(LOG_TAG, "date check: " + chk + "date converted: " + inputDate.toString());
-            //return chk;
         } catch (Exception e) {
             Log.d(LOG_TAG, "input date:" + dateInp + "exception:" + e.toString());
         }
@@ -343,7 +261,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
     private boolean noDataErrors() {
         actName = findViewById(R.id.idActName);
         actSDate = findViewById(R.id.idActStartDate);
-        //Log.d("Startdateabc", "start date picked " + actSDate );
         actSTime = findViewById(R.id.idActStartTime);
         actETime = findViewById(R.id.idActEndTime);
         actFrequency = findViewById(R.id.idActRecurrence);
@@ -378,19 +295,20 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
         if (TextUtils.isEmpty(actSTime.getText().toString()) ) {
             actSTime.setError("Please input a start time");
-            //Toast.makeText(StudentActivity.this, "Input start time", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StudentActivity.this, "Input start time", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if ( invalidStartTime(actSDate.getText().toString(), actSTime.getText().toString()) == true ) {
             actSTime.setError("Start time has already passed.");
+            Toast.makeText(StudentActivity.this, "Start time has already passed.", Toast.LENGTH_LONG).show();
             return false;
         }
         actSTime.setError(null);
 
         if (TextUtils.isEmpty(actETime.getText().toString()) ) {
             actETime.setError("Please input an end time");
-            //Toast.makeText(StudentActivity.this, "Input end time", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StudentActivity.this, "Input end time", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -406,15 +324,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
             return false;
         }
         actETime.setError(null);
-
-        //Log.d(LOG_TAG, "recur: " + rec.getSelectedItemId());
-        //Toast.makeText(StudentActivity.this, "ALL GOOD!!", Toast.LENGTH_SHORT).show();
-        /*
-        if (TextUtils.isEmpty(actFrequency.getText().toString()) ) {
-            actFrequency.setError("Please input the recurrence");
-            Toast.makeText(StudentActivity.this, "Input recurrence", Toast.LENGTH_SHORT).show();
-            return false;
-        }*/ //TODO: delete
         return true;
     }
 
@@ -452,7 +361,6 @@ public class StudentActivity<adapter2, simple_spinner_dropdown_item> extends App
 
 
     public void cancelAddActivityClicked(View view) {
-        //super.onBackPressed();
         finish();
     }
 }

@@ -8,15 +8,6 @@
     android:background="#D6D7F4FF"
     tools:context=".Privacy">
 
-    <!--        android:text="    "-->
-<!--        android:textSize="14sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.12"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/privacyScreen"-->
-<!--        app:layout_constraintVertical_bias="0.017" />-->
-
     <Button
         android:id="@+id/logo"
         android:layout_width="216dp"
@@ -55,7 +46,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="52dp"
         android:fontFamily="@font/bitter"
-        android:text="Privacy"
+        android:text="@string/privacy"
         android:textColor="#283953"
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +59,7 @@
         android:layout_marginBottom="28dp"
         android:fontFamily="@font/bitter"
         android:gravity="center"
-        android:text="Thank you for using Taskmate! Protecting your privacy is important to us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored only on this device, and no one else will be able to view it. The app needs the username and password of your School Loop account to pull assignments and tests to create an automatic schedule. We can not see or share your School Loop information. Once again, your personal information is safe and we will not be able to access them.  "
+        android:text="@string/thank_you_for_using_taskmate_protecting_your_privacy_is_important_to_us_we_do_not_share_your_personal_information_with_other_apps_or_third_parties_it_is_only_for_this_app_once_you_enter_your_email_and_password_it_will_be_stored_only_on_this_device_and_no_one_else_will_be_able_to_view_it_the_app_needs_the_username_and_password_of_your_school_loop_account_to_pull_assignments_and_tests_to_create_an_automatic_schedule_we_can_not_see_or_share_your_school_loop_information_once_again_your_personal_information_is_safe_and_we_will_not_be_able_to_access_them"
         android:textColor="#283953"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

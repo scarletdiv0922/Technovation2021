@@ -38,6 +38,7 @@ import androidx.core.app.NotificationCompat;
 import static java.time.Duration.between;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CalendarActivity extends AppCompatActivity {
     private static Handler mHandler = new Handler();
     ArrayList<Event> evList = new ArrayList<Event>();
@@ -50,6 +51,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = CalendarActivity.class.getSimpleName();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     class SlThread implements Runnable {
         public LocalTime hwFetchedAt = LocalTime.now();
 
@@ -81,18 +83,12 @@ public class CalendarActivity extends AppCompatActivity {
 
             // Every 5 mins.
             mHandler.postDelayed( this, 5*60*1000);
-            /*
-            getSchoolLoopHomework();
-            mHandler.postDelayed( this, 30*1000);
-             */
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private long getEventTimeFromNow(Event e) {
-        //LocalTime tnow = LocalTime.now();
-        //LocalTime evAt = e.startTime;
         long x = MINUTES.between(LocalTime.now(), e.startTime);
         Log.d(LOG_TAG, "event: " + e.eventDesc + " starts in:" + x + " minutes from now");
         if ( x >= 0 ) {
@@ -113,41 +109,13 @@ public class CalendarActivity extends AppCompatActivity {
                 currentTime+delay,
                 notifPendingIntent);
     }
-    /*
-    private void scheduleNotificationForEvent (Notification notification, int notId, long delay) {
-        Intent notificationIntent = new Intent( this, EventNotificationBroadcast. class ) ;
-        notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION_ID , notId ) ;
-        notificationIntent.putExtra(EventNotificationBroadcast. NOTIFICATION , notification) ;
-        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
-        Log.d(LOG_TAG, "new notification set for: " + delay/60000 + "mins from now");
-        long notifyAt = SystemClock. elapsedRealtime () + 5000;//delay ;
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
-        assert alarmManager != null;
-        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , notifyAt , pendingIntent) ;
-    }
 
-    private Notification getNotification (Event e) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
-        builder.setContentTitle( "TaskMate" );
-        Log.d(LOG_TAG, "Scheduling notification for:" + e.eventDesc);
-        builder.setContentText( e.eventDesc ) ;
-        builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
-        builder.setAutoCancel( true ) ;
-        builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
-        builder.setSmallIcon(R.drawable.checkbox_clicked);
-        builder.setPriority(NotificationCompat.PRIORITY_MAX);
-        return builder.build() ;
-    }
-
-     */
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void scheduleNotifications() {
         Log.d(LOG_TAG, "Scheduling notifications");
 
         //Query (find) all events for today
         FirebaseAuth mAuthEv= FirebaseAuth.getInstance();
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
-        //userId = mAuth.getCurrentUser().getUid();
         try {
             DatabaseReference mDatabaseEv = FirebaseDatabase.getInstance().getReference();
             String userId = mAuthEv.getCurrentUser().getUid();
@@ -160,24 +128,16 @@ public class CalendarActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     int i = 1;
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        //evList.add(ds.getValue(Event.class));
                         Event e = ds.getValue(Event.class);
                         Log.d(LOG_TAG, "got event:" + e.eventDesc + " type:" + e.type + " start:" + e.date.toString());
-                        //Log.d(LOG_TAG, "Events for today: " + evList.size());
-                        //for ( Event e : evList ) {
                             if ( (e.type == 2 || e.type == 3)) {
                                 long delay = getEventTimeFromNow(e);
-                                //scheduleNotificationForEvent(getNotification(e), i, delay);
-
-                                // TODO: scheduling notification only for an event that is coming up
-                                // TODO: in 5 mins.
                                 Log.d(LOG_TAG, "delay: " + delay);
                                 if ( delay >= 0 && delay < 300000 ) {
                                     scheduleNotificationForEvent(e, delay);
                                     i++;
                                 }
                             }
-                        //}
                     }
                 }
 
@@ -192,7 +152,7 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void getSchoolLoopHomework() {
         Log.d(LOG_TAG, "get school loop homework");
         SharedPreferences sharedPref = getSharedPreferences(
@@ -211,7 +171,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         Toast.makeText(CalendarActivity.this,"Long press on a day to open its events. ",Toast.LENGTH_LONG).show();
         return;
     }
@@ -242,7 +201,6 @@ public class CalendarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch ( item.getItemId() ) {
             case R.id.settingMenu:
-                //Toast.makeText(CalendarActivity.this, "Go to settings", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CalendarActivity.this, UserSettings.class);
                 startActivity(intent);
                 return true;
@@ -257,18 +215,12 @@ public class CalendarActivity extends AppCompatActivity {
                 startActivity(intent3);
                 return true;
 
-            /*case R.id.notifications:
-                Intent intent4 = new Intent( CalendarActivity.this, StudentNotification.class);
-                startActivity(intent4);
-                return true;
-*/
             case R.id.aboutPage:
                 Intent intent5 = new Intent( CalendarActivity.this, About.class);
                 startActivity(intent5);
                 return true;
 
             case R.id.privacyScreen:
-                //Toast.makeText(CalendarActivity.this, "Go to settings", Toast.LENGTH_SHORT).show();
                 Intent intent6 = new Intent(CalendarActivity.this, Privacy.class);
                 startActivity(intent6);
                 return true;
@@ -291,18 +243,3 @@ public class CalendarActivity extends AppCompatActivity {
         cv.updateCalendar(LocalDate.now());
     }
 }
-
-/*
-11:59
-12:00am
-00:00am
-00:01am
-00:59
-01:00
-11:59am
-12:00pm
-12:01pm
-12:59
-01:00
-11:59pm
- */

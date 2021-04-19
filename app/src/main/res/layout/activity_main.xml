@@ -72,7 +72,7 @@
         android:backgroundTint="#83b1fb"
         android:backgroundTintMode="add"
         android:ems="10"
-        android:hint="Password (at least 6 characters)"
+        android:hint="@string/password_at_least_6_characters"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
