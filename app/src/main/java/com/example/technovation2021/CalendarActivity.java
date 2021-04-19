@@ -280,6 +280,14 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
+        Log.d(LOG_TAG, "back from some activity: refresh calendar");
+        cv.updateCalendar(LocalDate.now());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "back from some activity: refresh calendar onResume");
         cv.updateCalendar(LocalDate.now());
     }
 }
