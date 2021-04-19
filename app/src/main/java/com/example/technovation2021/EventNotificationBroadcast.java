@@ -17,31 +17,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-//@RequiresApi(api = Build.VERSION_CODES.O)
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class EventNotificationBroadcast extends BroadcastReceiver {
-
-    /*
-    public static String NOTIFICATION_ID = "notification-id" ;
-    public static String NOTIFICATION = "notification" ;
-
-    public void onReceive (Context context , Intent intent) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
-        Log.d("NotifBroadcast", "received notification intent");
-        Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            int importance = NotificationManager. IMPORTANCE_HIGH ;
-            NotificationChannel notificationChannel = new NotificationChannel( "TaskMate" , "NOTIFICATION_CHANNEL_NAME" , importance) ;
-            assert notificationManager != null;
-            notificationManager.createNotificationChannel(notificationChannel) ;
-        }
-        int id = intent.getIntExtra( NOTIFICATION_ID , 0 ) ;
-        assert notificationManager != null;
-        notificationManager.notify(id , notification) ;
-    }
-
-     */
-
 
     String currentDate= LocalDate.now().toString();
 
@@ -57,14 +34,10 @@ public class EventNotificationBroadcast extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
 
-        // Intent notifIntent = new Intent (notifContext, AddTask.class);
         Intent notifIntent = new Intent(notifContext, DailyEvents.class);
-        Log.d("Current Date", "currentdate= "+currentDate);
         notifIntent.putExtra("EventsForDay", currentDate);
 
-        //notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(notifContext, 0, notifIntent, 0);
-
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(notifContext, "1");
         mBuilder.setContentTitle("TaskMate: " + intent.getStringExtra("EventDesc") + " is coming up");
@@ -87,12 +60,8 @@ String[] quotes = new String[] {"\"It takes both a plan and a schedule to get th
         "\"Wherever you go, go with all your heart.\"",
         "\"Once you choose hope, anything’s possible.\"",
         "\"Life's a journey, not a race.\"",};
-String randomQuote = quotes[(int) (Math.random() * quotes.length)];
-mBuilder.setContentText(randomQuote);
-
-
-
-
+        String randomQuote = quotes[(int) (Math.random() * quotes.length)];
+        mBuilder.setContentText(randomQuote);
 
         mBuilder.setSmallIcon(R.drawable.tm5);
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
@@ -101,52 +70,3 @@ mBuilder.setContentText(randomQuote);
         myNotificationManager.notify(1, mBuilder.build());
     }
 }
-
-
-
-
-
-
-
-
-
-
-//Query (find) all events for today
-/*        FirebaseAuth mAuth= FirebaseAuth.getInstance();
-
-        try {
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-            String userId = mAuth.getCurrentUser().getUid();
-
-            Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
-                    startAt("2021-04-08").endAt("2021-04-08");
-
-            //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
-            eventList.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        evList.add(ds.getValue(Event.class));
-                    }
-                    eventsFetched = true;
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-            Log.d(LOG_TAG, "Wait for events data fetch");
-            while ((eventsFetched == false))
-                Thread.yield();
-            Log.d(LOG_TAG, " data fetch done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-
-        }
-
-        //Loop through the events for the day and set a notification for 10 minutes before the notification start time
-        Log.d(LOG_TAG, "I am here and this is the evList size" + evList.size());
-        */ //TODO: App is not responding when we have this code

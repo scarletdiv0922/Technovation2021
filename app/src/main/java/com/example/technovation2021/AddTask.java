@@ -88,14 +88,6 @@ public class AddTask extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addToCalendarClicked(View view) {
         if (noDataErrors()) {
-
-            //int sittings = Integer.parseInt(taskDuration.getText().toString()) / Integer.parseInt(taskIdealSitting.getText().toString());
-            //Log.d("noDataErrors", "sittings= " + sittings);
-
-            //int remainder = (Integer.parseInt(taskDuration.getText().toString())) % (Integer.parseInt(taskIdealSitting.getText().toString()));
-
-            //Log.d("noDataErrors", "remainder= " + remainder);
-
             Log.d("noDataErrors", "StartDateTime= " + taskSDate.getText().toString());
             Log.d("noDataErrors", "EndDateTime= " + taskDDate.getText().toString());
 
@@ -121,7 +113,6 @@ public class AddTask extends AppCompatActivity {
 
         private void getDayEvents (LocalDateTime ldt){
             FirebaseRealtimeDatabase frd = new FirebaseRealtimeDatabase();
-            //    frd.getDayEvents("eventList", ldt);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -192,38 +183,8 @@ public class AddTask extends AppCompatActivity {
                 Toast.makeText(AddTask.this, "Input duration greater than zero", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
-//            if (TextUtils.isEmpty(taskIdealSitting.getText().toString())) {
-//                taskIdealSitting.setError("Please input an ideal sitting");
-//                Toast.makeText(AddTask.this, "Input ideal sitting", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//
-//            try {
-//                tIdealSitting = Integer.parseInt(taskIdealSitting.getText().toString());
-//            } catch (Exception e) {
-//                taskIdealSitting.setError("Please input a valid number");
-//                Toast.makeText(AddTask.this, "Input valid maximum sitting", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//
-//            if (tIdealSitting <= 0) {
-//                taskIdealSitting.setError("Please input a number greater than zero");
-//                Toast.makeText(AddTask.this, "Input a maximum sitting greater than zero", Toast.LENGTH_SHORT).show();
-//                return false;
-            //}
-
             return true;
         }
-
-
-//
-//        if ( LocalDate.now().isBefore(dueDate) == true ) {
-//        // Split the task into events, save them to firebase. then save task itself
-//        // to firebase. when its done, callback scheduleNextHomework with index+1
-//        frd.saveHwTask(newtask, this, i + 1);
-//        return;
-//    }
 
         public void cancelAddActivityClicked (View view){
             finish();

@@ -55,24 +55,9 @@ public class DailyEvents extends AppCompatActivity {
         setTitle("Events for " + showEventsForDay);
         fromDate = LocalDate.parse(showEventsForDay);
         mAuth = FirebaseAuth.getInstance();
-        //evList = (ArrayList<Event>) getIntent().getSerializableExtra("EventList");
-
-        //Bundle args = getIntent().getBundleExtra("BUNDLE");
-        //evList = (ArrayList<Event>) args.getSerializable("EventList");
-
-        //evList=this.getIntent().getExtras().getParcelableArrayList("EventList");
-
-
-
-        Log.d(LOG_TAG, "show events:" + evList.size());
-
         recyclerView = findViewById(R.id.idShowDailyEvents);
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
         new GetEventsForDay(fromDate).execute();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -115,9 +100,6 @@ public class DailyEvents extends AppCompatActivity {
                 Log.d(LOG_TAG, "DailyEvents..fetch from:" + dateToFetch.toString() + " to:" + endDay.toString());
                 Query eventList = mDatabase.child(userId).child("eventList").orderByChild("date").
                         startAt(dateToFetch.toString()).endAt(endDay.toString());
-
-                //Query eventList = mDatabase.child(userId).child("activityList").orderByChild("startDate").equalTo("2021-04-15").endAt()
-
                 eventList.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,10 +108,8 @@ public class DailyEvents extends AppCompatActivity {
                         }
                         eventsFetched = true;
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
                 Log.d(LOG_TAG, "Wait for events data fetch");
@@ -141,10 +121,8 @@ public class DailyEvents extends AppCompatActivity {
             } finally {
 
             }
-
             return res;
         }
-
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Integer result) {

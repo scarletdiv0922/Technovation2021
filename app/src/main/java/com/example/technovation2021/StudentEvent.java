@@ -17,11 +17,13 @@ public class StudentEvent implements Serializable {
     public LocalDateTime endDateTime; //End date with end time
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getStartDateTime() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
         return startDateTime.format(format);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getEndDateTime() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
         return endDateTime.format(format);
@@ -35,11 +37,13 @@ public class StudentEvent implements Serializable {
         this.eventName = eventName;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setStartDateTime(String startDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
         this.startDateTime = LocalDateTime.parse(startDateTime, formatter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setEndDateTime(String endDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
         this.endDateTime = LocalDateTime.parse(endDateTime, formatter);

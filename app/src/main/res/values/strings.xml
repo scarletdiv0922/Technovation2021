@@ -25,7 +25,6 @@
     <string name="mon_year">Month and Year</string>
     <string name="todo">TODO</string>
     <string name="event_title">Event Title</string>
-    <string name="start_date">Start Date</string>
     <string name="start_time">Start Time</string>
     <string name="event_start_time">event start time</string>
     <string name="duration">Duration</string>
@@ -129,7 +128,6 @@
     <string name="minutes">mins</string>
     <string name="max_sitting">Max Sitting</string>
     <string name="ideal_sitting">Ideal Sitting</string>
-    <string name="due_date">Due Date</string>
     <string name="break_notif">Break</string>
     <string name="notifications">Notifications</string>
     <string name="schoolloop_com">.schoolloop.com</string>
@@ -151,7 +149,16 @@
     <string name="add_task">Add Task</string>
     <string name="add_activity">Add Activity</string>
     <string name="about">About</string>
-    <string name="privacy">Privacy</string>
     <string name="next">Next</string>
+    <string name="start_date">Start Date</string>
+    <string name="due_date">Due Date</string>
+    <string name="about_taskmate">About Taskmate</string>
+    <string name="taskmate_is_an_app_to_help_students_from_grades_6_12_all_over_the_world_allocate_their_time_wisely_and_finish_their_assignments_on_time_while_preventing_stress_throughout_the_process_as_students_ourselves_we_know_just_how_stressful_planning_scheduling_attending_activities_and_completing_assignments_can_be_so_we_created_taskmate_to_help_students_like_us_live_a_better_healthier_and_stress_free_lifestyle">Taskmate is an app to help students from grades 6-12 all over the world allocate their time wisely and finish their assignments on time, while preventing stress throughout the process. As students ourselves, we know just how stressful planning, scheduling, attending activities, and completing assignments can be, so we created Taskmate to help students like us live a better, healthier, and stress-free lifestyle.</string>
+    <string name="password_at_least_6_characters">Password (at least 6 characters)</string>
+    <string name="privacy">Privacy</string>
+    <string name="thank_you_for_using_taskmate_protecting_your_privacy_is_important_to_us_we_do_not_share_your_personal_information_with_other_apps_or_third_parties_it_is_only_for_this_app_once_you_enter_your_email_and_password_it_will_be_stored_only_on_this_device_and_no_one_else_will_be_able_to_view_it_the_app_needs_the_username_and_password_of_your_school_loop_account_to_pull_assignments_and_tests_to_create_an_automatic_schedule_we_can_not_see_or_share_your_school_loop_information_once_again_your_personal_information_is_safe_and_we_will_not_be_able_to_access_them">Thank you for using Taskmate! Protecting your privacy is important to us. We do not share your personal information with other apps or third parties, it is only for this app. Once you enter your email and password, it will be stored only on this device, and no one else will be able to view it. The app needs the username and password of your School Loop account to pull assignments and tests to create an automatic schedule. We can not see or share your School Loop information. Once again, your personal information is safe and we will not be able to access them.</string>
+    <string name="when_would_you_like_me_to_schedule_events_on_weekends">When would you like me to schedule events on weekends?</string>
+    <string name="_6_00_pm">6:00 PM</string>
+    <string name="_1_00_pm">1:00 PM</string>
 
 </resources>
