@@ -34,7 +34,7 @@ import java.util.SimpleTimeZone;
 
 
 public class UserInfo<mAuth, mDatabase> extends AppCompatActivity {
-    private static final String LOG_TAG = AddActivity.class.getSimpleName();
+    private static final String LOG_TAG = StudentActivity.class.getSimpleName();
 
     @Override
     public void onBackPressed() {

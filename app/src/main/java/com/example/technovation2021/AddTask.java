@@ -29,7 +29,7 @@ public class AddTask extends AppCompatActivity {
     private EditText taskName; //Name of Task
     private TextView taskSDate; //Start Date of Task
     private TextView taskDDate; //Due Date of Task
-    private EditText taskDuration; //Duration of Task
+//    private EditText taskDuration; //Duration of Task
     private EditText taskNote; //Duration of Task
     private EditText taskIdealSitting; //Ideal time user will spend on the task in 1 sitting
 

@@ -22,7 +22,6 @@
         <activity android:name=".StudentNotification" />
         <activity android:name=".AddTask" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".AddActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".MyCalendar" />
         <activity android:name=".UserSettings" />
