@@ -79,7 +79,7 @@
         android:autofillHints=""
         android:ems="10"
         android:gravity="left"
-        android:hint="@string/school_specific_url_part"
+        android:hint="School Loop URL"
         android:inputType="textUri"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +93,7 @@
         android:layout_height="92dp"
         android:layout_marginEnd="140dp"
         android:layout_marginRight="140dp"
-        android:layout_marginBottom="212dp"
+        android:layout_marginBottom="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

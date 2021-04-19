@@ -89,8 +89,8 @@ public class SignUp extends AppCompatActivity {
 
 
         Log.d( LOG_TAG, "go ahead authenticate the user");
-            Toast.makeText(SignUp.this, "All good. Sign up the user!",
-                        Toast.LENGTH_SHORT).show();
+////            Toast.makeText(SignUp.this, "All good. Sign up the user!",
+//                        Toast.LENGTH_SHORT).show();
             pbar.setVisibility(View.VISIBLE);
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), pswd.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override

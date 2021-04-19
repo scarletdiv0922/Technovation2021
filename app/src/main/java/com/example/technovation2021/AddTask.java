@@ -41,7 +41,6 @@ public class AddTask extends AppCompatActivity {
         taskName = findViewById(R.id.idTaskName);
         taskSDate = findViewById(R.id.idTaskStartDate);
         taskDDate = findViewById(R.id.idTaskDueDate);
-        taskDuration = findViewById(R.id.idTaskDuration);
         taskNote = findViewById(R.id.idTaskNotes);
     }
 
@@ -118,11 +117,6 @@ public class AddTask extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         private boolean noDataErrors () {
 
-            int tDuration; //Duration of task as integer
-            int tIdealSitting; //Ideal Sitting of task as integer
-
-//TODO: Remove comment from line 123-137
-
             if (TextUtils.isEmpty(taskName.getText().toString())) {
                 taskName.setError("Task name cannot be empty");
                 Toast.makeText(AddTask.this, "Task name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -162,26 +156,6 @@ public class AddTask extends AppCompatActivity {
                 }
             } catch (Exception e) {
 
-            }
-
-            if (TextUtils.isEmpty(taskDuration.getText().toString())) {
-                taskDuration.setError("Please input a duration");
-                Toast.makeText(AddTask.this, "Input duration", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            try {
-                tDuration = Integer.parseInt(taskDuration.getText().toString());
-            } catch (Exception e) {
-                taskDuration.setError("Please input a valid number");
-                Toast.makeText(AddTask.this, "Input valid duration", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            if (tDuration <= 0) {
-                taskDuration.setError("Please input a number greater than zero");
-                Toast.makeText(AddTask.this, "Input duration greater than zero", Toast.LENGTH_SHORT).show();
-                return false;
             }
             return true;
         }
